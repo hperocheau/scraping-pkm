@@ -149,17 +149,31 @@ async function main() {
         // Fusionner les listes de produits des deux URLs
         const productInfoList = descProductInfoList.concat(ascProductInfoList);
 
+        // Remove duplicates based on cardUrl
+        const uniqueProductInfoList = Array.from(new Set(productInfoList.map(card => card.cardUrl)))
+          .map(cardUrl => productInfoList.find(card => card.cardUrl === cardUrl));
+
+        // Sort cards by cardNumber in descending order
+        const sortedProductInfoList = uniqueProductInfoList.sort((a, b) => parseInt(b.cardNumber) - parseInt(a.cardNumber));
+
         // Écrire les informations dans le fichier JSON
         const fileName = 'test.json';
-        await fs.writeFile(fileName, JSON.stringify(productInfoList, null, 2), 'utf-8');
+        await fs.writeFile(fileName, JSON.stringify(sortedProductInfoList, null, 2), 'utf-8');
         console.log(`Les informations ont été enregistrées dans le fichier ${fileName}`);
       } else {
         // Si le symbole "+" n'est pas présent, récupérer les informations pour la première URL seulement
         const productInfoList = await scrapePages(baseUrlDesc, totalPages);
 
+        // Remove duplicates based on cardUrl
+        const uniqueProductInfoList = Array.from(new Set(productInfoList.map(card => card.cardUrl)))
+          .map(cardUrl => productInfoList.find(card => card.cardUrl === cardUrl));
+
+        // Sort cards by cardNumber in descending order
+        const sortedProductInfoList = uniqueProductInfoList.sort((a, b) => parseInt(b.cardNumber) - parseInt(a.cardNumber));
+
         // Écrire les informations dans le fichier JSON
         const fileName = 'test.json';
-        await fs.writeFile(fileName, JSON.stringify(productInfoList, null, 2), 'utf-8');
+        await fs.writeFile(fileName, JSON.stringify(sortedProductInfoList, null, 2), 'utf-8');
         console.log(`Les informations ont été enregistrées dans le fichier ${fileName}`);
       }
     }
