@@ -28,34 +28,29 @@ async function getTotalPages(url) {
   }
 }
 
-async function scrapePages(url, totalPages, lastProductRowSelector) {
+async function scrapePages(url, totalPages, lastCardProductRowId) {
   const page = await browser.newPage();
   await page.setUserAgent(
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
   );
-  let lastProductRowFound = false;
+
   let productInfoList = [];
+  let lastCardFound = false;
 
-  for (let currentPage = 1; currentPage <= totalPages; currentPage++) {
-   console.log(`Traitement de la page ${currentPage}`);
+  for (let currentPage = 1; currentPage <= totalPages && !lastCardFound; currentPage++) {
+    console.log(`Traitement de la page ${currentPage}`);
 
-   await page.goto(`${url}${currentPage}`, { waitUntil: 'networkidle2' });
+    await page.goto(`${url}${currentPage}`, { waitUntil: 'networkidle2' });
 
-   // Introduce a delay of 2 seconds between page changes (adjust as needed)
-   await page.waitForTimeout(2500);
+    // Introduce a delay of 2 seconds between page changes (adjust as needed)
+    await page.waitForTimeout(2500);
 
-   // Récupérer les données des divs "productRow" en utilisant l'évaluation dans la page
-   const currentPageProductInfoList = await page.evaluate((lastProductRowSelector) => {
-     const productInfoList = [];
-     const productRows = document.querySelectorAll('[id^="productRow"]');
+    // Récupérer les données des divs "productRow" en utilisant l'évaluation dans la page
+    const currentPageProductInfoList = await page.evaluate(() => {
+      const productInfoList = [];
+      const productRows = document.querySelectorAll('[id^="productRow"]');
 
       productRows.forEach(productRow => {
-        // Extract and save data from the page
-        // ... Your code to save data ...
-
-        const cardNumberElement = productRow.querySelector('.col-md-2.d-none.d-lg-flex.has-content-centered');
-        const cardNumber = cardNumberElement ? cardNumberElement.textContent.trim() : '';
-
         const cardUrl = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a').getAttribute('href');
         const cardNameElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
         const cardNameText = cardNameElement.textContent.trim();
@@ -63,6 +58,8 @@ async function scrapePages(url, totalPages, lastProductRowSelector) {
         const cardName = cardNameMatches ? cardNameMatches[1].trim() : cardNameText;
         const cardEngnameElement = productRow.querySelector('.d-block.small.text-muted.fst-italic');
         const cardEngname = cardEngnameElement.textContent.trim();
+        const cardNumberElement = productRow.querySelector('.col-md-2.d-none.d-lg-flex.has-content-centered');
+        const cardNumber = cardNumberElement.textContent.trim();
         const cardSerieElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
         const cardSerieText = cardSerieElement.textContent.trim();
         const cardSerieMatches = cardSerieText.match(/\(([^)]+)\)/);
@@ -82,12 +79,13 @@ async function scrapePages(url, totalPages, lastProductRowSelector) {
           cardNumber,
           cardSerie,
           cardRarity,
+          productRowId: productRow.id, // Include productRow ID in the result
         };
         productInfoList.push(productInfo);
       });
 
       return productInfoList;
-    }, lastProductRowSelector);
+    });
 
     console.log(`Nombre de div "productRow" traitées : ${currentPageProductInfoList.length}`);
 
@@ -97,21 +95,12 @@ async function scrapePages(url, totalPages, lastProductRowSelector) {
       console.log('Aucune information de carte récupérée.');
     }
 
-    // Check if the last productRow from the first URL exists on the current page
-    const lastProductRowExists = await page.evaluate((lastProductRowSelector) => {
-      const lastProductRow = document.querySelector(lastProductRowSelector);
-      return lastProductRow !== null;
-    }, lastProductRowSelector);
+    // Check if the last card's productRow ID is found on the current page
+    lastCardFound = currentPageProductInfoList.some(productInfo => productInfo.productRowId === lastCardProductRowId);
 
-    if (lastProductRowExists) {
-      console.log(`La dernière carte de la première URL a été trouvée sur la page ${currentPage}. Arrêt de la récupération.`);
-      lastProductRowFound = true;
-      break;
-    }
-  }
-
-  if (!lastProductRowFound) {
-    console.log(`La dernière carte de la première URL n'a pas été trouvée sur les pages de la deuxième URL.`);
+    // Print the last productRow ID after processing each page
+    const lastProductRowId = currentPageProductInfoList[currentPageProductInfoList.length - 1]?.productRowId;
+    console.log(`Last productRow ID on page ${currentPage}: ${lastProductRowId}`);
   }
 
   console.log(`Pages traitées jusqu'à présent : ${Array.from({ length: totalPages }, (_, i) => i + 1).join(', ')}`);
@@ -151,9 +140,11 @@ async function main() {
     if (totalPages !== null) {
       // Si le symbole "+" est présent, récupérer les informations pour les deux URLs
       if (hasPlusSymbol) {
-        const lastProductRowSelector = '.last-product-row-selector-from-first-url';
-        const descProductInfoList = await scrapePages(baseUrlDesc, totalPages, lastProductRowSelector);
-        const ascProductInfoList = await scrapePages(baseUrlAsc, totalPages, lastProductRowSelector);
+        // Get the last productRow ID from the first URL (baseUrlDesc)
+        const descProductInfoList = await scrapePages(baseUrlDesc, totalPages);
+        const lastCardProductRowId = descProductInfoList[descProductInfoList.length - 1]?.productRowId;
+
+        const ascProductInfoList = await scrapePages(baseUrlAsc, totalPages, lastCardProductRowId);
 
         // Fusionner les listes de produits des deux URLs
         const productInfoList = descProductInfoList.concat(ascProductInfoList);
