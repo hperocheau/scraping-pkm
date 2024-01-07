@@ -6,8 +6,15 @@ const { fr } = require('date-fns/locale');
 (async () => {
   try {
     // Charger le fichier JSON
-    const rawData = fs.readFileSync('dataTEST.json');
-    const data = JSON.parse(rawData);
+    let rawData;
+    let data;
+
+    if (fs.existsSync('dataTEST.json')) {
+      rawData = fs.readFileSync('dataTEST.json');
+      data = JSON.parse(rawData);
+    } else {
+      data = [];
+    }
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -26,21 +33,7 @@ const { fr } = require('date-fns/locale');
       await page.goto(url);
 
       // Attendre un certain temps pour que le contenu soit chargé (vous pouvez ajuster ce délai si nécessaire)
-      await page.waitForTimeout(1000);
-
-      // Récupérer les valeurs
-      const subtitleData = await page.evaluate(() => {
-        const subtitles = document.querySelectorAll('.subtitles .col-auto.col-md-12');
-        let title = '';
-        let date = '';
-
-        if (subtitles.length >= 2) {
-          title = subtitles[0].textContent.trim();
-          date = subtitles[1].textContent.trim();
-        }
-
-        return { title, date };
-      });
+      await page.waitForTimeout(1500);
 
       // Récupérer les langues dans la balise <div class="languages">
       const languages = await page.evaluate(() => {
@@ -53,24 +46,23 @@ const { fr } = require('date-fns/locale');
       const itemDate = parse(item.date, 'd MMMM yyyy', new Date(), { locale: fr });
 
       if (!item.date || item.date === '' || isBefore(itemDate, currentDate) && isBefore(itemDate, currentDate, { addSuffix: true, locale: fr, includeSeconds: true })) {
-        item.date = subtitleData.date;
-        item.bloc = subtitleData.title;
+        // Do not update the date here
         item.langues = languages.join(', ');
+
+        // Mettre à jour le compteur d'URLs traitées
+        urlsProcessed++;
+
+        // Afficher l'avancement en pourcentage
+        const progress = (urlsProcessed / totalUrls) * 100;
+        console.log(`Progression : ${progress.toFixed(2)}%`);
+
+        // Attendre un court instant avant de passer à la prochaine URL
+        await page.waitForTimeout(1500);
+
+        // Écrire les données mises à jour dans le fichier JSON
+        fs.writeFileSync('dataTEST.json', JSON.stringify(data, null, 2));
       }
-
-      // Mettre à jour le compteur d'URLs traitées
-      urlsProcessed++;
-
-      // Afficher l'avancement en pourcentage
-      const progress = (urlsProcessed / totalUrls) * 100;
-      console.log(`Progression : ${progress.toFixed(2)}%`);
-
-      // Attendre un court instant avant de passer à la prochaine URL
-      await page.waitForTimeout(1000);
     }
-
-    // Écrire les données mises à jour dans le fichier JSON
-    fs.writeFileSync('dataTEST.json', JSON.stringify(data, null, 2));
 
     await browser.close();
   } catch (error) {
