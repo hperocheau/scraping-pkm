@@ -131,8 +131,8 @@ async function main() {
       ],
     });
 
-    const baseUrlDesc = 'https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shiny-Treasure-ex?sortBy=collectorsnumber_desc&site=';
-    const baseUrlAsc = 'https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shiny-Treasure-ex?sortBy=collectorsnumber_asc&site=';
+    const baseUrlDesc = 'https://www.cardmarket.com/fr/Pokemon/Products/Singles/Pokemon-Trading-Card-Game-Classic-Venusaur-Lugia-ex-Deck?sortBy=collectorsnumber_desc&site=';
+    const baseUrlAsc = 'https://www.cardmarket.com/fr/Pokemon/Products/Singles/Pokemon-Trading-Card-Game-Classic-Venusaur-Lugia-ex-Deck?sortBy=collectorsnumber_asc&site=';
 
     // Récupérer les informations pour la première URL
     const { totalPages, hasPlusSymbol } = await getTotalPages(baseUrlDesc);

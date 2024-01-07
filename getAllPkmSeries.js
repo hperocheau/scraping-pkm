@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const fs = require('fs'); // Module pour la gestion des fichiers
+const fs = require('fs');
 
 (async () => {
   try {
@@ -28,15 +28,23 @@ const fs = require('fs'); // Module pour la gestion des fichiers
           const localName = subDiv.getAttribute('data-local-name');
           const url = `https://www.cardmarket.com${urlParts}`; // Coller l'URL ici
           const urlCards = url.replace('Expansions', 'Products/Singles'); // Modification de l'URL ici
-          dataInfo.push({ localName, url, urlCards });
+
+          // Extract the number of cards and date from the corresponding elements
+          const numCardsElement = subDiv.querySelector('.col-2.text-center.d-none.d-md-block');
+          const numCards = numCardsElement ? numCardsElement.textContent.trim() : 'Nombre de cartes non trouvé';
+
+          const dateElement = subDiv.querySelector('.col-3.text-center.d-none.d-md-block');
+          const date = dateElement ? dateElement.textContent.trim() : 'Date non trouvée';
+
+          dataInfo.push({ localName, url, urlCards, numCards, date });
         });
       });
 
       return dataInfo;
     });
 
-    if (fs.existsSync('data.json')) {
-      const existingData = JSON.parse(fs.readFileSync('data.json'));
+    if (fs.existsSync('dataTEST.json')) {
+      const existingData = JSON.parse(fs.readFileSync('dataTEST.json'));
 
       // Ajouter les nouvelles données au début du tableau
       dataInfo.forEach(newItem => {
@@ -48,10 +56,10 @@ const fs = require('fs'); // Module pour la gestion des fichiers
         }
       });
 
-      fs.writeFileSync('data.json', JSON.stringify(existingData, null, 2));
+      fs.writeFileSync('dataTEST.json', JSON.stringify(existingData, null, 2));
       console.log('Fichier JSON mis à jour avec succès.');
     } else {
-      fs.writeFileSync('data.json', JSON.stringify(dataInfo, null, 2));
+      fs.writeFileSync('dataTEST.json', JSON.stringify(dataInfo, null, 2));
       console.log('Fichier JSON créé avec succès.');
     }
 

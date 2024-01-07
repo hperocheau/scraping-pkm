@@ -6,7 +6,7 @@ const { fr } = require('date-fns/locale');
 (async () => {
   try {
     // Charger le fichier JSON
-    const rawData = fs.readFileSync('data.json');
+    const rawData = fs.readFileSync('dataTEST.json');
     const data = JSON.parse(rawData);
 
     const browser = await puppeteer.launch();
@@ -70,7 +70,7 @@ const { fr } = require('date-fns/locale');
     }
 
     // Écrire les données mises à jour dans le fichier JSON
-    fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
+    fs.writeFileSync('dataTEST.json', JSON.stringify(data, null, 2));
 
     await browser.close();
   } catch (error) {
