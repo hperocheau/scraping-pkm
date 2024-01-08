@@ -12,3 +12,7 @@ Récup : langues, bloc
 
 getCardsinfo :
 Récup infos cartes : url, nom, eng nom, numéro, rareté, nom série, productRow (id cardmarket de la carte)
+Si nombre de pages inférieur ou égal à 15 -> récup normal des infos
+Si nbr de pages = 15+ (supérieur à 15) -> récup data sur première url + url inverse (tri décroissant / croissant, alphabétique, etc) et stop lorsque la dernière carte de la première url est trouvé avec la 2ème url
+Si pas de nbr de page + pas de div "productRow" -> passer à l'url suivante
+Si productRow non récup alors qu'il reste des pages, recharger la page
