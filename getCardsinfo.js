@@ -3,12 +3,40 @@ const puppeteer = require('puppeteer');
 
 let browser;
 
+async function initializeJsonFile(url) {
+  const fileName = 'data.json';
+
+  // Read the existing data from the file
+  let existingData = [];
+  try {
+    const rawData = await fs.readFile(fileName, 'utf-8');
+    existingData = JSON.parse(rawData);
+  } catch (error) {
+    // File doesn't exist or is empty
+  }
+
+  // Find the entry in existingData that matches the current URL
+  const existingEntry = existingData.find((entry) => entry.urlCards === url);
+
+  if (existingEntry) {
+    // Check if the "cards" key exists and is an array
+    if (!existingEntry.cards || !Array.isArray(existingEntry.cards)) {
+      existingEntry.cards = []; // Create the "cards" key as an empty array if it doesn't exist or is not an array
+    }
+  } else {
+    console.error(`Entry not found for URL: ${url}`);
+  }
+
+  // Write the updated data back to the file
+  await fs.writeFile(fileName, JSON.stringify(existingData, null, 2), 'utf-8');
+}
+
 async function getTotalPages(url) {
   const page = await browser.newPage();
   await page.setUserAgent(
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
   );
-
+  await initializeJsonFile(url); // Initialize the "cards" key at the beginning
   try {
     await page.goto(url, { waitUntil: 'networkidle2' });
     const pageCountElement = await page.$('.mx-1');
@@ -28,6 +56,45 @@ async function getTotalPages(url) {
   }
 }
 
+async function updateJsonFile(url, productInfoList) {
+  const fileName = 'data.json';
+
+  // Read the existing data from the file
+  let existingData = [];
+  try {
+    const rawData = await fs.readFile(fileName, 'utf-8');
+    existingData = JSON.parse(rawData);
+  } catch (error) {
+    // File doesn't exist or is empty
+  }
+
+  // Find the entry in existingData that matches the current URL
+  const existingEntry = existingData.find((entry) => entry.urlCards === url);
+
+  if (existingEntry) {
+    // Check if the "cards" key exists and is an array
+    if (!existingEntry.cards || !Array.isArray(existingEntry.cards)) {
+      existingEntry.cards = []; // Create the "cards" key as an empty array if it doesn't exist or is not an array
+    }
+
+    // Merge the new productInfoList with existing data, removing duplicates based on cardUrl
+    const uniqueProductInfoList = Array.from(new Set(existingEntry.cards.concat(productInfoList).map(card => card.cardUrl)))
+      .map(cardUrl => existingEntry.cards.concat(productInfoList).find(card => card.cardUrl === cardUrl));
+
+    // Sort cards by cardNumber in ascending order
+    const sortedProductInfoList = uniqueProductInfoList.sort((a, b) => parseInt(a.cardNumber) - parseInt(b.cardNumber));
+
+    // Update the "cards" key with the sorted productInfoList
+    existingEntry.cards = sortedProductInfoList;
+  } else {
+    console.error(`Entry not found for URL: ${url}`);
+  }
+
+  // Write the updated data back to the file
+  await fs.writeFile(fileName, JSON.stringify(existingData, null, 2), 'utf-8');
+  console.log(`Les informations ont été enregistrées dans le fichier ${fileName}`);
+}
+
 async function scrapePages(baseUrl, totalPages, lastCardProductRowId) {
   const page = await browser.newPage();
   await page.setUserAgent(
@@ -43,7 +110,7 @@ async function scrapePages(baseUrl, totalPages, lastCardProductRowId) {
     await page.goto(`${baseUrl}${currentPage}`, { waitUntil: 'networkidle2' });
 
     // Introduce a delay of 2 seconds between page changes (adjust as needed)
-    await page.waitForTimeout(2500);
+    await page.waitForTimeout(3000);
 
     // Récupérer les données des divs "productRow" en utilisant l'évaluation dans la page
     const currentPageProductInfoList = await page.evaluate(() => {
@@ -51,28 +118,29 @@ async function scrapePages(baseUrl, totalPages, lastCardProductRowId) {
       const productRows = document.querySelectorAll('[id^="productRow"]');
 
       productRows.forEach(productRow => {
-        const cardUrl = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a').getAttribute('href');
+        const cardUrl = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a')?.getAttribute('href');
         const cardNameElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
-        const cardNameText = cardNameElement.textContent.trim();
-        const cardNameMatches = cardNameText.match(/^(.*?)\s*\(([^)]+)\)/);
+        const cardNameText = cardNameElement?.textContent.trim();
+        const cardNameMatches = cardNameText?.match(/^(.*?)\s*\(([^)]+)\)/);
         const cardName = cardNameMatches ? cardNameMatches[1].trim() : cardNameText;
         const cardEngnameElement = productRow.querySelector('.d-block.small.text-muted.fst-italic');
-        const cardEngname = cardEngnameElement.textContent.trim();
+        const cardEngname = cardEngnameElement?.textContent.trim();
         const cardNumberElement = productRow.querySelector('.col-md-2.d-none.d-lg-flex.has-content-centered');
-        const cardNumber = cardNumberElement.textContent.trim();
+        const cardNumber = cardNumberElement?.textContent.trim();
         const cardSerieElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
-        const cardSerieText = cardSerieElement.textContent.trim();
-        const cardSerieMatches = cardSerieText.match(/\(([^)]+)\)/);
+        const cardSerieText = cardSerieElement?.textContent.trim();
+        const cardSerieMatches = cardSerieText?.match(/\(([^)]+)\)/);
         const cardSerie = cardSerieMatches ? cardSerieMatches[1].split(' ')[0].trim() : '';
         const cardRarityElement = productRow.querySelector('.d-none.d-md-flex span[data-original-title]');
         let cardRarity;
         try {
-          cardRarity = cardRarityElement.getAttribute('data-original-title');
+          cardRarity = cardRarityElement?.getAttribute('data-original-title');
         } catch (error) {
           console.log('Élément ".d-none.d-md-flex.span[data-original-title]" non trouvé');
           return;
         }
         const productInfo = {
+          cardUrl,
           cardName,
           cardEngname,
           cardNumber,
@@ -96,6 +164,9 @@ async function scrapePages(baseUrl, totalPages, lastCardProductRowId) {
     // Inside the scrapePages function, after the lastCardFound check
     if (currentPageProductInfoList.length > 0) {
       productInfoList.push(...currentPageProductInfoList);
+
+      // Update the "cards" key in the JSON file
+      await updateJsonFile(baseUrl, currentPageProductInfoList);
     } else {
       console.log('Aucune information de carte récupérée.');
     }
@@ -104,31 +175,6 @@ async function scrapePages(baseUrl, totalPages, lastCardProductRowId) {
   await page.close();
 
   return productInfoList;
-}
-
-async function updateJsonFile(baseUrl, productInfoList) {
-  const fileName = 'dataTEST.json';
-
-  // Read existing data from the file
-  let existingData = [];
-  try {
-    const rawData = await fs.readFile(fileName, 'utf-8');
-    existingData = JSON.parse(rawData);
-  } catch (error) {
-    // File doesn't exist or is empty
-  }
-
-  // Find the card entry in the existing data based on the baseUrl
-  const existingCardEntry = existingData.find(card => card.urlCards === baseUrl);
-
-  // Update the 'cards' property for the specific card entry
-  if (existingCardEntry) {
-    existingCardEntry.cards = productInfoList;
-  }
-
-  // Write the updated data back to the file
-  await fs.writeFile(fileName, JSON.stringify(existingData, null, 2), 'utf-8');
-  console.log(`Les informations ont été enregistrées dans le fichier ${fileName}`);
 }
 
 async function main() {
@@ -151,52 +197,37 @@ async function main() {
       ],
     });
 
-    // Read URLs from dataTEST.json
-    const fileName = 'dataTEST.json';
-    const rawData = await fs.readFile(fileName, 'utf-8');
-    const jsonData = JSON.parse(rawData);
+    // Load data.json
+    const jsonData = await fs.readFile('data.json', 'utf-8');
+    const dataArray = JSON.parse(jsonData);
 
-    for (const card of jsonData) {
-      const baseUrl = card.urlCards;
-      console.log(`Processing URL: ${baseUrl}`);
+    // Iterate over each entry in data.json
+    for (const entry of dataArray) {
+      const { urlCards, numCards, cards } = entry;
 
-      // Récupérer les informations pour l'URL actuelle
-      const { totalPages, hasPlusSymbol } = await getTotalPages(`${baseUrl}?sortBy=collectorsnumber_desc&site=`);
+      // Check if the number of "cards" elements matches the specified number
+      if (cards?.length === parseInt(numCards)) {
+        console.log(`Skipping ${urlCards} as the number of cards matches: ${numCards}`);
+        continue; // Move on to the next URL
+      }
+
+      // Fetch data for the current URL
+      const baseUrlDesc = `${urlCards}?sortBy=collectorsnumber_desc&site=`;
+      const baseUrlAsc = `${urlCards}?sortBy=collectorsnumber_asc&site=`;
+
+      const { totalPages, hasPlusSymbol } = await getTotalPages(baseUrlDesc);
 
       if (totalPages !== null) {
-        // Si le symbole "+" est présent, récupérer les informations pour les deux URLs
         if (hasPlusSymbol) {
-          // Get the last productRow ID from the first URL (baseUrl)
-          const descProductInfoList = await scrapePages(`${baseUrl}?sortBy=collectorsnumber_desc&site=`, totalPages);
+          const descProductInfoList = await scrapePages(baseUrlDesc, totalPages);
           const lastCardProductRowId = descProductInfoList[descProductInfoList.length - 1]?.productRowId;
-
-          const ascProductInfoList = await scrapePages(`${baseUrl}?sortBy=collectorsnumber_asc&site=`, totalPages, lastCardProductRowId);
-
-          // Fusionner les listes de produits des deux URLs
+          const ascProductInfoList = await scrapePages(baseUrlAsc, totalPages, lastCardProductRowId);
           const productInfoList = descProductInfoList.concat(ascProductInfoList);
 
-          // Remove duplicates based on cardUrl
-          const uniqueProductInfoList = Array.from(new Set(productInfoList.map(card => card.cardName)))
-            .map(cardName => productInfoList.find(card => card.cardName === cardName));
-
-          // Sort cards by cardNumber in descending order
-          const sortedProductInfoList = uniqueProductInfoList.sort((a, b) => parseInt(b.cardNumber) - parseInt(a.cardNumber));
-
-          // Écrire les informations dans le fichier JSON
-          await updateJsonFile(baseUrl, sortedProductInfoList);
+          await updateJsonFile(urlCards, productInfoList);
         } else {
-          // Si le symbole "+" n'est pas présent, récupérer les informations pour la première URL seulement
-          const productInfoList = await scrapePages(`${baseUrl}?sortBy=collectorsnumber_desc&site=`, totalPages);
-
-          // Remove duplicates based on cardUrl
-          const uniqueProductInfoList = Array.from(new Set(productInfoList.map(card => card.cardName)))
-            .map(cardName => productInfoList.find(card => card.cardName === cardName));
-
-          // Sort cards by cardNumber in descending order
-          const sortedProductInfoList = uniqueProductInfoList.sort((a, b) => parseInt(b.cardNumber) - parseInt(a.cardNumber));
-
-          // Écrire les informations dans le fichier JSON
-          await updateJsonFile(baseUrl, sortedProductInfoList);
+          const productInfoList = await scrapePages(baseUrlDesc, totalPages);
+          await updateJsonFile(urlCards, productInfoList);
         }
       }
     }
@@ -204,7 +235,7 @@ async function main() {
     console.error('Une erreur s\'est produite : ' + error);
   } finally {
     const end_time = Date.now();
-    const execution_time = (end_time - start_time) / 1000; // Durée en secondes
+    const execution_time = (end_time - start_time) / 1000;
     console.log(`Durée totale d'exécution : ${execution_time.toFixed(2)} secondes`);
     if (browser) {
       await browser.close();
