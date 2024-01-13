@@ -9,17 +9,32 @@ const { fr } = require('date-fns/locale');
     let rawData;
     let data;
 
-    if (fs.existsSync('dataTEST.json')) {
-      rawData = fs.readFileSync('dataTEST.json');
+    if (fs.existsSync('dataTEST2.json')) {
+      rawData = fs.readFileSync('dataTEST2.json');
       data = JSON.parse(rawData);
     } else {
       data = [];
     }
 
-    const browser = await puppeteer.launch();
+    browser = await puppeteer.launch({
+      headless: true,
+      args: [
+        '--disable-gpu',
+        '--no-sandbox',
+        '--disable-dev-shm-usage',
+        '--ignore-certificate-errors',
+        '--disable-extensions',
+        '--disable-infobars',
+        '--disable-notifications',
+        '--disable-popup-blocking',
+        '--disable-logging',
+        '--window-size=1920x1080',
+      ],
+    });
+
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-    
+
     const totalUrls = data.length;
     let urlsProcessed = 0;
 
@@ -30,38 +45,65 @@ const { fr } = require('date-fns/locale');
     for (const item of data) {
       const url = item.url; // Utiliser la clé "url" directement
 
-      await page.goto(url);
+      // Skip if "numCards" is "0 cartes"
+      if (item.numCards === "0 cartes") {
+        // Set "none" for "langues" and "bloc" if not already set
+        item.langues = item.langues || "none";
+        item.bloc = item.bloc || "none";
 
-      // Attendre un certain temps pour que le contenu soit chargé (vous pouvez ajuster ce délai si nécessaire)
-      await page.waitForTimeout(1500);
-
-      // Récupérer les langues dans la balise <div class="languages">
-      const languages = await page.evaluate(() => {
-        const languageElements = document.querySelectorAll('.languages span[data-original-title]');
-        const languageTitles = Array.from(languageElements).map(span => span.getAttribute('data-original-title').trim());
-        return languageTitles;
-      });
-
-      // Mettre à jour les données
-      const itemDate = parse(item.date, 'd MMMM yyyy', new Date(), { locale: fr });
-
-      if (!item.date || item.date === '' || isBefore(itemDate, currentDate) && isBefore(itemDate, currentDate, { addSuffix: true, locale: fr, includeSeconds: true })) {
-        // Do not update the date here
-        item.langues = languages.join(', ');
-
-        // Mettre à jour le compteur d'URLs traitées
         urlsProcessed++;
+        continue;
+      }
 
-        // Afficher l'avancement en pourcentage
-        const progress = (urlsProcessed / totalUrls) * 100;
-        console.log(`Progression : ${progress.toFixed(2)}%`);
+      // Skip if both "langues" and "bloc" keys already exist
+      if (item.langues && item.bloc) {
+        urlsProcessed++;
+        continue;
+      }
 
-        // Attendre un court instant avant de passer à la prochaine URL
+      let languages;
+      let bloc;
+
+      try {
+        await page.goto(url);
+
+        // Attendre un certain temps pour que le contenu soit chargé (vous pouvez ajuster ce délai si nécessaire)
         await page.waitForTimeout(1500);
 
-        // Écrire les données mises à jour dans le fichier JSON
-        fs.writeFileSync('dataTEST.json', JSON.stringify(data, null, 2));
+        // Récupérer les langues dans la balise <div class="languages">
+        const languageElements = await page.$$('.languages span[data-original-title]');
+        languages = languageElements ? await Promise.all(languageElements.map(span => span.evaluate(el => el.getAttribute('data-original-title').trim()))) : [];
+
+        // Récupérer la valeur du premier bloc
+        const blocElement = await page.$('.col-auto.col-md-12.pe-0');
+        bloc = blocElement ? await blocElement.evaluate(el => el.textContent.trim()) : '';
+
+      } catch (error) {
+        console.error(`Erreur lors de la récupération des données pour l'URL ${url}: ${error}`);
+        continue; // Continue to the next iteration if there's an error
       }
+
+      // Mettre à jour les données seulement si "langues" et/ou "bloc" sont vides ou n'existent pas
+      if (!item.langues && languages.length > 0) {
+        item.langues = languages.join(', ');
+      }
+
+      if (!item.bloc && bloc) {
+        item.bloc = bloc;
+      }
+
+      // Mettre à jour le compteur d'URLs traitées
+      urlsProcessed++;
+
+      // Afficher l'avancement en pourcentage
+      const progress = (urlsProcessed / totalUrls) * 100;
+      console.log(`Progression : ${progress.toFixed(2)}%`);
+
+      // Attendre un court instant avant de passer à la prochaine URL
+      await page.waitForTimeout(1500);
+
+      // Écrire les données mises à jour dans le fichier JSON
+      fs.writeFileSync('dataTEST2.json', JSON.stringify(data, null, 2));
     }
 
     await browser.close();

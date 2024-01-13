@@ -1,16 +1,12 @@
-const fs = require('fs').promises;
-const puppeteer = require('puppeteer');
+const fs = require('fs');
+const { createPage, createBrowser } = require("./src/BrowserFactory.js");
 
 let browser;
 
 async function getTotalPages(url) {
-  const page = await browser.newPage();
-  await page.setUserAgent(
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-  );
 
   try {
-    await page.goto(url, { waitUntil: 'networkidle2' });
+    let page = await createPage(browser, url);
     const pageCountElement = await page.$('.mx-1');
     const pageCountText = pageCountElement ? await pageCountElement.evaluate(span => span.textContent.trim()) : 'Nombre de pages non trouvé';
     const pageCountMatches = pageCountText.match(/(\d+\s*\+*)$/);
@@ -22,25 +18,19 @@ async function getTotalPages(url) {
     return { totalPages, hasPlusSymbol };
   } catch (error) {
     console.error(`Failed to fetch data from ${url}. Error: ${error.message}`);
+    console.log(error.stack);
     return { totalPages: null, hasPlusSymbol: null };
-  } finally {
-    await page.close();
   }
 }
 
 async function scrapePages(url, totalPages, lastCardProductRowId) {
-  const page = await browser.newPage();
-  await page.setUserAgent(
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-  );
 
   let productInfoList = [];
   let lastCardFound = false;
 
   for (let currentPage = 1; currentPage <= totalPages && !lastCardFound; currentPage++) {
     console.log(`Traitement de la page ${currentPage}`);
-
-    await page.goto(`${url}${currentPage}`, { waitUntil: 'networkidle2' });
+    let page = await createPage(browser, `${url}${currentPage}`);
 
     // Introduce a delay of 2 seconds between page changes (adjust as needed)
     await page.waitForTimeout(2500);
@@ -86,14 +76,15 @@ async function scrapePages(url, totalPages, lastCardProductRowId) {
 
       return productInfoList;
     });
-
-    console.log(`Nombre de div "productRow" traitées : ${currentPageProductInfoList.length}`);
-
+    
+    //console.log(`Nombre de div "productRow" traitées : ${currentPageProductInfoList.length}`);
+    /*
     if (currentPageProductInfoList.length > 0) {
       productInfoList.push(...currentPageProductInfoList);
     } else {
       console.log('Aucune information de carte récupérée.');
     }
+    */
 
     // Check if the last card's productRow ID is found on the current page
     lastCardFound = currentPageProductInfoList.some(productInfo => productInfo.productRowId === lastCardProductRowId);
@@ -101,12 +92,42 @@ async function scrapePages(url, totalPages, lastCardProductRowId) {
     // Print the last productRow ID after processing each page
     const lastProductRowId = currentPageProductInfoList[currentPageProductInfoList.length - 1]?.productRowId;
     console.log(`Last productRow ID on page ${currentPage}: ${lastProductRowId}`);
+
+    // Inside the scrapePages function, after the lastCardFound check
+    if (currentPageProductInfoList.length > 0) {
+      productInfoList.push(...currentPageProductInfoList);
+      
+      // Remove duplicates based on cardUrl
+      const uniqueProductInfoList = Array.from(new Set(productInfoList.map(card => card.cardUrl)))
+        .map(cardUrl => productInfoList.find(card => card.cardUrl === cardUrl));
+
+      // Sort cards by cardNumber in descending order
+      const sortedProductInfoList = uniqueProductInfoList.sort((a, b) => parseInt(b.cardNumber) - parseInt(a.cardNumber));
+
+      // Read existing data from the file
+      const fileName = 'test.json';
+      let existingData = [];
+      try {
+        const rawData = fs.readFileSync(fileName, 'utf-8');
+        existingData = JSON.parse(rawData);
+      } catch (error) {
+        console.log(`Failed to read data from ${fileName}. Error: ${error.message}`);
+      }
+
+      // Merge existing data with new data
+      const mergedData = [...existingData, ...sortedProductInfoList];
+
+      // Write the merged data back to the file
+      fs.writeFileSync(fileName, JSON.stringify(mergedData, null, 2), 'utf-8');
+      console.log(`Les informations ont été enregistrées dans le fichier ${fileName}`);
+    } else {
+      console.log('Aucune information de carte récupérée.');
+    }
   }
 
   console.log(`Pages traitées jusqu'à présent : ${Array.from({ length: totalPages }, (_, i) => i + 1).join(', ')}`);
   console.log('Nombre total de div "productRow" traitées :', productInfoList.length);
-
-  await page.close();
+  // console.log(`Damn Caillaud's mom's slayin`);
 
   return productInfoList;
 }
@@ -115,70 +136,45 @@ async function main() {
   const start_time = Date.now();
 
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: [
-        '--disable-gpu',
-        '--no-sandbox',
-        '--disable-dev-shm-usage',
-        '--ignore-certificate-errors',
-        '--disable-extensions',
-        '--disable-infobars',
-        '--disable-notifications',
-        '--disable-popup-blocking',
-        '--disable-logging',
-        '--window-size=1920x1080',
-      ],
-    });
+    browser = await createBrowser();
 
-    const baseUrlDesc = 'https://www.cardmarket.com/fr/Pokemon/Products/Singles/Pokemon-Trading-Card-Game-Classic-Venusaur-Lugia-ex-Deck?sortBy=collectorsnumber_desc&site=';
-    const baseUrlAsc = 'https://www.cardmarket.com/fr/Pokemon/Products/Singles/Pokemon-Trading-Card-Game-Classic-Venusaur-Lugia-ex-Deck?sortBy=collectorsnumber_asc&site=';
+    // Read URLs from dataTEST.json
+    const rawData = fs.readFileSync('dataTEST.json', 'utf-8');
+    const extensionList = JSON.parse(rawData);
 
-    // Récupérer les informations pour la première URL
-    const { totalPages, hasPlusSymbol } = await getTotalPages(baseUrlDesc);
+    for (let extension of extensionList) {
+      let cardUrl = extension.urlCards;
+      const baseUrlDesc = `${cardUrl}?sortBy=collectorsnumber_desc&site=`;
+      const baseUrlAsc = `${cardUrl}?sortBy=collectorsnumber_asc&site=`;
 
-    if (totalPages !== null) {
-      // Si le symbole "+" est présent, récupérer les informations pour les deux URLs
-      if (hasPlusSymbol) {
-        // Get the last productRow ID from the first URL (baseUrlDesc)
-        const descProductInfoList = await scrapePages(baseUrlDesc, totalPages);
-        const lastCardProductRowId = descProductInfoList[descProductInfoList.length - 1]?.productRowId;
+      // Récupérer les informations pour l'URL actuelle
+      const { totalPages, hasPlusSymbol } = await getTotalPages(baseUrlDesc);
 
-        const ascProductInfoList = await scrapePages(baseUrlAsc, totalPages, lastCardProductRowId);
+      if (totalPages !== null) {
+        // Si le symbole "+" est présent, récupérer les informations pour les deux URLs
+        if (hasPlusSymbol) {
+          const descProductInfoList = await scrapePages(baseUrlDesc, totalPages);
+          const lastCardProductRowId = descProductInfoList[descProductInfoList.length - 1]?.productRowId;
 
-        // Fusionner les listes de produits des deux URLs
-        const productInfoList = descProductInfoList.concat(ascProductInfoList);
+          const ascProductInfoList = await scrapePages(baseUrlAsc, totalPages, lastCardProductRowId);
 
-        // Remove duplicates based on cardUrl
-        const uniqueProductInfoList = Array.from(new Set(productInfoList.map(card => card.cardUrl)))
-          .map(cardUrl => productInfoList.find(card => card.cardUrl === cardUrl));
+          // Fusionner les listes de produits des deux URLs
+          const productInfoList = descProductInfoList.concat(ascProductInfoList);
 
-        // Sort cards by cardNumber in descending order
-        const sortedProductInfoList = uniqueProductInfoList.sort((a, b) => parseInt(b.cardNumber) - parseInt(a.cardNumber));
+          // Update JSON file with scraped data
+          await updateJsonFile(productInfoList);
+        } else {
+          // Si le symbole "+" n'est pas présent, récupérer les informations pour la première URL seulement
+          const productInfoList = await scrapePages(baseUrlDesc, totalPages);
 
-        // Écrire les informations dans le fichier JSON
-        const fileName = 'test.json';
-        await fs.writeFile(fileName, JSON.stringify(sortedProductInfoList, null, 2), 'utf-8');
-        console.log(`Les informations ont été enregistrées dans le fichier ${fileName}`);
-      } else {
-        // Si le symbole "+" n'est pas présent, récupérer les informations pour la première URL seulement
-        const productInfoList = await scrapePages(baseUrlDesc, totalPages);
-
-        // Remove duplicates based on cardUrl
-        const uniqueProductInfoList = Array.from(new Set(productInfoList.map(card => card.cardUrl)))
-          .map(cardUrl => productInfoList.find(card => card.cardUrl === cardUrl));
-
-        // Sort cards by cardNumber in descending order
-        const sortedProductInfoList = uniqueProductInfoList.sort((a, b) => parseInt(b.cardNumber) - parseInt(a.cardNumber));
-
-        // Écrire les informations dans le fichier JSON
-        const fileName = 'test.json';
-        await fs.writeFile(fileName, JSON.stringify(sortedProductInfoList, null, 2), 'utf-8');
-        console.log(`Les informations ont été enregistrées dans le fichier ${fileName}`);
+          // Update JSON file with scraped data
+          await updateJsonFile(productInfoList);
+        }
       }
     }
   } catch (error) {
     console.error('Une erreur s\'est produite : ' + error);
+    console.log(error.stack);
   } finally {
     const end_time = Date.now();
     const execution_time = (end_time - start_time) / 1000; // Durée en secondes

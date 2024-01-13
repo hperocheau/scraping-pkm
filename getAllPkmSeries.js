@@ -14,7 +14,7 @@ const fs = require('fs');
     await page.goto(url);
 
     // Attendre un certain temps pour que le contenu soit chargé (vous pouvez ajuster ce délai si nécessaire)
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
 
     // Récupérer les données des divs "collapseX" en utilisant l'évaluation dans la page
     const dataInfo = await page.evaluate(() => {
@@ -43,8 +43,8 @@ const fs = require('fs');
       return dataInfo;
     });
 
-    if (fs.existsSync('dataTEST.json')) {
-      const existingData = JSON.parse(fs.readFileSync('dataTEST.json'));
+    if (fs.existsSync('dataTEST2.json')) {
+      const existingData = JSON.parse(fs.readFileSync('dataTEST2.json'));
 
       // Ajouter les nouvelles données au début du tableau
       dataInfo.forEach(newItem => {
@@ -56,10 +56,10 @@ const fs = require('fs');
         }
       });
 
-      fs.writeFileSync('dataTEST.json', JSON.stringify(existingData, null, 2));
+      fs.writeFileSync('dataTEST2.json', JSON.stringify(existingData, null, 2));
       console.log('Fichier JSON mis à jour avec succès.');
     } else {
-      fs.writeFileSync('dataTEST.json', JSON.stringify(dataInfo, null, 2));
+      fs.writeFileSync('dataTEST2.json', JSON.stringify(dataInfo, null, 2));
       console.log('Fichier JSON créé avec succès.');
     }
 

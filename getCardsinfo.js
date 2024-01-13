@@ -1,9 +1,137 @@
 const fs = require('fs').promises;
 const puppeteer = require('puppeteer');
 
-let browser; // Déclarer la variable en dehors du bloc try
+let browser;
 
-(async () => {
+async function getTotalPages(url) {
+  const page = await browser.newPage();
+  await page.setUserAgent(
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+  );
+
+  try {
+    await page.goto(url, { waitUntil: 'networkidle2' });
+    const pageCountElement = await page.$('.mx-1');
+    const pageCountText = pageCountElement ? await pageCountElement.evaluate(span => span.textContent.trim()) : 'Nombre de pages non trouvé';
+    const pageCountMatches = pageCountText.match(/(\d+\s*\+*)$/);
+    const totalPages = pageCountMatches ? parseInt(pageCountMatches[1].replace('+', '')) : 1;
+    const hasPlusSymbol = pageCountText.includes('+');
+
+    console.log('Nombre de pages :', totalPages);
+
+    return { totalPages, hasPlusSymbol };
+  } catch (error) {
+    console.error(`Failed to fetch data from ${url}. Error: ${error.message}`);
+    return { totalPages: null, hasPlusSymbol: null };
+  } finally {
+    await page.close();
+  }
+}
+
+async function scrapePages(baseUrl, totalPages, lastCardProductRowId) {
+  const page = await browser.newPage();
+  await page.setUserAgent(
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+  );
+
+  let productInfoList = [];
+  let lastCardFound = false;
+
+  for (let currentPage = 1; currentPage <= totalPages && !lastCardFound; currentPage++) {
+    console.log(`Traitement de la page ${currentPage}`);
+
+    await page.goto(`${baseUrl}${currentPage}`, { waitUntil: 'networkidle2' });
+
+    // Introduce a delay of 2 seconds between page changes (adjust as needed)
+    await page.waitForTimeout(2500);
+
+    // Récupérer les données des divs "productRow" en utilisant l'évaluation dans la page
+    const currentPageProductInfoList = await page.evaluate(() => {
+      const productInfoList = [];
+      const productRows = document.querySelectorAll('[id^="productRow"]');
+
+      productRows.forEach(productRow => {
+        const cardUrl = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a').getAttribute('href');
+        const cardNameElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
+        const cardNameText = cardNameElement.textContent.trim();
+        const cardNameMatches = cardNameText.match(/^(.*?)\s*\(([^)]+)\)/);
+        const cardName = cardNameMatches ? cardNameMatches[1].trim() : cardNameText;
+        const cardEngnameElement = productRow.querySelector('.d-block.small.text-muted.fst-italic');
+        const cardEngname = cardEngnameElement.textContent.trim();
+        const cardNumberElement = productRow.querySelector('.col-md-2.d-none.d-lg-flex.has-content-centered');
+        const cardNumber = cardNumberElement.textContent.trim();
+        const cardSerieElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
+        const cardSerieText = cardSerieElement.textContent.trim();
+        const cardSerieMatches = cardSerieText.match(/\(([^)]+)\)/);
+        const cardSerie = cardSerieMatches ? cardSerieMatches[1].split(' ')[0].trim() : '';
+        const cardRarityElement = productRow.querySelector('.d-none.d-md-flex span[data-original-title]');
+        let cardRarity;
+        try {
+          cardRarity = cardRarityElement.getAttribute('data-original-title');
+        } catch (error) {
+          console.log('Élément ".d-none.d-md-flex.span[data-original-title]" non trouvé');
+          return;
+        }
+        const productInfo = {
+          cardName,
+          cardEngname,
+          cardNumber,
+          cardSerie,
+          cardRarity,
+          productRowId: productRow.id, // Include productRow ID in the result
+        };
+        productInfoList.push(productInfo);
+      });
+
+      return productInfoList;
+    });
+
+    // Check if the last card's productRow ID is found on the current page
+    lastCardFound = currentPageProductInfoList.some(productInfo => productInfo.productRowId === lastCardProductRowId);
+
+    // Print the last productRow ID after processing each page
+    const lastProductRowId = currentPageProductInfoList[currentPageProductInfoList.length - 1]?.productRowId;
+    console.log(`Last productRow ID on page ${currentPage}: ${lastProductRowId}`);
+
+    // Inside the scrapePages function, after the lastCardFound check
+    if (currentPageProductInfoList.length > 0) {
+      productInfoList.push(...currentPageProductInfoList);
+    } else {
+      console.log('Aucune information de carte récupérée.');
+    }
+  }
+
+  await page.close();
+
+  return productInfoList;
+}
+
+async function updateJsonFile(baseUrl, productInfoList) {
+  const fileName = 'dataTEST.json';
+
+  // Read existing data from the file
+  let existingData = [];
+  try {
+    const rawData = await fs.readFile(fileName, 'utf-8');
+    existingData = JSON.parse(rawData);
+  } catch (error) {
+    // File doesn't exist or is empty
+  }
+
+  // Find the card entry in the existing data based on the baseUrl
+  const existingCardEntry = existingData.find(card => card.urlCards === baseUrl);
+
+  // Update the 'cards' property for the specific card entry
+  if (existingCardEntry) {
+    existingCardEntry.cards = productInfoList;
+  }
+
+  // Write the updated data back to the file
+  await fs.writeFile(fileName, JSON.stringify(existingData, null, 2), 'utf-8');
+  console.log(`Les informations ont été enregistrées dans le fichier ${fileName}`);
+}
+
+async function main() {
   const start_time = Date.now();
 
   try {
@@ -19,86 +147,59 @@ let browser; // Déclarer la variable en dehors du bloc try
         '--disable-notifications',
         '--disable-popup-blocking',
         '--disable-logging',
-        '--window-size=1920x1080'
-      ]
+        '--window-size=1920x1080',
+      ],
     });
 
-    const jsonFilePath = 'data.json';
-    const data = await fs.readFile(jsonFilePath, 'utf-8');
-    const urlsToSearch = JSON.parse(data);
+    // Read URLs from dataTEST.json
+    const fileName = 'dataTEST.json';
+    const rawData = await fs.readFile(fileName, 'utf-8');
+    const jsonData = JSON.parse(rawData);
 
-    for (const entry of urlsToSearch) {
-      const urlCards = entry.urlCards;
-      let currentPage = 1;
-      const productInfoList = [];
+    for (const card of jsonData) {
+      const baseUrl = card.urlCards;
+      console.log(`Processing URL: ${baseUrl}`);
 
-      const page = await browser.newPage();
-      await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+      // Récupérer les informations pour l'URL actuelle
+      const { totalPages, hasPlusSymbol } = await getTotalPages(`${baseUrl}?sortBy=collectorsnumber_desc&site=`);
 
+      if (totalPages !== null) {
+        // Si le symbole "+" est présent, récupérer les informations pour les deux URLs
+        if (hasPlusSymbol) {
+          // Get the last productRow ID from the first URL (baseUrl)
+          const descProductInfoList = await scrapePages(`${baseUrl}?sortBy=collectorsnumber_desc&site=`, totalPages);
+          const lastCardProductRowId = descProductInfoList[descProductInfoList.length - 1]?.productRowId;
 
-      while (true) {
-        const fullUrl = `${urlCards}?site=${currentPage}`;
-        await page.goto(fullUrl);
+          const ascProductInfoList = await scrapePages(`${baseUrl}?sortBy=collectorsnumber_asc&site=`, totalPages, lastCardProductRowId);
 
-        await page.waitForNavigation({ waitUntil: 'networkidle2' }); // Attendre que la page soit complètement chargée
-        await page.waitForSelector('.row.no-gutters', { timeout: 600000 }); // 10 minutes
+          // Fusionner les listes de produits des deux URLs
+          const productInfoList = descProductInfoList.concat(ascProductInfoList);
 
+          // Remove duplicates based on cardUrl
+          const uniqueProductInfoList = Array.from(new Set(productInfoList.map(card => card.cardName)))
+            .map(cardName => productInfoList.find(card => card.cardName === cardName));
 
-        const pageText = await page.$eval('.mx-1', (span) => span.textContent.trim());
+          // Sort cards by cardNumber in descending order
+          const sortedProductInfoList = uniqueProductInfoList.sort((a, b) => parseInt(b.cardNumber) - parseInt(a.cardNumber));
 
-        if (pageText.includes(`Page ${currentPage} sur`)) {
-          currentPage++;
+          // Écrire les informations dans le fichier JSON
+          await updateJsonFile(baseUrl, sortedProductInfoList);
         } else {
-          break;
-        }
+          // Si le symbole "+" n'est pas présent, récupérer les informations pour la première URL seulement
+          const productInfoList = await scrapePages(`${baseUrl}?sortBy=collectorsnumber_desc&site=`, totalPages);
 
-        const productList = await page.$$('.row.no-gutters[id^="productRow"]');
-        if (productList.length === 0) {
-          console.log(`Page ${currentPage} : Liste vide, arrêt de la collecte`);
-          break;
-        }
+          // Remove duplicates based on cardUrl
+          const uniqueProductInfoList = Array.from(new Set(productInfoList.map(card => card.cardName)))
+            .map(cardName => productInfoList.find(card => card.cardName === cardName));
 
-        const extractProductInfo = async (productRow) => {
-          const cardUrl = await productRow.$eval('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a', (a) => a.getAttribute('href'));
-          const cardNameElement = await productRow.$('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
-          const cardNameText = await cardNameElement.evaluate((a) => a.textContent.trim());
-          const cardNameMatches = cardNameText.match(/^(.*?)\s*\(([^)]+)\)/);
-          const cardName = cardNameMatches ? cardNameMatches[1].trim() : cardNameText;
-          const cardEngnameElement = await productRow.$('.d-block.small.text-muted.fst-italic');
-          const cardEngname = await cardEngnameElement.evaluate((div) => div.textContent.trim());
-          const cardNumberElement = await productRow.$('.col-md-2.d-none.d-lg-flex.has-content-centered');
-          const cardNumber = await cardNumberElement.evaluate((div) => div.textContent.trim());
-          const cardSerieElement = await productRow.$('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
-          const cardSerieText = await cardSerieElement.evaluate((a) => a.textContent.trim());
-          const cardSerieMatches = cardSerieText.match(/\(([^)]+)\)/);
-          const cardSerie = cardSerieMatches ? cardSerieMatches[1].split(' ')[0].trim() : '';
-          let cardRarity;
-          try {
-            const cardRarityElement = await productRow.$('.d-none.d-md-flex span[data-original-title]');
-            cardRarity = await cardRarityElement.evaluate((span) => span.getAttribute('data-original-title'));
-          } catch (error) {
-            console.log(`Page ${currentPage} : Élément ".d-none.d-md-flex.span[data-original-title]" non trouvé, passage à l'URL suivante : ${urlCards}`);
-            return;
-          }
-          return { cardUrl, cardName, cardEngname, cardNumber, cardSerie, cardRarity };
-        };
+          // Sort cards by cardNumber in descending order
+          const sortedProductInfoList = uniqueProductInfoList.sort((a, b) => parseInt(b.cardNumber) - parseInt(a.cardNumber));
 
-        const productRows = await page.$$('.row.no-gutters[id^="productRow"]');
-        for (const productRow of productRows) {
-          const productInfo = await extractProductInfo(productRow);
-          productInfoList.push(productInfo);
-          await page.waitForTimeout(150); // Attendre 50 millisecondes entre chaque élément
+          // Écrire les informations dans le fichier JSON
+          await updateJsonFile(baseUrl, sortedProductInfoList);
         }
       }
-
-      entry.cards = productInfoList;
-      await fs.writeFile(jsonFilePath, JSON.stringify(urlsToSearch, null, 2));
-
-      await page.close();
     }
-
-    console.log('Informations mises à jour avec succès dans data.json');
-
   } catch (error) {
     console.error('Une erreur s\'est produite : ' + error);
   } finally {
@@ -109,4 +210,6 @@ let browser; // Déclarer la variable en dehors du bloc try
       await browser.close();
     }
   }
-})();
+}
+
+main();
