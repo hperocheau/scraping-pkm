@@ -230,6 +230,11 @@ async function main() {
           await updateJsonFile(urlCards, productInfoList);
         }
       }
+      // Add a delay of 5 seconds after processing each URL
+      const delayInSeconds = 5;
+      console.log(`Waiting for ${delayInSeconds} seconds before processing the next URL...`);
+      await new Promise(resolve => setTimeout(resolve, delayInSeconds * 1000));
+    
     }
   } catch (error) {
     console.error('Une erreur s\'est produite : ' + error);
