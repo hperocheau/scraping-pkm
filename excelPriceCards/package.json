@@ -1,0 +1,25 @@
+{
+  "name": "pkm",
+  "version": "1.0.0",
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "lodash": "^4.17.21",
+    "node-fetch": "2.6.1",
+    "xlsx": "^0.18.0"
+  },
+  "description": "pkm price excel",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hperocheau/scraping-pkm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hperocheau/scraping-pkm/issues"
+  },
+  "homepage": "https://github.com/hperocheau/scraping-pkm#readme"
+}

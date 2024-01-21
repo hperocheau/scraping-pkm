@@ -1,52 +1,80 @@
 const fs = require('fs');
-const stringSimilarity = require('string-similarity');
+const xlsx = require('xlsx');
+const _ = require('lodash');
 
-// Charger le fichier JSON
-const jsonData = require('./dataTEST2.json');
-
-// Similitude minimale requise pour considérer une correspondance
-const threshold = 0.5;
-
-// Fonction pour trouver la meilleure correspondance pour une ligne
-function findBestMatch(row) {
-  let bestMatch = { cardUrl: '', similarity: 0 };
-
-  // Parcourir tous les éléments "cards"
-  for (const expansion of jsonData) {
-    for (const card of expansion.cards) {
-      const similarities = [
-        stringSimilarity.compareTwoStrings(row.B, card.cardName),
-        stringSimilarity.compareTwoStrings(row.C, card.cardSerie),
-        stringSimilarity.compareTwoStrings(row.D, card.cardRarity),
-        stringSimilarity.compareTwoStrings(row.B, card.localName),
-        stringSimilarity.compareTwoStrings(row.B, card.cardNumber),
-        stringSimilarity.compareTwoStrings(row.B, expansion.localName),
-        stringSimilarity.compareTwoStrings(row.B, expansion.url),
-        stringSimilarity.compareTwoStrings(row.B, expansion.urlCards),
-      ];
-
-      // Calculer la similarité moyenne
-      const totalSimilarity = similarities.reduce((acc, val) => acc + val, 0) / similarities.length;
-
-      // Mettre à jour la meilleure correspondance si la similarité est supérieure au seuil actuel
-      if (totalSimilarity > bestMatch.similarity && totalSimilarity >= threshold) {
-        bestMatch = {
-          cardUrl: card.cardUrl,
-          similarity: totalSimilarity,
-        };
-      }
-    }
-  }
-
-  return bestMatch;
+// Charger le fichier Excel
+const workbook = xlsx.readFile('./cartes.xlsx');
+// Assure-toi que la feuille existe
+const sheetName = workbook.SheetNames[0];
+if (!sheetName) {
+    console.error('La feuille n\'existe pas dans le fichier Excel.');
+    process.exit(1);
 }
 
-// Exemple de données à partir d'une ligne du fichier Excel
-const exampleRow = { B: 'Live Code Card', C: 'Booster', D: 'Online Code Card' };
+// Sélectionne la première feuille
+const sheet = workbook.Sheets[sheetName];
 
-// Trouver la meilleure correspondance
-const result = findBestMatch(exampleRow);
+// Vérifie que la feuille n'est pas vide
+if (!sheet || !sheet['!ref']) {
+    console.error('La feuille est vide dans le fichier Excel.');
+    process.exit(1);
+}
 
-// Afficher le résultat
-console.log('Meilleure correspondance :', result.cardUrl);
-console.log('Similarité :', result.similarity);
+// Charger le fichier JSON
+const jsonData = require('./bdd.json');
+
+
+// Fonction de comparaison de similarité
+function calculateSimilarity(str1, str2) {
+    const similarities = _.intersection(str1.split(' '), str2.split(' '));
+    const percentage = (similarities.length / Math.max(str1.split(' ').length, str2.split(' ').length)) * 100;
+    return percentage;
+}
+
+// Fonction pour trouver la meilleure correspondance dans le JSON
+function findBestMatch(cellA, cellB, cellC) {
+    const matches = jsonData.map(cardSet => {
+        const cardMatches = cardSet.cards.map(card => {
+            const numberSimilarity = calculateSimilarity(cellB, card.cardNumber);
+            const nameSimilarity = calculateSimilarity(cellA, card.cardName);
+            const serieSimilarity = calculateSimilarity(cellC, card.cardSerie);
+            const totalSimilarity = (numberSimilarity + nameSimilarity + serieSimilarity) / 3;
+
+            return {
+                cardUrl: card.cardUrl,
+                similarity: totalSimilarity
+            };
+        });
+
+        const bestMatch = _.maxBy(cardMatches, 'similarity');
+        return bestMatch;
+    });
+
+    return _.maxBy(matches, 'similarity');
+}
+
+// Mettre à jour la première cellule
+sheet[`A1`] = { v: 'Nouvelle valeur pour la première cellule' };
+
+// Parcourir les lignes du fichier Excel
+const lastRow = sheet['!ref'] ? xlsx.utils.decode_range(sheet['!ref']).e.r : 1;
+
+for (let row = 2; row <= lastRow; row++) {
+    const cellA = sheet[`A${row}`].v;
+    const cellB = sheet[`B${row}`].v.split('/')[0]; // Prendre la valeur avant le '/'
+    const cellC = sheet[`C${row}`].v;
+
+    // Trouver la meilleure correspondance dans le JSON
+    const bestMatch = findBestMatch(cellA, cellB, cellC);
+
+    // Mettre à jour la colonne D avec la meilleure correspondance
+    sheet[`D${row}`] = { v: bestMatch.cardUrl };
+}
+
+// Mettre à jour la dernière cellule
+sheet[`A${lastRow}`] = { v: 'Nouvelle valeur pour la dernière cellule' };
+
+// Sauvegarder les modifications dans un nouveau fichier Excel
+xlsx.writeFile(workbook, './nouveau_fichier.xlsx');
+
+console.log('Modification terminée avec succès.');
