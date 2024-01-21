@@ -82,7 +82,7 @@ function findBestMatch(cellA, cellB, cellC) {
 const bestMatchFirstRow = findBestMatch(sheet['A1'].v, sheet['B1'].v.split('/')[0], sheet['C1'].v);
 
 // Mettre à jour la colonne D de la première ligne avec la meilleure correspondance
-sheet['D1'] = { v: bestMatchFirstRow.cardUrl };
+sheet['E1'] = { v: bestMatchFirstRow.cardUrl };
 
 // Trouver la dernière ligne non vide dans la colonne A
 let lastRow = 1;
@@ -90,8 +90,7 @@ while (sheet[`A${lastRow + 1}`] && sheet[`A${lastRow + 1}`].v !== undefined) {
     lastRow++;
 }
 
-// Parcourir les lignes du fichier Excel
-for (let row = 1; row <= lastRow; row++) {
+for (let row = 2; row <= lastRow; row++) {
     const cellA = sheet[`A${row}`] ? sheet[`A${row}`].v : ''; // Vérifier si la cellule existe
     const cellB = sheet[`B${row}`] ? sheet[`B${row}`].v.split('/')[0] : ''; // Vérifier si la cellule existe
     const cellC = sheet[`C${row}`] ? sheet[`C${row}`].v : ''; // Vérifier si la cellule existe
@@ -100,11 +99,8 @@ for (let row = 1; row <= lastRow; row++) {
     const bestMatch = findBestMatch(cellA, cellB, cellC);
 
     // Mettre à jour la colonne D avec la meilleure correspondance
-    sheet[`D${row}`] = { v: bestMatch };
+    sheet[`E${row}`] = { v: bestMatch };
 }
-
-// Mettre à jour la dernière cellule de la colonne D avec la nouvelle valeur
-sheet[`D${lastRow}`] = { v: 'Nouvelle valeur pour la dernière cellule' };
 
 // Sauvegarder les modifications dans le même fichier Excel
 xlsx.writeFile(workbook, './nouveau_fichier.xlsx');
