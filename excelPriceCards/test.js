@@ -26,18 +26,38 @@ const jsonData = require('./bdd.json');
 
 // Fonction de comparaison de similarité
 function calculateSimilarity(str1, str2) {
-    const similarities = _.intersection(str1.split(' '), str2.split(' '));
-    const percentage = (similarities.length / Math.max(str1.split(' ').length, str2.split(' ').length)) * 100;
+    // Fonction pour traiter la valeur de "cardNumber"
+    const processCardNumber = (value) => value.replace(/^0+/, ''); // Supprimer les zéros initiaux
+
+    const processedStr1 = str1 !== undefined ? processCardNumber(str1) : '';
+    const processedStr2 = str2 !== undefined ? processCardNumber(str2) : '';
+
+    const similarities = _.intersection(processedStr1.split(' '), processedStr2.split(' '));
+    const percentage = (similarities.length / Math.max(processedStr1.split(' ').length, processedStr2.split(' ').length)) * 100;
     return percentage;
 }
+
+// Fonction pour traiter la valeur de "cardNumber"
+const processCardNumber = (value) => value.replace(/^0+/, ''); // Supprimer les zéros initiaux
+
 
 // Fonction pour trouver la meilleure correspondance dans le JSON
 function findBestMatch(cellA, cellB, cellC) {
     const matches = jsonData.map(cardSet => {
         const cardMatches = cardSet.cards.map(card => {
-            const numberSimilarity = calculateSimilarity(cellB, card.cardNumber);
+            // Traitement pour cardNumber
+            const processedCardNumber = processCardNumber(card.cardNumber);
+
+            const numberSimilarity = calculateSimilarity(cellB, processedCardNumber);
             const nameSimilarity = calculateSimilarity(cellA, card.cardName);
-            const serieSimilarity = calculateSimilarity(cellC, card.cardSerie);
+
+            // Vérification que cellC est une chaîne de caractères avant d'appliquer toLowerCase()
+            const serieSimilarity = typeof cellC === 'string' && typeof card.cardSerie === 'string' 
+                ? cellC.toLowerCase() === card.cardSerie.toLowerCase() 
+                    ? 100 
+                    : 0 
+                : 0;
+
             const totalSimilarity = (numberSimilarity + nameSimilarity + serieSimilarity) / 3;
 
             return {
@@ -50,31 +70,43 @@ function findBestMatch(cellA, cellB, cellC) {
         return bestMatch;
     });
 
-    return _.maxBy(matches, 'similarity');
+    // Filtrer les correspondances non nulles
+    const validMatches = matches.filter(match => match && match.similarity > 0);
+
+    const bestOverallMatch = _.maxBy(validMatches, 'similarity');
+
+    return bestOverallMatch ? 'https://www.cardmarket.com' + bestOverallMatch.cardUrl : '';
 }
 
-// Mettre à jour la première cellule
-sheet[`A1`] = { v: 'Nouvelle valeur pour la première cellule' };
+// Trouver la meilleure correspondance dans le JSON pour la première ligne
+const bestMatchFirstRow = findBestMatch(sheet['A1'].v, sheet['B1'].v.split('/')[0], sheet['C1'].v);
+
+// Mettre à jour la colonne D de la première ligne avec la meilleure correspondance
+sheet['D1'] = { v: bestMatchFirstRow.cardUrl };
+
+// Trouver la dernière ligne non vide dans la colonne A
+let lastRow = 1;
+while (sheet[`A${lastRow + 1}`] && sheet[`A${lastRow + 1}`].v !== undefined) {
+    lastRow++;
+}
 
 // Parcourir les lignes du fichier Excel
-const lastRow = sheet['!ref'] ? xlsx.utils.decode_range(sheet['!ref']).e.r : 1;
-
-for (let row = 2; row <= lastRow; row++) {
-    const cellA = sheet[`A${row}`].v;
-    const cellB = sheet[`B${row}`].v.split('/')[0]; // Prendre la valeur avant le '/'
-    const cellC = sheet[`C${row}`].v;
+for (let row = 1; row <= lastRow; row++) {
+    const cellA = sheet[`A${row}`] ? sheet[`A${row}`].v : ''; // Vérifier si la cellule existe
+    const cellB = sheet[`B${row}`] ? sheet[`B${row}`].v.split('/')[0] : ''; // Vérifier si la cellule existe
+    const cellC = sheet[`C${row}`] ? sheet[`C${row}`].v : ''; // Vérifier si la cellule existe
 
     // Trouver la meilleure correspondance dans le JSON
     const bestMatch = findBestMatch(cellA, cellB, cellC);
 
     // Mettre à jour la colonne D avec la meilleure correspondance
-    sheet[`D${row}`] = { v: bestMatch.cardUrl };
+    sheet[`D${row}`] = { v: bestMatch };
 }
 
-// Mettre à jour la dernière cellule
-sheet[`A${lastRow}`] = { v: 'Nouvelle valeur pour la dernière cellule' };
+// Mettre à jour la dernière cellule de la colonne D avec la nouvelle valeur
+sheet[`D${lastRow}`] = { v: 'Nouvelle valeur pour la dernière cellule' };
 
-// Sauvegarder les modifications dans un nouveau fichier Excel
+// Sauvegarder les modifications dans le même fichier Excel
 xlsx.writeFile(workbook, './nouveau_fichier.xlsx');
 
 console.log('Modification terminée avec succès.');
