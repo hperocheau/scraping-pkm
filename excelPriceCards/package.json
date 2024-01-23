@@ -5,6 +5,7 @@
     "fs-extra": "^10.0.0",
     "lodash": "^4.17.21",
     "node-fetch": "2.6.1",
+    "puppeteer": "^21.7.0",
     "xlsx": "^0.18.0"
   },
   "description": "pkm price excel",
@@ -21,5 +22,6 @@
   "bugs": {
     "url": "https://github.com/hperocheau/scraping-pkm/issues"
   },
-  "homepage": "https://github.com/hperocheau/scraping-pkm#readme"
+  "homepage": "https://github.com/hperocheau/scraping-pkm#readme",
+  "keywords": []
 }
