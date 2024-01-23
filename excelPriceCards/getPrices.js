@@ -5,6 +5,48 @@ const ExcelJS = require('exceljs');
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
+
+// Intercepter les requêtes réseau pour essayer de récupérer les données des prix
+page.on('response', async (response) => {
+  const url = response.url();
+
+  if (url.includes('https://www.cardmarket.com/fr/Pokemon/Products/Singles/Eevee-Heroes/Umbreon-V-V3-s6a085?language=7&minCondition=2')) {
+    // Récupérer le texte de la réponse
+    const responseBody = await response.text();
+
+    // Extraire les prix du HTML
+    const prices = extractPricesFromHTML(responseBody);
+
+    // Afficher les prix dans les logs
+    console.log(`Prix individuels : ${prices.join(', ')}`);
+
+    // Calculer la somme des 3 premiers prix
+    const totalSum = prices.slice(0, 3).reduce((acc, price) => acc + price, 0);
+
+    // Écrire la somme dans la cellule F du fichier Excel
+    const priceCell = worksheet.getCell(`F${rowIndex}`);
+    priceCell.value = totalSum !== 0 ? totalSum.toFixed(2) : 'no data found';
+    console.log(`Somme des 3 premiers prix ajoutée à la cellule F${rowIndex}: ${totalSum !== 0 ? totalSum.toFixed(2) : 'no data found'}`);
+  }
+});
+
+// Fonction pour extraire les prix du HTML
+function extractPricesFromHTML(html) {
+  const prices = [];
+  const regex = /color-primary small text-end text-nowrap fw-bold[^>]*>\s*([\d,.]+)\s*€/gi;
+  let match;
+
+  while ((match = regex.exec(html)) !== null) {
+    const price = parseFloat(match[1].replace(',', '.'));
+    if (!isNaN(price)) {
+      prices.push(price);
+    }
+  }
+
+  return prices;
+}
+
+
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
 
     const workbook = new ExcelJS.Workbook();
@@ -13,8 +55,10 @@ const ExcelJS = require('exceljs');
     const worksheet = workbook.getWorksheet('Feuil1'); // Remplace "Nom_de_ta_feuille" par le nom correct de ta feuille
 
     let cardType; // Déplacer la déclaration de la variable cardType à l'extérieur de la boucle
-
+    let rowIndex;
     for (let i = 2; i <= worksheet.lastRow.number; i++) {
+      rowIndex = i;
+      
       const urlCell = worksheet.getCell(`E${i}`);
       const langCell = worksheet.getCell(`D${i}`);
       const cardTypeCell = worksheet.getCell(`A${i}`);
@@ -44,7 +88,7 @@ const ExcelJS = require('exceljs');
         await page.waitForTimeout(2000);
 
         // Récupérer les valeurs des trois premières balises span
-        const averagePrice = await page.evaluate((cardType) => {
+        const averagePrice = await page.evaluate((cardType, rowIndex) => {
           const spanElements = document.querySelectorAll('.color-primary.small.text-end.text-nowrap.fw-bold');
           const holoSpans = document.querySelectorAll('.text-truncate.text-muted.fst-italic.small.d-block');
         
@@ -81,7 +125,7 @@ const ExcelJS = require('exceljs');
         
           const totalPrice = prices.reduce((acc, price) => acc + price, 0);
           return totalPrice / prices.length;
-        }, cardType);
+        }, cardType, rowIndex);
         
         
 
