@@ -1,18 +1,14 @@
 const fs = require('fs');
 const xlsx = require('xlsx');
 const _ = require('lodash');
+const moment = require('moment');
+
+// Remplacez le nom du fichier d'origine avec le chemin correct
+const originalFileName = './cartes.xlsx';
 
 // Charger le fichier Excel
-const workbook = xlsx.readFile('./cartes.xlsx');
-// Assure-toi que la feuille existe
-const sheetName = workbook.SheetNames[0];
-if (!sheetName) {
-    console.error('La feuille n\'existe pas dans le fichier Excel.');
-    process.exit(1);
-}
-
-// Sélectionne la première feuille
-const sheet = workbook.Sheets[sheetName];
+const workbook = xlsx.readFile(originalFileName);
+const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
 // Vérifie que la feuille n'est pas vide
 if (!sheet || !sheet['!ref']) {
@@ -22,7 +18,6 @@ if (!sheet || !sheet['!ref']) {
 
 // Charger le fichier JSON
 const jsonData = require('./bdd.json');
-
 
 // Fonction de comparaison de similarité
 function calculateSimilarity(str1, str2) {
@@ -39,7 +34,6 @@ function calculateSimilarity(str1, str2) {
 
 // Fonction pour traiter la valeur de "cardNumber"
 const processCardNumber = (value) => value.replace(/^0+/, ''); // Supprimer les zéros initiaux
-
 
 // Fonction pour trouver la meilleure correspondance dans le JSON
 function findBestMatch(cellA, cellB, cellC) {
@@ -78,31 +72,55 @@ function findBestMatch(cellA, cellB, cellC) {
     return bestOverallMatch ? 'https://www.cardmarket.com' + bestOverallMatch.cardUrl : '';
 }
 
-// Trouver la meilleure correspondance dans le JSON pour la première ligne
-const bestMatchFirstRow = findBestMatch(sheet['A1'].v, sheet['B1'].v.split('/')[0], sheet['C1'].v);
+// Définition des valeurs de X selon la cellule D
+const getXValue = (cellD) => {
+    const lowercaseCellD = cellD.toLowerCase();
+    if (lowercaseCellD.includes('jp') || lowercaseCellD.includes('japonais') || lowercaseCellD.includes('jap')) {
+        return "?language=7&minCondition=2&isSigned=N&isPlayset=N&isAltered=N";
+    } else if (lowercaseCellD.includes('fr') || lowercaseCellD.includes('français') || lowercaseCellD.includes('francais')) {
+        return "?language=2&minCondition=2&isSigned=N&isPlayset=N&isAltered=N";
+    } else {
+        return "";
+    }
+}
+
+// Créer une nouvelle feuille avec la date du jour comme nom
+const currentDate = moment().format("DD_MM_YYYY");
+xlsx.utils.book_append_sheet(workbook, {}, currentDate);
+const newSheet = workbook.Sheets[currentDate];
+
+// Copier les données de la première feuille vers la nouvelle feuille
+Object.keys(sheet).forEach(key => {
+    newSheet[key] = sheet[key];
+});
 
 // Mettre à jour la colonne D de la première ligne avec la meilleure correspondance
-sheet['E1'] = { v: bestMatchFirstRow.cardUrl };
+const bestMatchFirstRow = findBestMatch(sheet['A1'].v, sheet['B1'].v.split('/')[0], sheet['C1'].v);
+const xValueFirstRow = getXValue(sheet['D1'].v);
+newSheet['E1'] = { v: bestMatchFirstRow + xValueFirstRow };
 
 // Trouver la dernière ligne non vide dans la colonne A
 let lastRow = 1;
-while (sheet[`A${lastRow + 1}`] && sheet[`A${lastRow + 1}`].v !== undefined) {
+while (newSheet[`A${lastRow + 1}`] && newSheet[`A${lastRow + 1}`].v !== undefined) {
     lastRow++;
 }
 
+// Mettre à jour les colonnes D et E pour les lignes restantes
 for (let row = 2; row <= lastRow; row++) {
-    const cellA = sheet[`A${row}`] ? sheet[`A${row}`].v : ''; // Vérifier si la cellule existe
-    const cellB = sheet[`B${row}`] ? sheet[`B${row}`].v.split('/')[0] : ''; // Vérifier si la cellule existe
-    const cellC = sheet[`C${row}`] ? sheet[`C${row}`].v : ''; // Vérifier si la cellule existe
+    const cellA = newSheet[`A${row}`] ? newSheet[`A${row}`].v : ''; // Vérifier si la cellule existe
+    const cellB = newSheet[`B${row}`] ? newSheet[`B${row}`].v.split('/')[0] : ''; // Vérifier si la cellule existe
+    const cellC = newSheet[`C${row}`] ? newSheet[`C${row}`].v : ''; // Vérifier si la cellule existe
+    const cellD = newSheet[`D${row}`] ? newSheet[`D${row}`].v : ''; // Vérifier si la cellule existe
 
     // Trouver la meilleure correspondance dans le JSON
     const bestMatch = findBestMatch(cellA, cellB, cellC);
+    const xValue = getXValue(cellD);
 
     // Mettre à jour la colonne D avec la meilleure correspondance
-    sheet[`E${row}`] = { v: bestMatch };
+    newSheet[`E${row}`] = { v: bestMatch + xValue };
 }
 
 // Sauvegarder les modifications dans le même fichier Excel
-xlsx.writeFile(workbook, './cartes_url.xlsx');
+xlsx.writeFile(workbook, originalFileName);
 
 console.log('Modification terminée avec succès.');
