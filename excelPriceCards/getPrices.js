@@ -1,72 +1,82 @@
 const puppeteer = require('puppeteer');
 const ExcelJS = require('exceljs');
 
-
 (async () => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
+  console.time('script-execution'); // Démarrer le chronomètre
 
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
 
-    const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.readFile('./cartes_url.xlsx'); // Assure-toi de spécifier le chemin correct ici
+  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
 
-    const worksheet = workbook.getWorksheet('Feuil1'); // Remplace "Nom_de_ta_feuille" par le nom correct de ta feuille
+  const workbook = new ExcelJS.Workbook();
+  await workbook.xlsx.readFile('./cartes_url.xlsx'); 
 
-    let cardType; // Déplacer la déclaration de la variable cardType à l'extérieur de la boucle
-    let rowIndex;
-    for (let i = 2; i <= worksheet.lastRow.number; i++) {
-      rowIndex = i; // <= Ce mec est un génie
-      
-      const urlCell = worksheet.getCell(`E${i}`);
-      const langCell = worksheet.getCell(`D${i}`);
-      const cardTypeCell = worksheet.getCell(`A${i}`);
-      const url = urlCell.value;
-      const language = langCell.value && langCell.value.toString().toLowerCase();
-      cardType = cardTypeCell.value && cardTypeCell.value.toString().toLowerCase();
+  const worksheet = workbook.getWorksheet('Feuil1'); 
 
-      console.log(`Lecture de l'URL depuis la cellule E${i}: ${url} avec la langue: ${language}`);
-      if (url) {
-        console.log(`Traitement de l'URL: ${url}`);
-        let finalURL = url;
+  let cardType; 
+  let rowIndex;
 
-        // Personnaliser l'URL en fonction de la langue
-        if (language === 'jp' || language === 'japonais' || language === 'jap') {
-          finalURL += '?language=7&';
-        } else if (language === 'fr' || language === 'français' || language === 'francais') {
-          finalURL += '?language=2&';
-        }
+  for (let i = 2; i <= worksheet.lastRow.number; i++) {
+    rowIndex = i;
+    const urlCell = worksheet.getCell(`E${i}`);
+    const langCell = worksheet.getCell(`D${i}`);
+    const cardTypeCell = worksheet.getCell(`A${i}`);
+    const url = urlCell.value;
+    const language = langCell.value && langCell.value.toString().toLowerCase();
+    cardType = cardTypeCell.value && cardTypeCell.value.toString().toLowerCase();
 
-        // Mise à jour de l'URL dans le fichier Excel
-        urlCell.value = finalURL;
+    console.log(`Lecture de l'URL depuis la cellule E${i}: ${url} avec la langue: ${language}`);
+    await page.waitForTimeout(1500);
 
-        await page.goto(finalURL);
+    if (url) {
+      console.log(`Traitement de l'URL: ${url}`);
+      let finalURL = url;
 
-        // Attendre un certain temps pour que le contenu soit chargé (ajuste cela si nécessaire)
-        await page.waitForTimeout(2000);
-        
+      // Personnaliser l'URL en fonction de la langue
+      if (language === 'jp' || language === 'japonais' || language === 'jap') {
+        finalURL += '?language=7&minCondition=2&isSigned=N&isPlayset=N&isAltered=N';
+      } else if (language === 'fr' || language === 'français' || language === 'francais') {
+        finalURL += '?language=2&minCondition=2&isSigned=N&isPlayset=N&isAltered=N';
+      }
+
+      // Mise à jour de l'URL dans le fichier Excel
+      urlCell.value = finalURL;
+
+      await page.goto(finalURL);
+      await page.waitForTimeout(1500);
+
+      // Vérifier la présence de la balise indiquant l'absence de résultats
+      const noResultsElement = await page.$('.noResults.text-center.h3.text-muted.py-5');
+
+      if (noResultsElement) {
+        // Balise présente, aucune donnée n'est disponible
+        console.log(`Aucune donnée disponible pour la cellule E${i}`);
+        const priceCell = worksheet.getCell(`F${i}`);
+        priceCell.value = 'no price data';
+      } else {
+        // Balise non trouvée, il y a des données ou la page est HS
         // Récupérer les valeurs des trois premières balises span
         const averagePrice = await page.evaluate((cardType, rowIndex) => {
-          
           const articles = document.querySelectorAll('[id^="articleRow"]');
           const prices = [];
 
           articles.forEach((elem) => {
-            const formatPriceToFloat = (text) => { return parseFloat(text.trim().replace(".", "").replace(',', '.').trim().match(/\d+(?:\.\d+)?/g)) }
+            const formatPriceToFloat = (text) => parseFloat(text.trim().replace(".", "").replace(',', '.').trim().match(/\d+(?:\.\d+)?/g))
             let comment = elem.querySelector('.product-comments')?.textContent;
             const price = elem.querySelector(".price-container").textContent;
 
             comment = comment === undefined ? "" : comment;
 
             let formattedPrice = formatPriceToFloat(price);
-            
+
             // si c'est un nombre
             // (ET si cardType Holo + commentaire Holo
             // OU cardType pas holo)
-            if (!isNaN(formattedPrice) && ((cardType.includes('holo') && comment.toLowerCase().includes('holo')) || (!cardType.includes('holo') && !comment.toLowerCase().includes('holo'))) ) {
+            if (!isNaN(formattedPrice) && ((cardType.includes('holo') && comment.toLowerCase().includes('holo')) || (!cardType.includes('holo') && !comment.toLowerCase().includes('holo')))) {
               prices.push(formattedPrice);
             }
-                      
+
             if (prices.length === 0) {
               return; // Aucun prix trouvé
             }
@@ -78,14 +88,19 @@ const ExcelJS = require('exceljs');
           return totalPrice / numberOfCards;
         }, cardType, rowIndex);
 
+        await page.waitForTimeout(1500);
+
         const priceCell = worksheet.getCell(`F${i}`);
-        let priceValue = averagePrice !== null ? averagePrice.toFixed(2) : 'no data found'
-        priceValue = isNaN(priceValue) ? 'no data found' : priceValue;
+        let priceValue = averagePrice !== null ? averagePrice.toFixed(2) : 'no price data';
+        priceValue = isNaN(priceValue) ? 'page HS' : priceValue;
         priceCell.value = priceValue;
         console.log(`Prix moyen ajouté à la cellule F${i}: ${priceValue}`);
       }
     }
-    await workbook.xlsx.writeFile('./testcartes_url.xlsx').then(() => console.log('Fichier Excel mis à jour avec succès.'));
+  }
 
-    await browser.close();
+  await workbook.xlsx.writeFile('./testcartes_url.xlsx').then(() => console.log('Fichier Excel mis à jour avec succès.'));
+  await browser.close();
+
+  console.timeEnd('script-execution'); // Arrêter le chronomètre et afficher le temps d'exécution
 })();
