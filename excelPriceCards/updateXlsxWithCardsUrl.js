@@ -21,14 +21,11 @@ const jsonData = require('./bdd.json');
 
 // Fonction de comparaison de similarité
 function calculateSimilarity(str1, str2) {
-    // Fonction pour traiter la valeur de "cardNumber"
-    const processCardNumber = (value) => value.replace(/^0+/, ''); // Supprimer les zéros initiaux
+    const processedStr1 = str1 !== undefined ? processCardNumber(str1).split(' ') : [];
+    const processedStr2 = str2 !== undefined ? processCardNumber(str2).split(' ') : [];
 
-    const processedStr1 = str1 !== undefined ? processCardNumber(str1) : '';
-    const processedStr2 = str2 !== undefined ? processCardNumber(str2) : '';
-
-    const similarities = _.intersection(processedStr1.split(' '), processedStr2.split(' '));
-    const percentage = (similarities.length / Math.max(processedStr1.split(' ').length, processedStr2.split(' ').length)) * 100;
+    const similarities = _.intersection(processedStr1, processedStr2);
+    const percentage = (similarities.length / Math.max(processedStr1.length, processedStr2.length)) * 100;
     return percentage;
 }
 
@@ -37,11 +34,10 @@ const processCardNumber = (value) => value.replace(/^0+/, ''); // Supprimer les 
 
 // Fonction pour trouver la meilleure correspondance dans le JSON
 function findBestMatch(cellA, cellB, cellC) {
-    const matches = jsonData.map(cardSet => {
-        const cardMatches = cardSet.cards.map(card => {
+    const bestMatch = jsonData.reduce((best, cardSet) => {
+        const cardMatch = cardSet.cards.reduce((bestCard, card) => {
             // Traitement pour cardNumber
             const processedCardNumber = processCardNumber(card.cardNumber);
-
             const numberSimilarity = calculateSimilarity(cellB, processedCardNumber);
             const nameSimilarity = calculateSimilarity(cellA, card.cardName);
 
@@ -54,30 +50,21 @@ function findBestMatch(cellA, cellB, cellC) {
 
             const totalSimilarity = (numberSimilarity + nameSimilarity + serieSimilarity) / 3;
 
-            return {
-                cardUrl: card.cardUrl,
-                similarity: totalSimilarity
-            };
-        });
+            return totalSimilarity > bestCard.similarity ? { cardUrl: card.cardUrl, similarity: totalSimilarity } : bestCard;
+        }, { cardUrl: '', similarity: 0 });
 
-        const bestMatch = _.maxBy(cardMatches, 'similarity');
-        return bestMatch;
-    });
+        return cardMatch.similarity > best.similarity ? cardMatch : best;
+    }, { cardUrl: '', similarity: 0 });
 
-    // Filtrer les correspondances non nulles
-    const validMatches = matches.filter(match => match && match.similarity > 0);
-
-    const bestOverallMatch = _.maxBy(validMatches, 'similarity');
-
-    return bestOverallMatch ? 'https://www.cardmarket.com' + bestOverallMatch.cardUrl : '';
+    return bestMatch.similarity > 0 ? 'https://www.cardmarket.com' + bestMatch.cardUrl : '';
 }
 
 // Définition des valeurs de X selon la cellule D
 const getXValue = (cellD) => {
     const lowercaseCellD = cellD.toLowerCase();
-    if (lowercaseCellD.includes('jp') || lowercaseCellD.includes('japonais') || lowercaseCellD.includes('jap')) {
+    if (/jp|japonais|jap/.test(lowercaseCellD)) {
         return "?language=7&minCondition=2&isSigned=N&isPlayset=N&isAltered=N";
-    } else if (lowercaseCellD.includes('fr') || lowercaseCellD.includes('français') || lowercaseCellD.includes('francais')) {
+    } else if (/fr|français|francais/.test(lowercaseCellD)) {
         return "?language=2&minCondition=2&isSigned=N&isPlayset=N&isAltered=N";
     } else {
         return "";
@@ -89,10 +76,14 @@ const currentDate = moment().format("DD_MM_YYYY");
 xlsx.utils.book_append_sheet(workbook, {}, currentDate);
 const newSheet = workbook.Sheets[currentDate];
 
-// Copier les données de la première feuille vers la nouvelle feuille
 Object.keys(sheet).forEach(key => {
     newSheet[key] = sheet[key];
 });
+
+// Update the range of the new sheet to include the 'E' column
+const range = xlsx.utils.decode_range(newSheet['!ref']);
+range.e.c = Math.max(range.e.c, 4); // 4 is the zero-based index of column 'E'
+newSheet['!ref'] = xlsx.utils.encode_range(range);
 
 // Mettre à jour la colonne D de la première ligne avec la meilleure correspondance
 const bestMatchFirstRow = findBestMatch(sheet['A1'].v, sheet['B1'].v.split('/')[0], sheet['C1'].v);
@@ -115,6 +106,7 @@ for (let row = 2; row <= lastRow; row++) {
     // Trouver la meilleure correspondance dans le JSON
     const bestMatch = findBestMatch(cellA, cellB, cellC);
     const xValue = getXValue(cellD);
+
 
     // Mettre à jour la colonne D avec la meilleure correspondance
     newSheet[`E${row}`] = { v: bestMatch + xValue };
