@@ -12,16 +12,25 @@ const ExcelJS = require('exceljs');
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile('./cartes_url.xlsx'); 
 
-  const worksheet = workbook.getWorksheet('Feuil1'); 
+  const worksheet1 = workbook.getWorksheet('Feuil1'); 
+  const worksheet2 = workbook.addWorksheet('Feuil2'); 
+
+  // Copier la Feuil1 dans la Feuil2
+  worksheet1.eachRow((row, rowNumber) => {
+    const newRow = worksheet2.getRow(rowNumber);
+    row.eachCell((cell, colNumber) => {
+      newRow.getCell(colNumber).value = cell.value;
+    });
+  });
 
   let cardType; 
   let rowIndex;
 
-  for (let i = 2; i <= worksheet.lastRow.number; i++) {
+  for (let i = 2; i <= worksheet2.lastRow.number; i++) {
     rowIndex = i;
-    const urlCell = worksheet.getCell(`E${i}`);
-    const langCell = worksheet.getCell(`D${i}`);
-    const cardTypeCell = worksheet.getCell(`A${i}`);
+    const urlCell = worksheet2.getCell(`E${i}`);
+    const langCell = worksheet2.getCell(`D${i}`);
+    const cardTypeCell = worksheet2.getCell(`A${i}`);
     const url = urlCell.value;
     const language = langCell.value && langCell.value.toString().toLowerCase();
     cardType = cardTypeCell.value && cardTypeCell.value.toString().toLowerCase();
@@ -52,8 +61,8 @@ const ExcelJS = require('exceljs');
       if (noResultsElement) {
         // Balise présente, aucune donnée n'est disponible
         console.log(`Aucune donnée disponible pour la cellule E${i}`);
-        const priceCell = worksheet.getCell(`F${i}`);
-        priceCell.value = 'no price data';
+        const priceCell = worksheet2.getCell(`F${i}`);
+        priceCell.value = 'no data found';
       } else {
         // Balise non trouvée, il y a des données ou la page est HS
         // Récupérer les valeurs des trois premières balises span
@@ -90,16 +99,16 @@ const ExcelJS = require('exceljs');
 
         await page.waitForTimeout(1500);
 
-        const priceCell = worksheet.getCell(`F${i}`);
-        let priceValue = averagePrice !== null ? averagePrice.toFixed(2) : 'no price data';
-        priceValue = isNaN(priceValue) ? 'page HS' : priceValue;
+        const priceCell = worksheet2.getCell(`F${i}`);
+        let priceValue = averagePrice !== null ? averagePrice.toFixed(2) : 'no data found';
+        priceValue = isNaN(priceValue) ? 'no data test' : priceValue;
         priceCell.value = priceValue;
-        console.log(`Prix moyen ajouté à la cellule F${i}: ${priceValue}`);
+        console.log(`Prix moyen ajouté à la cellule F${i} de la feuille Feuil2: ${priceValue}`);
       }
     }
   }
 
-  await workbook.xlsx.writeFile('./testcartes_url.xlsx').then(() => console.log('Fichier Excel mis à jour avec succès.'));
+  await workbook.xlsx.writeFile('./cartes_url.xlsx').then(() => console.log('Fichier Excel mis à jour avec succès.'));
   await browser.close();
 
   console.timeEnd('script-execution'); // Arrêter le chronomètre et afficher le temps d'exécution
