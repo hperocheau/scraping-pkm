@@ -3,12 +3,65 @@ const xlsx = require('xlsx');
 const _ = require('lodash');
 const moment = require('moment');
 
+// Fonction pour définir les valeurs de X selon la cellule D
+const getXValue = (cellD) => {
+    const lowercaseCellD = cellD.toLowerCase();
+    if (/jp|japonais|jap/.test(lowercaseCellD)) {
+        return "?language=7&minCondition=2&isSigned=N&isPlayset=N&isAltered=N";
+    } else if (/fr|français|francais/.test(lowercaseCellD)) {
+        return "?language=2&minCondition=2&isSigned=N&isPlayset=N&isAltered=N";
+    } else {
+        return "";
+    }
+}
+
 // Remplacez le nom du fichier d'origine avec le chemin correct
 const originalFileName = './cartes.xlsx';
 
 // Charger le fichier Excel
 const workbook = xlsx.readFile(originalFileName);
-const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+// Créer une nouvelle feuille avec la date du jour comme nom
+const currentDate = moment().format("DD_MM_YYYY");
+
+// Vérifier si la feuille existe déjà
+if (workbook.SheetNames.includes(currentDate)) {
+    const existingSheet = workbook.Sheets[currentDate];
+
+    // Comparer les cellules A, B, C et D
+    let areSheetsEqual = true;
+
+    for (let i = 1; i <= 4; i++) {
+        const cell = xlsx.utils.encode_cell({ r: 0, c: i });
+
+        // Vérifier que la cellule existe dans les deux feuilles
+        if (!existingSheet[cell] || !existingSheet[cell] || existingSheet[cell].v !== existingSheet[cell].v) {
+            areSheetsEqual = false;
+            break;
+        }
+    }
+
+    if (areSheetsEqual) {
+        console.log('Le fichier est déjà à jour.');
+        process.exit(0);
+    } else {
+        // Si elle existe, la supprimer
+        const currentDateSheetIndex = workbook.SheetNames.indexOf(currentDate);
+        if (currentDateSheetIndex >= 0) {
+            workbook.SheetNames.splice(currentDateSheetIndex, 1);
+            delete workbook.Sheets[currentDate];
+        }
+    }
+}
+
+// Sélectionne la première feuille
+const sheetName = workbook.SheetNames[0];
+if (!sheetName) {
+    console.error('La feuille n\'existe pas dans le fichier Excel.');
+    process.exit(1);
+}
+
+const sheet = workbook.Sheets[sheetName];
 
 // Vérifie que la feuille n'est pas vide
 if (!sheet || !sheet['!ref']) {
@@ -59,22 +112,22 @@ function findBestMatch(cellA, cellB, cellC) {
     return bestMatch.similarity > 0 ? 'https://www.cardmarket.com' + bestMatch.cardUrl : '';
 }
 
-// Définition des valeurs de X selon la cellule D
-const getXValue = (cellD) => {
-    const lowercaseCellD = cellD.toLowerCase();
-    if (/jp|japonais|jap/.test(lowercaseCellD)) {
-        return "?language=7&minCondition=2&isSigned=N&isPlayset=N&isAltered=N";
-    } else if (/fr|français|francais/.test(lowercaseCellD)) {
-        return "?language=2&minCondition=2&isSigned=N&isPlayset=N&isAltered=N";
-    } else {
-        return "";
-    }
+// Fonction pour cloner correctement une feuille
+function cloneSheet(sheet) {
+    const newSheet = {};
+    Object.keys(sheet).forEach(key => {
+        if (key !== '!merges') {
+            newSheet[key] = Object.assign({}, sheet[key]);
+        }
+    });
+    return newSheet;
 }
 
-// Créer une nouvelle feuille avec la date du jour comme nom
-const currentDate = moment().format("DD_MM_YYYY");
-xlsx.utils.book_append_sheet(workbook, {}, currentDate);
-const newSheet = workbook.Sheets[currentDate];
+// Charger le fichier Excel
+const newSheet = workbook.Sheets[currentDate] = cloneSheet(sheet);
+
+// Ajouter la nouvelle feuille avec les mêmes données que la première
+xlsx.utils.book_append_sheet(workbook, newSheet, currentDate);
 
 Object.keys(sheet).forEach(key => {
     newSheet[key] = sheet[key];
@@ -106,7 +159,6 @@ for (let row = 2; row <= lastRow; row++) {
     // Trouver la meilleure correspondance dans le JSON
     const bestMatch = findBestMatch(cellA, cellB, cellC);
     const xValue = getXValue(cellD);
-
 
     // Mettre à jour la colonne D avec la meilleure correspondance
     newSheet[`E${row}`] = { v: bestMatch + xValue };
