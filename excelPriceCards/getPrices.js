@@ -60,16 +60,6 @@ const fs = require('fs');
           console.log(`Traitement de l'URL: ${url}`);
           let finalURL = url;
 
-          // Personnaliser l'URL en fonction de la langue
-          if (language === 'jp' || language === 'japonais' || language === 'jap') {
-            finalURL += '?language=7&minCondition=2&isSigned=N&isPlayset=N&isAltered=N';
-          } else if (language === 'fr' || language === 'français' || language === 'francais') {
-            finalURL += '?language=2&minCondition=2&isSigned=N&isPlayset=N&isAltered=N';
-          }
-
-          // Mise à jour de l'URL dans le fichier Excel
-          urlCell.value = finalURL;
-
           await page.goto(finalURL);
           await page.waitForTimeout(1500);
 
