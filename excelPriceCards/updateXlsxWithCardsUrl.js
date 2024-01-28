@@ -135,8 +135,9 @@ Object.keys(sheet).forEach(key => {
 
 // Update the range of the new sheet to include the 'E' column
 const range = xlsx.utils.decode_range(newSheet['!ref']);
-range.e.c = Math.max(range.e.c, 4); // 4 is the zero-based index of column 'E'
+range.e.c = Math.max(range.e.c, 5); // 5 is the zero-based index of column 'F'
 newSheet['!ref'] = xlsx.utils.encode_range(range);
+newSheet['F1'] = { v: "Prix moyen" };
 
 // Mettre à jour la colonne D de la première ligne avec la meilleure correspondance
 const bestMatchFirstRow = findBestMatch(sheet['A1'].v, sheet['B1'].v.split('/')[0], sheet['C1'].v);
