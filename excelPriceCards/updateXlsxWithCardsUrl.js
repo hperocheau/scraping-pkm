@@ -33,24 +33,35 @@ if (!sheet || !sheet['!ref']) {
     process.exit(1);
 }
 
+// Fonction pour comparer les cellules des colonnes A, B, C et D entre deux feuilles
+function compareSheets(sheet1, sheet2) {
+    const getCellValues = (sheet) => {
+        const cellValues = [];
+        const range = xlsx.utils.decode_range(sheet['!ref']);
+        for(let row = range.s.r; row <= range.e.r; row++) {
+            for(let col = range.s.c; col <= range.e.c; col++) {
+                const cellAddress = {c: col, r: row};
+                const cellRef = xlsx.utils.encode_cell(cellAddress);
+                if(sheet[cellRef] && ['A', 'B', 'C', 'D'].includes(cellRef[0])) {
+                    cellValues.push(sheet[cellRef].v);
+                }
+            }
+        }
+        return cellValues;
+    };
+
+    const sheet1Values = getCellValues(sheet1);
+    const sheet2Values = getCellValues(sheet2);
+
+    return _.isEqual(sheet1Values, sheet2Values);
+}
+
 // Vérifier si la feuille existe déjà
 if (workbook.SheetNames.includes(currentDate)) {
     const existingSheet = workbook.Sheets[currentDate];
 
     // Comparer les cellules A, B, C et D
-    let areSheetsEqual = true;
-
-    for (let i = 1; i <= 4; i++) {
-        const cell = xlsx.utils.encode_cell({ r: 0, c: i });
-
-        // Vérifier que la cellule existe dans les deux feuilles
-        if (!existingSheet[cell] || !existingSheet[cell] || existingSheet[cell].v !== existingSheet[cell].v) {
-            areSheetsEqual = false;
-            break;
-        }
-    }
-
-    if (areSheetsEqual) {
+    if (compareSheets(existingSheet, sheet)) {
         console.log('Le fichier est déjà à jour.');
         process.exit(0);
     } else {
@@ -62,11 +73,6 @@ if (workbook.SheetNames.includes(currentDate)) {
         }
     }
 }
-
-
-
-
-
 
 // Fonction de comparaison de similarité
 function calculateSimilarity(str1, str2) {
