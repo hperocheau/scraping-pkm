@@ -15,14 +15,23 @@ const getXValue = (cellD) => {
     }
 }
 
-// Remplacez le nom du fichier d'origine avec le chemin correct
-const originalFileName = './cartes.xlsx';
-
-// Charger le fichier Excel
+const jsonData = require('./bdd.json');
+const originalFileName = './Commandes_poke.xlsx';
 const workbook = xlsx.readFile(originalFileName);
-
-// Créer une nouvelle feuille avec la date du jour comme nom
 const currentDate = moment().format("DD_MM_YYYY");
+const sheetName = "Feuil1";
+const sheet = workbook.Sheets[sheetName];
+
+if (!sheetName) {
+    console.error('La feuille n\'existe pas dans le fichier Excel.');
+    process.exit(1);
+}
+
+// Vérifie que la feuille n'est pas vide
+if (!sheet || !sheet['!ref']) {
+    console.error('La feuille est vide dans le fichier Excel.');
+    process.exit(1);
+}
 
 // Vérifier si la feuille existe déjà
 if (workbook.SheetNames.includes(currentDate)) {
@@ -54,23 +63,10 @@ if (workbook.SheetNames.includes(currentDate)) {
     }
 }
 
-// Sélectionne la première feuille
-const sheetName = workbook.SheetNames[0];
-if (!sheetName) {
-    console.error('La feuille n\'existe pas dans le fichier Excel.');
-    process.exit(1);
-}
 
-const sheet = workbook.Sheets[sheetName];
 
-// Vérifie que la feuille n'est pas vide
-if (!sheet || !sheet['!ref']) {
-    console.error('La feuille est vide dans le fichier Excel.');
-    process.exit(1);
-}
 
-// Charger le fichier JSON
-const jsonData = require('./bdd.json');
+
 
 // Fonction de comparaison de similarité
 function calculateSimilarity(str1, str2) {

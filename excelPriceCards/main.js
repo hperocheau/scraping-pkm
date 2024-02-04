@@ -28,10 +28,11 @@ function checkEmptyCells(worksheet) {
 (async () => {
   console.time('script-execution'); // Démarrer le chronomètre
 
-  let workbook = new ExcelJS.Workbook();
-  await workbook.xlsx.readFile('./cartes.xlsx');  // Ajoutez cette ligne
-  
   executeCommand(`node ${updateXlsxScriptPath}`);
+
+  // Recharger le workbook après l'exécution du script updateXlsxScriptPath
+  workbook = new ExcelJS.Workbook();
+  await workbook.xlsx.readFile('./Commandes_poke.xlsx');
   
   const today = moment().format("DD_MM_YYYY");
   let worksheet = workbook.getWorksheet(today);
@@ -48,7 +49,7 @@ function checkEmptyCells(worksheet) {
     
     // Recharger la feuille après l'exécution du script getPrices.js
     workbook = new ExcelJS.Workbook();  // Fermer et réinitialiser le workbook
-    await workbook.xlsx.readFile('./cartes.xlsx');
+    await workbook.xlsx.readFile('./Commandes_poke.xlsx');
     
     // Mettre à jour la référence à la feuille après le rechargement
     worksheet = workbook.getWorksheet(today);

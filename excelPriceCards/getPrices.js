@@ -12,7 +12,7 @@ const fs = require('fs');
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
 
   const workbook = new ExcelJS.Workbook();
-  const xlsxFilePath = './cartes.xlsx';
+  const xlsxFilePath = './Commandes_poke.xlsx';
 
   // Vérifier si le fichier Excel existe
   if (fs.existsSync(xlsxFilePath)) {
