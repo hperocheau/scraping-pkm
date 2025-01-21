@@ -6,6 +6,8 @@ const fs = require('fs');
 const updateXlsxScriptPath = './updateXlsxWithCardsUrl.js';
 const getPricesScriptPath = './getPrices.js';
 
+console.time('script-execution'); // Start timer
+
 function executeCommand(command) {
   try {
     execSync(command, { stdio: 'inherit' });
@@ -26,7 +28,6 @@ function checkEmptyCells(worksheet) {
 }
 
 (async () => {
-  console.time('script-execution'); // Démarrer le chronomètre
 
   executeCommand(`node ${updateXlsxScriptPath}`);
 
@@ -58,4 +59,5 @@ function checkEmptyCells(worksheet) {
   console.log('Toutes les cellules de la colonne F sont remplies.');
 
   console.timeEnd('script-execution'); // Arrêter le chronomètre et afficher le temps d'exécution
+  
 })();

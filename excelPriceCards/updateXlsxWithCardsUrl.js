@@ -22,17 +22,6 @@ const currentDate = moment().format("DD_MM_YYYY");
 const sheetName = "Feuil1";
 const sheet = workbook.Sheets[sheetName];
 
-if (!sheetName) {
-    console.error('La feuille n\'existe pas dans le fichier Excel.');
-    process.exit(1);
-}
-
-// Vérifie que la feuille n'est pas vide
-if (!sheet || !sheet['!ref']) {
-    console.error('La feuille est vide dans le fichier Excel.');
-    process.exit(1);
-}
-
 // Fonction pour comparer les cellules des colonnes A, B, C et D entre deux feuilles
 function compareSheets(sheet1, sheet2) {
     const getCellValues = (sheet) => {
@@ -49,23 +38,38 @@ function compareSheets(sheet1, sheet2) {
         }
         return cellValues;
     };
-
     const sheet1Values = getCellValues(sheet1);
     const sheet2Values = getCellValues(sheet2);
-
     return _.isEqual(sheet1Values, sheet2Values);
 }
 
-// Vérifier si la feuille existe déjà
+// Fonction pour traiter la valeur de "cardNumber"
+const processCardNumber = (value) => value.replace(/^0+/, ''); // Supprimer les zéros initiaux
+
+// Fonction de recherche de similirité entre feuille Excel et BDD json
+function calculateSimilarity(str1, str2) {
+    const processedStr1 = str1 !== undefined ? processCardNumber(str1).split(' ') : [];
+    const processedStr2 = str2 !== undefined ? processCardNumber(str2).split(' ') : [];
+    const similarities = _.intersection(processedStr1, processedStr2);
+    const percentage = (similarities.length / Math.max(processedStr1.length, processedStr2.length)) * 100;
+    return percentage;
+}
+
+//Vérifie que Feuil1 existe et non vide
+if (!sheetName || !sheet || !sheet['!ref']) {
+    console.error(`La feuille ${!sheetName ? "n'existe pas" : "est vide"} dans le fichier Excel.`);
+    process.exit(1);
+}
+
+//Si feuille de sortie existe déjà et que les cellules A,B,C et D sont identiques = fichier à jour. Sinon, supprimer la feuille
 if (workbook.SheetNames.includes(currentDate)) {
     const existingSheet = workbook.Sheets[currentDate];
-
-    // Comparer les cellules A, B, C et D
+    // Comparer les cellules A, B, C et D des 2 feuilles
     if (compareSheets(existingSheet, sheet)) {
         console.log('Le fichier est déjà à jour.');
         process.exit(0);
     } else {
-        // Si elle existe, la supprimer
+        // Si elle existe mais cellules différentes, la supprimer
         const currentDateSheetIndex = workbook.SheetNames.indexOf(currentDate);
         if (currentDateSheetIndex >= 0) {
             workbook.SheetNames.splice(currentDateSheetIndex, 1);
@@ -73,19 +77,6 @@ if (workbook.SheetNames.includes(currentDate)) {
         }
     }
 }
-
-// Fonction de comparaison de similarité
-function calculateSimilarity(str1, str2) {
-    const processedStr1 = str1 !== undefined ? processCardNumber(str1).split(' ') : [];
-    const processedStr2 = str2 !== undefined ? processCardNumber(str2).split(' ') : [];
-
-    const similarities = _.intersection(processedStr1, processedStr2);
-    const percentage = (similarities.length / Math.max(processedStr1.length, processedStr2.length)) * 100;
-    return percentage;
-}
-
-// Fonction pour traiter la valeur de "cardNumber"
-const processCardNumber = (value) => value.replace(/^0+/, ''); // Supprimer les zéros initiaux
 
 // Fonction pour trouver la meilleure correspondance dans le JSON
 function findBestMatch(cellA, cellB, cellC) {
@@ -102,15 +93,11 @@ function findBestMatch(cellA, cellB, cellC) {
                     ? 100 
                     : 0 
                 : 0;
-
             const totalSimilarity = (numberSimilarity + nameSimilarity + serieSimilarity) / 3;
-
             return totalSimilarity > bestCard.similarity ? { cardUrl: card.cardUrl, similarity: totalSimilarity } : bestCard;
         }, { cardUrl: '', similarity: 0 });
-
         return cardMatch.similarity > best.similarity ? cardMatch : best;
     }, { cardUrl: '', similarity: 0 });
-
     return bestMatch.similarity > 0 ? 'https://www.cardmarket.com' + bestMatch.cardUrl : '';
 }
 
@@ -123,6 +110,7 @@ function cloneSheet(sheet) {
         }
     });
     return newSheet;
+    console.log('Nouvelle feuille créée.');
 }
 
 // Charger le fichier Excel
@@ -155,7 +143,9 @@ while (newSheet[`A${lastRow + 1}`] && newSheet[`A${lastRow + 1}`].v !== undefine
 // Mettre à jour les colonnes D et E pour les lignes restantes
 for (let row = 2; row <= lastRow; row++) {
     const cellA = newSheet[`A${row}`] ? newSheet[`A${row}`].v : ''; // Vérifier si la cellule existe
-    const cellB = newSheet[`B${row}`] ? newSheet[`B${row}`].v.split('/')[0] : ''; // Vérifier si la cellule existe
+    const cellB = newSheet[`B${row}`] && typeof newSheet[`B${row}`].v === 'string' 
+    ? newSheet[`B${row}`].v.split('/')[0] 
+    : ''; // Vérifier si la cellule existe
     const cellC = newSheet[`C${row}`] ? newSheet[`C${row}`].v : ''; // Vérifier si la cellule existe
     const cellD = newSheet[`D${row}`] ? newSheet[`D${row}`].v : ''; // Vérifier si la cellule existe
 
