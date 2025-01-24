@@ -11,10 +11,10 @@ const fs = require('fs');
 
     const url = `https://www.cardmarket.com/fr/Pokemon/Expansions`;
 
-    await page.goto(url);
+    await page.goto(url, { timeout:12000000});
 
     // Attendre un certain temps pour que le contenu soit chargé (vous pouvez ajuster ce délai si nécessaire)
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(50000);
 
     // Récupérer les données des divs "collapseX" en utilisant l'évaluation dans la page
     const dataInfo = await page.evaluate(() => {
@@ -26,8 +26,8 @@ const fs = require('fs');
         subDivs.forEach(subDiv => {
           const urlParts = subDiv.getAttribute('data-url');
           const localName = subDiv.getAttribute('data-local-name');
-          const url = `https://www.cardmarket.com${urlParts}`; // Coller l'URL ici
-          const urlCards = url.replace('Expansions', 'Products/Singles'); // Modification de l'URL ici
+          const url = `https://www.cardmarket.com${urlParts}`;
+          const urlCards = url.replace('Expansions', 'Products/Singles');
 
           // Extract the number of cards and date from the corresponding elements
           const numCardsElement = subDiv.querySelector('.col-2.text-center.d-none.d-md-block');
@@ -43,8 +43,8 @@ const fs = require('fs');
       return dataInfo;
     });
 
-    if (fs.existsSync('../data.json')) {
-      const existingData = JSON.parse(fs.readFileSync('../data.json'));
+    if (fs.existsSync('../Test.json')) {
+      const existingData = JSON.parse(fs.readFileSync('../Test.json'));
 
       // Ajouter les nouvelles données au début du tableau
       dataInfo.forEach(newItem => {
@@ -56,10 +56,10 @@ const fs = require('fs');
         }
       });
 
-      fs.writeFileSync('../data.json', JSON.stringify(existingData, null, 2));
+      fs.writeFileSync('../Test.json', JSON.stringify(existingData, null, 2));
       console.log('Fichier JSON mis à jour avec succès.');
     } else {
-      fs.writeFileSync('../data.json', JSON.stringify(dataInfo, null, 2));
+      fs.writeFileSync('../Test.json', JSON.stringify(dataInfo, null, 2));
       console.log('Fichier JSON créé avec succès.');
     }
 

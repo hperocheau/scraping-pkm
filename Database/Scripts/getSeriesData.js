@@ -92,14 +92,12 @@ const { fr } = require('date-fns/locale');
         item.bloc = bloc;
       }
 
-      // Mettre à jour le compteur d'URLs traitées
       urlsProcessed++;
 
       // Afficher l'avancement en pourcentage
       const progress = (urlsProcessed / totalUrls) * 100;
       console.log(`Progression : ${progress.toFixed(2)}%`);
 
-      // Attendre un court instant avant de passer à la prochaine URL
       await page.waitForTimeout(1500);
 
       // Écrire les données mises à jour dans le fichier JSON
