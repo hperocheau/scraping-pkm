@@ -2,7 +2,7 @@ const fs = require('fs').promises;
 
 async function getUrlsWithInsufficientCards() {
   try {
-    const jsonData = await fs.readFile('../Test.json', 'utf-8');
+    const jsonData = await fs.readFile('../data.json', 'utf-8');
     const dataArray = JSON.parse(jsonData);
 
     const urlsToScrape = [];
@@ -10,7 +10,7 @@ async function getUrlsWithInsufficientCards() {
     let totalCardsCount = 0;
     let totalDifference = 0;
 
-    // Iterate over each entry in Test.json
+    // Iterate over each entry in data.json
     for (const entry of dataArray) {
       const { localName, numCards, cards } = entry;
       const numCardsValue = parseInt(numCards);

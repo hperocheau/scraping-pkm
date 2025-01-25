@@ -1,3 +1,6 @@
+//
+//Pour chaque série du fichier json, récupère les langues, le bloc et le nombre de cartes
+//
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const { isBefore, parse } = require('date-fns');
@@ -8,15 +11,14 @@ const { fr } = require('date-fns/locale');
     // Charger le fichier JSON
     let rawData;
     let data;
-
-    if (fs.existsSync('../data.json')) {
-      rawData = fs.readFileSync('../data.json');
+    if (fs.existsSync('../Test.json')) {
+      rawData = fs.readFileSync('../Test.json');
       data = JSON.parse(rawData);
     } else {
       data = [];
     }
-
-    browser = await puppeteer.launch({
+    
+    const browser = await puppeteer.launch({
       headless: true,
       args: [
         '--disable-gpu',
@@ -31,79 +33,75 @@ const { fr } = require('date-fns/locale');
         '--window-size=1920x1080',
       ],
     });
-
+    
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-
+    
     const totalUrls = data.length;
     let urlsProcessed = 0;
-
-    // Date actuelle
-    const currentDate = new Date();
-
+    
     // Parcourir les données du JSON
     for (const item of data) {
-      const url = item.url; // Utiliser la clé "url" directement
-
-      // Skip if "numCards" is "0 cartes"
-      if (item.numCards === "0 cartes") {
-        // Set "none" for "langues" and "bloc" if not already set
-        item.langues = item.langues || "none";
-        item.bloc = item.bloc || "none";
-
+      const url = item.url;
+      
+      // Skip if all required information is already present
+      if (item.langues && item.bloc && item.numCards) {
         urlsProcessed++;
         continue;
       }
-
-      // Skip if both "langues" and "bloc" keys already exist
-      if (item.langues && item.bloc) {
-        urlsProcessed++;
-        continue;
-      }
-
+      
       let languages;
       let bloc;
-
+      let numCards;
+      
       try {
         await page.goto(url);
-
-        // Attendre un certain temps pour que le contenu soit chargé (vous pouvez ajuster ce délai si nécessaire)
         await page.waitForTimeout(1500);
-
-        // Récupérer les langues dans la balise <div class="languages">
+        
+        // Récupérer les langues
         const languageElements = await page.$$('.languages span[data-original-title]');
         languages = languageElements ? await Promise.all(languageElements.map(span => span.evaluate(el => el.getAttribute('data-original-title').trim()))) : [];
-
-        // Récupérer la valeur du premier bloc
+        
+        // Récupérer le bloc
         const blocElement = await page.$('.col-auto.col-md-12.pe-0');
         bloc = blocElement ? await blocElement.evaluate(el => el.textContent.trim()) : '';
-
+        
+        // Récupérer le nombre de cartes
+        const numCardsElement = await page.$('.col-auto.col-md-12:not(.pe-0):not(.span)');
+        numCards = numCardsElement 
+          ? await numCardsElement.evaluate(el => el.textContent.replace(/●\s*/, '').trim()) 
+          : 'Nombre de cartes non trouvé';
+        
       } catch (error) {
         console.error(`Erreur lors de la récupération des données pour l'URL ${url}: ${error}`);
-        continue; // Continue to the next iteration if there's an error
+        continue;
       }
-
-      // Mettre à jour les données seulement si "langues" et/ou "bloc" sont vides ou n'existent pas
+      
+      // Mettre à jour les données
       if (!item.langues && languages.length > 0) {
         item.langues = languages.join(', ');
       }
-
+      
       if (!item.bloc && bloc) {
         item.bloc = bloc;
       }
-
+      
+      if (!item.numCards && numCards) {
+        item.numCards = numCards;
+      }
+      
       urlsProcessed++;
-
+      
       // Afficher l'avancement en pourcentage
       const progress = (urlsProcessed / totalUrls) * 100;
       console.log(`Progression : ${progress.toFixed(2)}%`);
-
+      
       await page.waitForTimeout(1500);
-
+      
       // Écrire les données mises à jour dans le fichier JSON
-      fs.writeFileSync('../data.json', JSON.stringify(data, null, 2));
+      fs.writeFileSync('../Test.json', JSON.stringify(data, null, 2));
     }
-
+    
     await browser.close();
   } catch (error) {
     console.error('Une erreur s\'est produite : ' + error);
