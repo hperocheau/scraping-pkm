@@ -15,8 +15,8 @@ const getXValue = (cellD) => {
     }
 }
 
-const jsonData = require('./bdd.json');
-const originalFileName = './Commandes_poke.xlsx';
+const jsonData = require('../Database/data.json');
+const originalFileName = '../cartes.xlsx';
 const workbook = xlsx.readFile(originalFileName);
 const currentDate = moment().format("DD_MM_YYYY");
 const sheetName = "Feuil1";
