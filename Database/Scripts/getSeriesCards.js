@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
 let browser;
 
 async function initializeJsonFile(url) {
-  const fileName = '../Test.json';
+  const fileName = '../data.json';
 
   // Read the existing data from the file
   let existingData = [];
@@ -57,7 +57,7 @@ async function getTotalPages(url) {
 }
 
 async function updateJsonFile(url, productInfoList) {
-  const fileName = '../Test.json';
+  const fileName = '../data.json';
 
   // Read the existing data from the file
   let existingData = [];
@@ -197,11 +197,11 @@ async function main() {
       ],
     });
 
-    // Load Test.json
-    const jsonData = await fs.readFile('../Test.json', 'utf-8');
+    // Load json
+    const jsonData = await fs.readFile('../data.json', 'utf-8');
     const dataArray = JSON.parse(jsonData);
 
-    // Iterate over each entry in Test.json
+    // Iterate over each entry in json
     for (const entry of dataArray) {
       const { urlCards, numCards, cards } = entry;
 

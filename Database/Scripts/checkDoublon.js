@@ -20,7 +20,7 @@ function findDuplicatesByTwoKeys(data, keys) {
   return duplicates;
 }
 
-fs.readFile('../Test1.json', 'utf8', (err, fileContent) => {
+fs.readFile('../data.json', 'utf8', (err, fileContent) => {
   if (err) {
     console.error('Erreur lors de la lecture du fichier:', err);
     return;
