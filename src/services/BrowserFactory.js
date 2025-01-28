@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const BrowserConfiguration = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
 
 async function createBrowser() {
-    return puppeteer.launch({
+    return await puppeteer.launch({
         headless: "new",
         args: [
             "--disable-gpu",
@@ -19,14 +19,20 @@ async function createBrowser() {
     });
 }
 
-async function createPage(browser, url) {
+async function goToPage(browser, url) {
     let page = await browser.newPage();
+    page.on("console", (msg) => {
+        console.log(`>> ${msg.text()}`);
+    })
     await page.setUserAgent(BrowserConfiguration);
-    await page.goto(url, { waitUntil: "networkidle2" });
+    await page.goto(url, {
+        // waitUntil: "networkidle2",
+        timeout: 12000000
+    });
     return page;
 }
 
 module.exports = {
-    createPage,
+    goToPage,
     createBrowser
 }
