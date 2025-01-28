@@ -5,21 +5,25 @@ console.log("Start scrapping CardMarket");
 
 const browser = await BrowserFactory.createBrowser();
 console.log("Create Browser instance");
-const extensionList = await SeriesScrapper.findExtensionList(browser);
-// const extensionList = [
-//     {
-//         "name": "Évolutions Prismatiques",
-//         "extension_group_name": "Écarlate et Violet",
-//         "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Prismatic-Evolutions",
-//         "cards_url": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Prismatic-Evolutions",
-//         "number_of_cards": "180",
-//         "published_date": "17/01/2025"
-//     }
-// ];
+// const extensionList = await SeriesScrapper.findExtensionList(browser);
+const extensionList = [
+    {
+        "name": "Évolutions Prismatiques",
+        "extension_group_name": "Écarlate et Violet",
+        "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Prismatic-Evolutions",
+        "cards_url": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Prismatic-Evolutions",
+        "number_of_cards": "180",
+        "published_date": "17/01/2025"
+    }
+];
 
 for(let extension of extensionList) {
-    console.log(extension);
+    extension = await SeriesScrapper.findExtensionData(browser, extension);
 }
+
+console.log("======= DONE =======");
+console.log(extensionList);
+console.log("====================")
 
 browser.close();
 

@@ -17,9 +17,22 @@ function findExtensionList(browser) {
 }
 
 async function findExtensionData(browser, extension) {
-
+    return BrowserFactory.goToPage(browser, extension.url)
+    .then(async (page) => {
+        const languages = await page.evaluate( () => {
+            let languages = [];
+            for(let item of document.querySelector(".languages").children) {
+                languages.push(item.getAttribute("data-original-title"))
+            }
+            console.log(`langauges found ${languages}`);
+            return languages;
+        })
+        extension.languages = languages
+        return extension;
+    })
 }
 
 export default {
-    findExtensionList
+    findExtensionList,
+    findExtensionData
 }
