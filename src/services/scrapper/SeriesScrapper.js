@@ -3,11 +3,10 @@ import SeriesParser from "../parser/SeriesParser.js";
 const cardMarketExtensionListURL = "https://www.cardmarket.com/fr/Pokemon/Expansions?order=era";
 
 /**
- * 
  * Récupère toutes les séries et leurs informations (nom, nombre de cartes ...)
  * URL: https://www.cardmarket.com/fr/Pokemon/Expansions?order=era
  * 
- * @returns List des extensions parsées
+ * @returns Promise de la liste des extensions parsées
 */
 function findExtensionList(browser) {
     return BrowserFactory.goToPage(browser, cardMarketExtensionListURL)
@@ -16,7 +15,14 @@ function findExtensionList(browser) {
     });
 }
 
-async function findExtensionData(browser, extension) {
+/**
+ * Récupère des informations supplémentaires sur l'extension (langues)
+ * 
+ * @param browser
+ * @param extension
+ * @returns Promise de la liste des langues du set
+ */
+function findExtensionData(browser, extension) {
     return BrowserFactory.goToPage(browser, extension.url)
     .then(async (page) => {
         const languages = await page.evaluate( () => {
@@ -24,11 +30,9 @@ async function findExtensionData(browser, extension) {
             for(let item of document.querySelector(".languages").children) {
                 languages.push(item.getAttribute("data-original-title"))
             }
-            console.log(`langauges found ${languages}`);
             return languages;
         })
-        extension.languages = languages
-        return extension;
+        extension.languages = languages;
     })
 }
 

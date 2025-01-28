@@ -31,6 +31,7 @@ async function createBrowser() {
  * @returns Une nouvelle instance de page
  */
 async function goToPage(browser, url) {
+    console.log(`[goToPage]: ${url}`);
     let page = await browser.newPage();
     page.on("console", (msg) => {
         console.log(`>> ${msg.text()}`);

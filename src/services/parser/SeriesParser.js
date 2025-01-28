@@ -1,8 +1,7 @@
 /**
+ * Parse la page des extensions
  * 
- * Parse la page des extensions et retourne un objet formaté
- * 
- * @param page Pupeeter instance de la page avec la liste des extensions
+ * @param page instance de la page avec la liste des extensions
  * @returns Liste d'extensions
  */
 async function parseExtensionPageList(page) {
