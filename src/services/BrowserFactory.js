@@ -1,8 +1,12 @@
-const puppeteer = require("puppeteer");
+import { launch } from "puppeteer";
 const BrowserConfiguration = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
 
+/**
+ * Créer une instance du navigateur
+ * @returns Une instance navigateur
+ */
 async function createBrowser() {
-    return await puppeteer.launch({
+    return await launch({
         headless: "new",
         args: [
             "--disable-gpu",
@@ -19,6 +23,13 @@ async function createBrowser() {
     });
 }
 
+/**
+ * Utilise une instance de navigateur pour se rendre sur l'url d'une page donnée
+ * 
+ * @param browser Instance du navigateur à utiliser
+ * @param url Url sur lequel se rendre
+ * @returns Une nouvelle instance de page
+ */
 async function goToPage(browser, url) {
     let page = await browser.newPage();
     page.on("console", (msg) => {
@@ -32,7 +43,7 @@ async function goToPage(browser, url) {
     return page;
 }
 
-module.exports = {
+export default {
     goToPage,
     createBrowser
 }

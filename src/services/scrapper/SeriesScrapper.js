@@ -1,5 +1,5 @@
-const { createBrowser, goToPage } = require("../BrowserFactory");
-const { parseExtensionPageList } = require("../parser/SeriesParser");
+import BrowserFactory from "../BrowserFactory.js";
+import SeriesParser from "../parser/SeriesParser.js";
 const cardMarketExtensionListURL = "https://www.cardmarket.com/fr/Pokemon/Expansions?order=era";
 
 /**
@@ -9,17 +9,17 @@ const cardMarketExtensionListURL = "https://www.cardmarket.com/fr/Pokemon/Expans
  * 
  * @returns List des extensions parsées
 */
-async function findExtensionList() {
-    const browser = await createBrowser();
-
-    const extensions = await goToPage(browser, cardMarketExtensionListURL)
+function findExtensionList(browser) {
+    return BrowserFactory.goToPage(browser, cardMarketExtensionListURL)
     .then((page) => {
-        return parseExtensionPageList(page);
-    })
-    browser.close();
-    console.log(extensions.length);
+        return SeriesParser.parseExtensionPageList(page);
+    });
 }
 
-module.exports = {
+async function findExtensionData(browser, extension) {
+
+}
+
+export default {
     findExtensionList
 }

@@ -26,6 +26,6 @@ async function parseExtensionPageList(page) {
     });
 }
 
-module.exports = {
+export default {
     parseExtensionPageList
 }
