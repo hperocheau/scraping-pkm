@@ -4,7 +4,7 @@ const numberOfCardPerPage = 20;
 
 async function findExensionCardList(browser, extension) {
     if(extension.number_of_cards <= 0) return;
-    let cardList = [];
+    let cardList = new Map();
     let numberOfPage = Math.ceil(extension.number_of_cards / numberOfCardPerPage);
 
     try {
@@ -20,28 +20,19 @@ async function findExensionCardList(browser, extension) {
                 return SeriesCardParser.parseCardPageList(page);
             });
             if(Array.isArray(currentPageCardList)) {
-                console.log(`Found '${currentPageCardList.length}' card on page ${currentPage}/${numberOfPage}`);
-                if(cardList.length + currentPageCardList.length > extension.number_of_cards) {
-                    cardListExistingUrl = cardList.map( item => item.url );
-                    currentPageCardList.filter( (item) => {
-                        !cardListExistingUrl.includes(item.url);
-                    });
-                }
-                cardList = [...cardList, ...currentPageCardList];
-                if(currentPage >= 15) {
-                    if(cardList.length >= extension.number_of_cards) {
-                        throw new Error("Done scrapping");
-                    }
+                for(let cardItem of currentPageCardList) {
+                    cardList.set(cardItem.url, cardItem);
                 }
             } else {
                 console.warn("ERROR => currentPageCardList is not an array");
             }
+            console.log(`i> Still searching card... (${cardList.size}/${extension.number_of_cards} found)`)
         }
     } catch (error) {
         console.log(`Error: '${error.message}'`);
     }
-    console.log(`= ${cardList.length}/${extension.number_of_cards} found`);
-    extension.card_list = cardList;
+    console.log(`e> ${cardList.size}/${extension.number_of_cards} found`);
+    extension.card_list = cardList.values().toArray();
 }
 
 async function scrappAscendingCardList(browser, card_url, index) {
