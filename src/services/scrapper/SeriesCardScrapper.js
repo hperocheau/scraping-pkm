@@ -36,11 +36,11 @@ async function findExensionCardList(browser, extension) {
 }
 
 async function scrappAscendingCardList(browser, card_url, index) {
-    return BrowserFactory.goToPage(browser, `${card_url}?site=${index}&sortBy=collectorsnumber_asc`);
+    return BrowserFactory.goToPageWithRandomSleep(browser, `${card_url}?site=${index}&sortBy=collectorsnumber_asc`);
 }
 
 async function scrappDescendingCardList(browser, card_url, index) {
-    return BrowserFactory.goToPage(browser, `${card_url}?site=${index}&sortBy=collectorsnumber_desc`);
+    return BrowserFactory.goToPageWithRandomSleep(browser, `${card_url}?site=${index}&sortBy=collectorsnumber_desc`);
 }
 
 export default {

@@ -1,4 +1,5 @@
 import { launch } from "puppeteer";
+import Tools from "./Tools.js";
 const BrowserConfiguration = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
 
 /**
@@ -31,7 +32,7 @@ async function createBrowser() {
  * @returns Une nouvelle instance de page
  */
 async function goToPage(browser, url) {
-    console.log(`[goToPage]: ${url}`);
+    console.log(`:> ${url}`);
     let page = await browser.newPage();
     page.on("console", (msg) => {
         if(msg.text()?.includes("9p2vKq")) return;
@@ -45,7 +46,13 @@ async function goToPage(browser, url) {
     return page;
 }
 
+async function goToPageWithRandomSleep(browser, url) {
+    await Tools.sleepRandom(5000);
+    return goToPage(browser, url);
+}
+
 export default {
     goToPage,
+    goToPageWithRandomSleep,
     createBrowser
 }
