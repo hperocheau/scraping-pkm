@@ -34,6 +34,7 @@ async function goToPage(browser, url) {
     console.log(`[goToPage]: ${url}`);
     let page = await browser.newPage();
     page.on("console", (msg) => {
+        if(msg.text()?.includes("9p2vKq")) return;
         console.log(`>> ${msg.text()}`);
     })
     await page.setUserAgent(BrowserConfiguration);

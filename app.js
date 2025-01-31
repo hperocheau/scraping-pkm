@@ -17,21 +17,21 @@ const extensionList = [
     //     "published_date": "17/01/2025"
     // },
     {
-        "name": "Pokémon Products",
-        "extension_group_name": "Écarlate et Violet",
-        "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Pokemon-Products",
-        "cards_url": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Pokemon-Products",
-        "number_of_cards": "446",
-        "published_date": "01/01/1999"
+        "name": "Shiny Treasure ex",
+        "extension_group_name": "Écarlate et Violet JP",
+        "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Shiny-Treasure-ex",
+        "cards_url": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shiny-Treasure-ex",
+        "number_of_cards": "360",
+        "published_date": "01/12/2023"
     }
 ];
 
 for(let extension of extensionList) {
     await SeriesScrapper.findExtensionData(browser, extension);
     await SeriesCardScrapper.findExensionCardList(browser, extension);
-    for(let card of extension.card_list) {
-        console.log(card);
-    }
+    // for(let card of extension.card_list) {
+    //     console.log(card);
+    // }
 }
 
 console.log("======= DONE =======");
