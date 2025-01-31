@@ -16,7 +16,7 @@ function findDuplicatesByTwoKeys(data, keys) {
   return duplicates;
 }
 
-fs.readFile('../Test.json', 'utf8', (err, fileContent) => {
+fs.readFile('../data.json', 'utf8', (err, fileContent) => {
   if (err) {
     console.error('Erreur lors de la lecture du fichier:', err);
     return;
@@ -57,7 +57,7 @@ fs.readFile('../Test.json', 'utf8', (err, fileContent) => {
     });
 
     // Écrire les données mises à jour dans le fichier JSON
-    fs.writeFile('../Test.json', JSON.stringify(data, null, 2), 'utf8', writeErr => {
+    fs.writeFile('../data.json', JSON.stringify(data, null, 2), 'utf8', writeErr => {
       if (writeErr) {
         console.error('Erreur lors de l\'écriture du fichier:', writeErr);
         return;

@@ -1,187 +1,20 @@
 const fs = require('fs').promises;
 const puppeteer = require('puppeteer');
+const path = require('path');
 
-let browser;
-
-async function initializeJsonFile(url) {
-  const fileName = '../data.json';
-
-  // Read the existing data from the file
-  let existingData = [];
-  try {
-    const rawData = await fs.readFile(fileName, 'utf-8');
-    existingData = JSON.parse(rawData);
-  } catch (error) {
-    // File doesn't exist or is empty
+class CardScraper {
+  constructor(jsonFilePath) {
+    this.jsonFilePath = jsonFilePath;
+    this.browser = null;
+    this.concurrentPages = 3; // Nombre de pages à traiter en parallèle
+    this.retryAttempts = 3; // Nombre de tentatives en cas d'échec
+    this.retryDelay = 3000; // Délai entre les tentatives en ms
+    this.pageGroupDelay = 2000; // Délai entre les groupes de pages
+    this.requestDelay = 750;   // Délai entre les requêtes individuelles
   }
 
-  // Find the entry in existingData that matches the current URL
-  const existingEntry = existingData.find((entry) => entry.urlCards === url);
-
-  if (existingEntry) {
-    // Check if the "cards" key exists and is an array
-    if (!existingEntry.cards || !Array.isArray(existingEntry.cards)) {
-      existingEntry.cards = []; // Create the "cards" key as an empty array if it doesn't exist or is not an array
-    }
-  } else {
-    console.error(`Entry not found for URL: ${url}`);
-  }
-
-  // Write the updated data back to the file
-  await fs.writeFile(fileName, JSON.stringify(existingData, null, 2), 'utf-8');
-}
-
-async function getTotalPages(url) {
-  const page = await browser.newPage();
-  await page.setUserAgent(
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-  );
-  await initializeJsonFile(url); // Initialize the "cards" key at the beginning
-  try {
-    await page.goto(url, { waitUntil: 'networkidle2' });
-    const pageCountElement = await page.$('.mx-1');
-    const pageCountText = pageCountElement ? await pageCountElement.evaluate(span => span.textContent.trim()) : 'Nombre de pages non trouvé';
-    const pageCountMatches = pageCountText.match(/(\d+\s*\+*)$/);
-    const totalPages = pageCountMatches ? parseInt(pageCountMatches[1].replace('+', '')) : 1;
-    const hasPlusSymbol = pageCountText.includes('+');
-
-    console.log('Nombre de pages :', totalPages);
-
-    return { totalPages, hasPlusSymbol };
-  } catch (error) {
-    console.error(`Failed to fetch data from ${url}. Error: ${error.message}`);
-    return { totalPages: null, hasPlusSymbol: null };
-  } finally {
-    await page.close();
-  }
-}
-
-async function updateJsonFile(url, productInfoList) {
-  const fileName = '../data.json';
-
-  // Read the existing data from the file
-  let existingData = [];
-  try {
-    const rawData = await fs.readFile(fileName, 'utf-8');
-    existingData = JSON.parse(rawData);
-  } catch (error) {
-    // File doesn't exist or is empty
-  }
-
-  // Find the entry in existingData that matches the current URL
-  const existingEntry = existingData.find((entry) => entry.urlCards === url);
-
-  if (existingEntry) {
-    // Check if the "cards" key exists and is an array
-    if (!existingEntry.cards || !Array.isArray(existingEntry.cards)) {
-      existingEntry.cards = []; // Create the "cards" key as an empty array if it doesn't exist or is not an array
-    }
-
-    // Merge the new productInfoList with existing data, removing duplicates based on cardUrl
-    const uniqueProductInfoList = Array.from(new Set(existingEntry.cards.concat(productInfoList).map(card => card.cardUrl)))
-      .map(cardUrl => existingEntry.cards.concat(productInfoList).find(card => card.cardUrl === cardUrl));
-
-    // Sort cards by cardNumber in ascending order
-    const sortedProductInfoList = uniqueProductInfoList.sort((a, b) => parseInt(a.cardNumber) - parseInt(b.cardNumber));
-
-    // Update the "cards" key with the sorted productInfoList
-    existingEntry.cards = sortedProductInfoList;
-  } else {
-    console.error(`Entry not found for URL: ${url}`);
-  }
-
-  // Write the updated data back to the file
-  await fs.writeFile(fileName, JSON.stringify(existingData, null, 2), 'utf-8');
-  console.log(`Les informations ont été enregistrées dans le fichier ${fileName}`);
-}
-
-async function scrapePages(baseUrl, totalPages, lastCardProductRowId) {
-  const page = await browser.newPage();
-  await page.setUserAgent(
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-  );
-
-  let productInfoList = [];
-  let lastCardFound = false;
-
-  for (let currentPage = 1; currentPage <= totalPages && !lastCardFound; currentPage++) {
-    console.log(`Traitement de la page ${currentPage}`);
-
-    await page.goto(`${baseUrl}${currentPage}`, { waitUntil: 'networkidle2' });
-
-    // Introduce a delay of 2 seconds between page changes (adjust as needed)
-    await page.waitForTimeout(3000);
-
-    // Récupérer les données des divs "productRow" en utilisant l'évaluation dans la page
-    const currentPageProductInfoList = await page.evaluate(() => {
-      const productInfoList = [];
-      const productRows = document.querySelectorAll('[id^="productRow"]');
-
-      productRows.forEach(productRow => {
-        const cardUrl = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a')?.getAttribute('href');
-        const cardNameElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
-        const cardNameText = cardNameElement?.textContent.trim();
-        const cardNameMatches = cardNameText?.match(/^(.*?)\s*\(([^)]+)\)/);
-        const cardName = cardNameMatches ? cardNameMatches[1].trim() : cardNameText;
-        const cardEngnameElement = productRow.querySelector('.d-block.small.text-muted.fst-italic');
-        const cardEngname = cardEngnameElement?.textContent.trim();
-        const cardNumberElement = productRow.querySelector('.col-md-2.d-none.d-lg-flex.has-content-centered');
-        const cardNumber = cardNumberElement?.textContent.trim();
-        const cardSerieElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
-        const cardSerieText = cardSerieElement?.textContent.trim();
-        const cardSerieMatches = cardSerieText?.match(/\(([^)]+)\)/);
-        const cardSerie = cardSerieMatches ? cardSerieMatches[1].split(' ')[0].trim() : '';
-        const cardRarityElement = productRow.querySelector('.d-none.d-md-flex span[data-original-title]');
-        let cardRarity;
-        try {
-          cardRarity = cardRarityElement?.getAttribute('data-original-title');
-        } catch (error) {
-          console.log('Élément ".d-none.d-md-flex.span[data-original-title]" non trouvé');
-          return;
-        }
-        const productInfo = {
-          cardUrl,
-          cardName,
-          cardEngname,
-          cardNumber,
-          cardSerie,
-          cardRarity,
-          productRowId: productRow.id, // Include productRow ID in the result
-        };
-        productInfoList.push(productInfo);
-      });
-
-      return productInfoList;
-    });
-
-    // Check if the last card's productRow ID is found on the current page
-    lastCardFound = currentPageProductInfoList.some(productInfo => productInfo.productRowId === lastCardProductRowId);
-
-    // Print the last productRow ID after processing each page
-    const lastProductRowId = currentPageProductInfoList[currentPageProductInfoList.length - 1]?.productRowId;
-    console.log(`Last productRow ID on page ${currentPage}: ${lastProductRowId}`);
-
-    // Inside the scrapePages function, after the lastCardFound check
-    if (currentPageProductInfoList.length > 0) {
-      productInfoList.push(...currentPageProductInfoList);
-
-      // Update the "cards" key in the JSON file
-      await updateJsonFile(baseUrl, currentPageProductInfoList);
-    } else {
-      console.log('Aucune information de carte récupérée.');
-    }
-  }
-
-  await page.close();
-
-  return productInfoList;
-}
-
-async function main() {
-  const start_time = Date.now();
-
-  try {
-    browser = await puppeteer.launch({
+  async initialize() {
+    this.browser = await puppeteer.launch({
       headless: true,
       args: [
         '--disable-gpu',
@@ -196,56 +29,245 @@ async function main() {
         '--window-size=1920x1080',
       ],
     });
+  }
 
-    // Load json
-    const jsonData = await fs.readFile('../data.json', 'utf-8');
-    const dataArray = JSON.parse(jsonData);
-
-    // Iterate over each entry in json
-    for (const entry of dataArray) {
-      const { urlCards, numCards, cards } = entry;
-
-      // Check if the number of "cards" elements matches the specified number
-      if (cards?.length === parseInt(numCards)) {
-        console.log(`Skipping ${urlCards} as the number of cards matches: ${numCards}`);
-        continue; // Move on to the next URL
-      }
-
-      // Fetch data for the current URL
-      const baseUrlDesc = `${urlCards}?sortBy=collectorsnumber_desc&site=`;
-      const baseUrlAsc = `${urlCards}?sortBy=collectorsnumber_asc&site=`;
-
-      const { totalPages, hasPlusSymbol } = await getTotalPages(baseUrlDesc);
-
-      if (totalPages !== null) {
-        if (hasPlusSymbol) {
-          const descProductInfoList = await scrapePages(baseUrlDesc, totalPages);
-          const lastCardProductRowId = descProductInfoList[descProductInfoList.length - 1]?.productRowId;
-          const ascProductInfoList = await scrapePages(baseUrlAsc, totalPages, lastCardProductRowId);
-          const productInfoList = descProductInfoList.concat(ascProductInfoList);
-
-          await updateJsonFile(urlCards, productInfoList);
-        } else {
-          const productInfoList = await scrapePages(baseUrlDesc, totalPages);
-          await updateJsonFile(urlCards, productInfoList);
-        }
-      }
-      // Add a delay of 5 seconds after processing each URL
-      const delayInSeconds = 5;
-      console.log(`Waiting for ${delayInSeconds} seconds before processing the next URL...`);
-      await new Promise(resolve => setTimeout(resolve, delayInSeconds * 1000));
-    
+  async readJsonFile() {
+    try {
+      const rawData = await fs.readFile(this.jsonFilePath, 'utf-8');
+      return JSON.parse(rawData);
+    } catch (error) {
+      console.error(`Erreur de lecture du fichier JSON: ${error.message}`);
+      return [];
     }
-  } catch (error) {
-    console.error('Une erreur s\'est produite : ' + error);
-  } finally {
-    const end_time = Date.now();
-    const execution_time = (end_time - start_time) / 1000;
-    console.log(`Durée totale d'exécution : ${execution_time.toFixed(2)} secondes`);
-    if (browser) {
-      await browser.close();
+  }
+
+  async writeJsonFile(data) {
+    try {
+      await fs.writeFile(this.jsonFilePath, JSON.stringify(data, null, 2), 'utf-8');
+    } catch (error) {
+      console.error(`Erreur d'écriture du fichier JSON: ${error.message}`);
+    }
+  }
+
+  async createPage() {
+    const page = await this.browser.newPage();
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    );
+    await page.setRequestInterception(true);
+    
+    // Optimisation : bloquer les ressources non nécessaires
+    page.on('request', (request) => {
+      const resourceType = request.resourceType();
+      if (['image', 'stylesheet', 'font', 'media'].includes(resourceType)) {
+        request.abort();
+      } else {
+        request.continue();
+      }
+    });
+
+    return page;
+  }
+
+  async retry(fn, retryCount = 0) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (retryCount < this.retryAttempts) {
+        console.log(`Tentative échouée, nouvelle tentative dans ${this.retryDelay/1000}s...`);
+        await new Promise(resolve => setTimeout(resolve, this.retryDelay));
+        return this.retry(fn, retryCount + 1);
+      }
+      throw error;
+    }
+  }
+
+  async getTotalPages(url) {
+    const page = await this.createPage();
+    try {
+      await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+      const pageCountElement = await page.$('.mx-1');
+      const pageCountText = pageCountElement 
+        ? await pageCountElement.evaluate(span => span.textContent.trim()) 
+        : '1';
+      
+      const pageCountMatches = pageCountText.match(/(\d+\s*\+*)$/);
+      const totalPages = pageCountMatches ? parseInt(pageCountMatches[1].replace('+', '')) : 1;
+      const hasPlusSymbol = pageCountText.includes('+');
+
+      return { totalPages, hasPlusSymbol };
+    } finally {
+      await page.close();
+    }
+  }
+
+  async scrapePage(url, page) {
+    await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+    // Ajout d'un petit délai aléatoire pour rendre le comportement plus humain
+    await page.waitForTimeout(Math.random() * 1000 + 500);
+
+    return page.evaluate(() => {
+      return Array.from(document.querySelectorAll('[id^="productRow"]')).map(productRow => {
+        const cardUrl = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a')?.href;
+        const cardNameElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
+        const cardNameText = cardNameElement?.textContent.trim();
+
+        // Extraction de toutes les parenthèses
+        const parenthesesMatches = cardNameText?.match(/\(([^)]+)\)/g);
+        const lastParenthesis = parenthesesMatches 
+        ? parenthesesMatches[parenthesesMatches.length - 1].replace(/[()]/g, '') 
+        : '';
+
+      // Séparation de la série et du numéro
+      const serieNumberMatch = lastParenthesis.match(/^(\w+)(?:\s+(\d+))?$/);
+
+        //const cardNameMatches = cardNameText?.match(/^(.*?)\s*\(([^)]+)\)/);
+        //const cardName = cardNameMatches ? cardNameMatches[1].trim() : cardNameText;
+        
+        return {
+          cardUrl: cardNameElement?.href,
+          cardName: cardNameText?.replace(/\s*\([^)]*\)\s*$/g, '').trim(), // Supprimer la dernière parenthèse
+          cardEngname: productRow.querySelector('.d-block.small.text-muted.fst-italic')?.textContent.trim(),
+          cardNumber: serieNumberMatch?.[2] || '', // Numéro de carte
+          cardSerie: serieNumberMatch?.[1] || lastParenthesis, // Série ou toute la valeur si pas de numéro
+          cardRarity: productRow.querySelector('.d-none.d-md-flex span[data-original-title]')?.getAttribute('data-original-title'),
+          productRowId: productRow.id
+        };
+      });
+    });
+  }
+
+  async scrapePages(baseUrl, totalPages, lastCardProductRowId = null) {
+    const pages = new Array(Math.min(totalPages, this.concurrentPages))
+      .fill(null)
+      .map(() => this.createPage());
+    const initializedPages = await Promise.all(pages);
+    const productInfoList = [];
+
+    for (let i = 1; i <= totalPages; i += this.concurrentPages) {
+      const pagePromises = initializedPages.map(async (page, index) => {
+        const currentPage = i + index;
+        if (currentPage > totalPages) return null;
+
+        // Ajout d'un délai entre les requêtes individuelles
+        await new Promise(resolve => setTimeout(resolve, this.requestDelay * index));
+
+        const url = `${baseUrl}${currentPage}`;
+        console.log(`Traitement de la page ${currentPage}/${totalPages}`);
+        
+        return this.retry(async () => {
+          const pageData = await this.scrapePage(url, page);
+          if (lastCardProductRowId && pageData.some(info => info.productRowId === lastCardProductRowId)) {
+            return { pageData, stopScraping: true };
+          }
+          return { pageData, stopScraping: false };
+        });
+      });
+
+      const results = await Promise.all(pagePromises);
+      let shouldStop = false;
+
+      results.forEach(result => {
+        if (result && result.pageData) {
+          productInfoList.push(...result.pageData);
+          if (result.stopScraping) shouldStop = true;
+        }
+      });
+
+      if (shouldStop) break;
+
+      // Ajout d'un délai entre les groupes de pages
+      if (i + this.concurrentPages <= totalPages) {
+        console.log(`Pause de ${this.pageGroupDelay/1000} secondes entre les groupes de pages...`);
+        await new Promise(resolve => setTimeout(resolve, this.pageGroupDelay));
+      }
+    }
+
+    await Promise.all(initializedPages.map(page => page.close()));
+    return productInfoList;
+  }
+
+  async updateJsonFile(url, productInfoList) {
+    const existingData = await this.readJsonFile();
+    const existingEntry = existingData.find((entry) => entry.urlCards === url);
+
+    if (existingEntry) {
+      if (!Array.isArray(existingEntry.cards)) {
+        existingEntry.cards = [];
+      }
+
+      const uniqueProductInfoList = Array.from(
+        new Map(
+          [...existingEntry.cards, ...productInfoList]
+            .map(card => [card.cardUrl, card])
+        ).values()
+      ).sort((a, b) => parseInt(a.cardNumber) - parseInt(b.cardNumber));
+
+      existingEntry.cards = uniqueProductInfoList;
+    }
+
+    await this.writeJsonFile(existingData);
+  }
+
+  async processUrl(entry) {
+    const { urlCards, numCards, cards } = entry;
+
+        // Vérification rapide pour numCards = 0
+    if (numCards === "0" || numCards === 0) {
+      console.log(`${urlCards}: pas de cartes à traiter (numCards = 0)`);
+      return;
+    }
+
+    if (cards?.length === parseInt(numCards)) {
+      console.log(`${urlCards}: nombre de cartes correspond (${numCards})`);
+      return;
+    }
+
+    console.log(`Traitement de ${urlCards} (${cards?.length || 0}/${numCards} cartes)`);
+
+    const baseUrlDesc = `${urlCards}?sortBy=collectorsnumber_desc&site=`;
+    const { totalPages, hasPlusSymbol } = await this.getTotalPages(baseUrlDesc);
+
+    if (totalPages === null) return;
+
+    if (hasPlusSymbol) {
+      const baseUrlAsc = `${urlCards}?sortBy=collectorsnumber_asc&site=`;
+      const descProducts = await this.scrapePages(baseUrlDesc, totalPages);
+      const lastCardId = descProducts[descProducts.length - 1]?.productRowId;
+      const ascProducts = await this.scrapePages(baseUrlAsc, totalPages, lastCardId);
+      await this.updateJsonFile(urlCards, [...descProducts, ...ascProducts]);
+    } else {
+      const products = await this.scrapePages(baseUrlDesc, totalPages);
+      await this.updateJsonFile(urlCards, products);
+    }
+  }
+
+  async run() {
+    const startTime = Date.now();
+    try {
+      await this.initialize();
+      const dataArray = await this.readJsonFile();
+
+      for (const entry of dataArray) {
+        await this.processUrl(entry);
+        // Ajout d'un délai uniquement si l'entrée a été réellement traitée
+        if (entry.numCards !== "0" && entry.numCards !== 0 && 
+          (!entry.cards || entry.cards.length !== parseInt(entry.numCards))) {
+        console.log("Attente de 5 secondes avant le prochain traitement...");
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+    }
+    } catch (error) {
+      console.error('Erreur lors de l\'exécution:', error);
+    } finally {
+      if (this.browser) {
+        await this.browser.close();
+      }
+      const executionTime = (Date.now() - startTime) / 1000;
+      console.log(`Exécution terminée en ${executionTime.toFixed(2)} secondes`);
     }
   }
 }
 
-main();
+const scraper = new CardScraper(path.join(__dirname, '../Test1.json'));
+scraper.run();
