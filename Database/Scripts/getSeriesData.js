@@ -4,6 +4,7 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
+const browser = require('../../src/BrowserFactory');
 
 (async () => {
   try {
@@ -19,27 +20,7 @@ const path = require('path');
       return;
     }
 
-    // Lancer Puppeteer
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: [
-        '--disable-gpu',
-        '--no-sandbox',
-        '--disable-dev-shm-usage',
-        '--ignore-certificate-errors',
-        '--disable-extensions',
-        '--disable-infobars',
-        '--disable-notifications',
-        '--disable-popup-blocking',
-        '--disable-logging',
-        '--window-size=1920x1080',
-      ],
-    });
-
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-    await page.setViewport({ width: 1920, height: 1080 });
-
+    const page = await browser.createPage();
     const totalUrls = itemsToUpdate.length;
     let urlsProcessed = 0;
 
@@ -72,7 +53,7 @@ const path = require('path');
     // Écriture optimisée : une seule sauvegarde à la fin
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 
-    await browser.close();
+    await browser.closeBrowser();
     console.log("Mise à jour terminée.");
   } catch (error) {
     console.error("Une erreur s'est produite : ", error);

@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const puppeteer = require('puppeteer');
 const path = require('path');
+const browser = require('../../src/BrowserFactory');
 
 class CardScraper {
   constructor(jsonFilePath) {
@@ -14,21 +15,8 @@ class CardScraper {
   }
 
   async initialize() {
-    this.browser = await puppeteer.launch({
-      headless: true,
-      args: [
-        '--disable-gpu',
-        '--no-sandbox',
-        '--disable-dev-shm-usage',
-        '--ignore-certificate-errors',
-        '--disable-extensions',
-        '--disable-infobars',
-        '--disable-notifications',
-        '--disable-popup-blocking',
-        '--disable-logging',
-        '--window-size=1920x1080',
-      ],
-    });
+    // Initialiser le browserFactory au lieu de puppeteer directement
+    this.browser = await browser.getBrowser();
   }
 
   async readJsonFile() {
@@ -50,10 +38,8 @@ class CardScraper {
   }
 
   async createPage() {
-    const page = await this.browser.newPage();
-    await page.setUserAgent(
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-    );
+
+    const page = await browser.createPage();
     await page.setRequestInterception(true);
     
     // Optimisation : bloquer les ressources non nécessaires
@@ -250,13 +236,12 @@ class CardScraper {
 
       for (const entry of dataArray) {
         await this.processUrl(entry);
-        // Ajout d'un délai uniquement si l'entrée a été réellement traitée
         if (entry.numCards !== "0" && entry.numCards !== 0 && 
           (!entry.cards || entry.cards.length !== parseInt(entry.numCards))) {
-        console.log("Attente de 5 secondes avant le prochain traitement...");
-        await new Promise(resolve => setTimeout(resolve, 5000));
+          console.log("Attente de 5 secondes avant le prochain traitement...");
+          await new Promise(resolve => setTimeout(resolve, 5000));
+        }
       }
-    }
     } catch (error) {
       console.error('Erreur lors de l\'exécution:', error);
     } finally {
