@@ -1,32 +1,58 @@
-const puppeteer = require("puppeteer");
-const BrowserConfiguration = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
+const puppeteer = require('puppeteer');
 
-async function createBrowser() {
-    return puppeteer.launch({
-        headless: "new",
+class BrowserFactory {
+  constructor() {
+    this.browser = null;
+  }
+
+  /**
+   * Obtient l'instance unique du navigateur ou en crée une nouvelle
+   * @returns {Promise<Browser>} Instance du navigateur
+   */
+  async getBrowser() {
+    if (!this.browser) {
+      this.browser = await puppeteer.launch({
+        headless: true,
         args: [
-            "--disable-gpu",
-            "--no-sandbox",
-            "--disable-dev-shm-usage",
-            "--ignore-certificate-errors",
-            "--disable-extensions",
-            "--disable-infobars",
-            "--disable-notifications",
-            "--disable-popup-blocking",
-            "--disable-logging",
-            "--window-size=1920x1080",
+          '--disable-gpu',
+          '--no-sandbox',
+          '--disable-dev-shm-usage',
+          '--ignore-certificate-errors',
+          '--disable-extensions',
+          '--disable-infobars',
+          '--disable-notifications',
+          '--disable-popup-blocking',
+          '--disable-logging',
+          '--window-size=1920x1080',
         ],
-    });
-}
+      });
+    }
+    return this.browser;
+  }
 
-async function createPage(browser, url) {
-    let page = await browser.newPage();
-    await page.setUserAgent(BrowserConfiguration);
-    await page.goto(url, { waitUntil: "networkidle2" });
+  /**
+   * Crée une nouvelle page avec la configuration standard
+   * @returns {Promise<Page>} Instance de la page configurée
+   */
+  async createPage() {
+    const browser = await this.getBrowser();
+    const page = await browser.newPage();
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    );
     return page;
+  }
+
+  /**
+   * Ferme proprement le navigateur
+   */
+  async closeBrowser() {
+    if (this.browser) {
+      await this.browser.close();
+      this.browser = null;
+    }
+  }
 }
 
-module.exports = {
-    createPage,
-    createBrowser
-}
+// Export d'une instance unique
+module.exports = new BrowserFactory();
