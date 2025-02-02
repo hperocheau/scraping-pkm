@@ -98,7 +98,7 @@ function findBestMatch(cellA, cellB, cellC) {
         }, { cardUrl: '', similarity: 0 });
         return cardMatch.similarity > best.similarity ? cardMatch : best;
     }, { cardUrl: '', similarity: 0 });
-    return bestMatch.similarity > 0 ? 'https://www.cardmarket.com' + bestMatch.cardUrl : '';
+    return bestMatch.similarity > 0 ? bestMatch.cardUrl : '';
 }
 
 // Fonction pour cloner correctement une feuille

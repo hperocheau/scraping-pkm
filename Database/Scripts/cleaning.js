@@ -144,18 +144,96 @@ class CardCleaner {
       throw error;
     }
   }
+
+  /**
+   * Trouve la série la plus commune dans un tableau de cartes
+   * @param {Array} cards - Tableau de cartes
+   * @returns {string} - La série la plus commune
+   */
+  findMostCommonSerie(cards) {
+    const serieCount = {};
+    cards.forEach(card => {
+      if (card.cardSerie) {
+        serieCount[card.cardSerie] = (serieCount[card.cardSerie] || 0) + 1;
+      }
+    });
+    
+    return Object.entries(serieCount)
+      .reduce((a, b) => (a[1] > b[1] ? a : b), ['', 0])[0];
+  }
+
+  /**
+   * Supprime les cartes avec des séries incorrectes
+   * @returns {Promise<void>}
+   */
+  async deleteIncorrectSeries() {
+    try {
+      const data = await this.readJsonFile();
+      const deletedCards = [];
+
+      // Traitement de chaque entrée
+      data.forEach(element => {
+        if (element.cards && element.cards.length > 0) {
+          const mostCommonSerie = this.findMostCommonSerie(element.cards);
+          const initialLength = element.cards.length;
+
+          // Filtrer les cartes avec la série correcte
+          element.cards = element.cards.filter(card => {
+            const keepCard = card.cardSerie === mostCommonSerie;
+            if (!keepCard) {
+              deletedCards.push({
+                localName: element.localName,
+                cardUrl: card.cardUrl,
+                incorrectSerie: card.cardSerie,
+                expectedSerie: mostCommonSerie
+              });
+            }
+            return keepCard;
+          });
+
+          const cardsRemoved = initialLength - element.cards.length;
+          if (cardsRemoved > 0) {
+            console.log(`${cardsRemoved} carte(s) supprimée(s) de ${element.localName}`);
+          }
+        }
+      });
+
+      await this.writeJsonFile(data);
+
+      if (deletedCards.length > 0) {
+        console.log('\nDétail des cartes supprimées :');
+        deletedCards.forEach(card => {
+          console.log(`\nDans ${card.localName}:`);
+          console.log(`- URL: ${card.cardUrl}`);
+          console.log(`  Série trouvée: ${card.incorrectSerie}`);
+          console.log(`  Série attendue: ${card.expectedSerie}`);
+        });
+      }
+
+      console.log(`\nNombre total de cartes supprimées : ${deletedCards.length}`);
+
+    } catch (error) {
+      console.error('Erreur lors de la suppression des séries incorrectes:', error);
+      throw error;
+    }
+  }
 }
 
 /**
  * Exemple d'utilisation
  */
+// Modification de la fonction main pour inclure la nouvelle méthode
 async function main() {
   try {
-    const cleaner = new CardCleaner(path.join(__dirname, '../Test1.json'));
+    const cleaner = new CardCleaner(path.join(__dirname, '../data.json'));
     
     // Suppression des doublons
     console.log('Début de la suppression des doublons...');
     await cleaner.deleteDoublon();
+    
+    // Suppression des cartes avec séries incorrectes
+    console.log('\nDébut de la suppression des cartes avec séries incorrectes...');
+    await cleaner.deleteIncorrectSeries();
     
     // Suppression des cartes en surplus
     console.log('\nDébut de la suppression des cartes en surplus...');
