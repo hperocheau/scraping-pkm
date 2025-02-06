@@ -26,7 +26,7 @@ const extensionList = await SeriesScrapper.findExtensionList(browser);
 
 // Boucle à travers les extensions
 for(let extension of extensionList) {
-    console.log(`Parsing extesion ${extension.name} - [${extension.number_of_cards} cards]`);
+    console.log(`Parsing extension ${extension.name} - [${extension.number_of_cards} cards]`);
     // On récupère les données supplémentaire de l'extension
     await SeriesScrapper.findExtensionData(browser, extension);
 
