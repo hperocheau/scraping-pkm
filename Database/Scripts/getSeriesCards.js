@@ -89,33 +89,29 @@ class CardScraper {
 
   async scrapePage(url, page) {
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
-    // Ajout d'un petit délai aléatoire pour rendre le comportement plus humain
     await page.waitForTimeout(Math.random() * 1000 + 500);
-
+  
     return page.evaluate(() => {
       return Array.from(document.querySelectorAll('[id^="productRow"]')).map(productRow => {
-        const cardUrl = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a')?.href;
         const cardNameElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
         const cardNameText = cardNameElement?.textContent.trim();
-
+  
         // Extraction de toutes les parenthèses
         const parenthesesMatches = cardNameText?.match(/\(([^)]+)\)/g);
         const lastParenthesis = parenthesesMatches 
         ? parenthesesMatches[parenthesesMatches.length - 1].replace(/[()]/g, '') 
         : '';
-
-      // Séparation de la série et du numéro
-      const serieNumberMatch = lastParenthesis.match(/^(\w+)(?:\s+(\d+))?$/);
-
-        //const cardNameMatches = cardNameText?.match(/^(.*?)\s*\(([^)]+)\)/);
-        //const cardName = cardNameMatches ? cardNameMatches[1].trim() : cardNameText;
+  
+        // Séparation de la série et du numéro
+        const serieNumberMatch = lastParenthesis.match(/^(\w+)(?:\s+(\d+))?$/);
         
         return {
           cardUrl: cardNameElement?.href,
-          cardName: cardNameText?.replace(/\s*\([^)]*\)\s*$/g, '').trim(), // Supprimer la dernière parenthèse
+          cardName: cardNameText?.replace(/\s*\([^)]*\)\s*$/g, '').trim(),
           cardEngname: productRow.querySelector('.d-block.small.text-muted.fst-italic')?.textContent.trim(),
-          cardNumber: serieNumberMatch?.[2] || '', // Numéro de carte
-          cardSerie: serieNumberMatch?.[1] || lastParenthesis, // Série ou toute la valeur si pas de numéro
+          cardNumber: serieNumberMatch?.[2] || '',
+          cardSerie: cardNameElement, // Modification ici
+          codeSerie: serieNumberMatch?.[1] || lastParenthesis, // Nouvelle clé
           cardRarity: productRow.querySelector('.d-none.d-md-flex span[data-original-title]')?.getAttribute('data-original-title'),
           productRowId: productRow.id
         };

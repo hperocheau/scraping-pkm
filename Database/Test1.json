@@ -1,1073 +1,876 @@
 [
   {
-    "localName": "Aventures Ensemble",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Journey-Together",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Journey-Together",
-    "date": "28 issou 2025",
-    "langues": "Anglais, Français, Allemand, Espagnol, Italien, Portugais",
-    "bloc": "Écarlate et Violet",
-    "numCards": "0 cartes",
-    "cards": []
-  },
-  {
-    "localName": "Starter Set ex Steven's Beldum & Metagross ex",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Starter-Set-ex-Stevens-Beldum-Metagross-ex",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Starter-Set-ex-Stevens-Beldum-Metagross-ex",
-    "date": "21 février 2025",
-    "langues": "Chinois-S, Japonais, Coréen, Chinois-T",
-    "bloc": "Écarlate et Violet JP",
-    "numCards": "0 cartes",
-    "cards": []
-  },
-  {
-    "localName": "",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Paradox-Rift",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Paradox-Rift",
-    "numCards": "308 cartes",
-    "date": "3 novembre 2023",
-    "langues": "Anglais, Français, Allemand, Espagnol, Italien, Portugais",
-    "bloc": "Écarlate et Violet"
-  },
-  {
-    "localName": "Battle Partners",
-    "url": "",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners",
-    "date": "24 janvier 2025",
-    "langues": "Chinois-S, Japonais, Coréen, Chinois-T",
-    "bloc": "Écarlate et Violet JP",
-    "numCards": "132 cartes",
+    "localName": "Leaders' Stadium",
+    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Leaders-Stadium",
+    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium",
+    "numCards": "96 cartes",
+    "date": "24 octobre 1998",
+    "langues": "Japonais, Coréen, Chinois-T",
+    "bloc": "Gym JP",
     "cards": [
       {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Paras-sv9004",
-        "cardName": "",
-        "cardEngname": "Paras",
-        "cardNumber": "004",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807591"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Parasect-sv9005",
-        "cardName": "Parasect",
-        "cardEngname": "Parasect",
-        "cardNumber": "005",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807592"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Maractus-V1-sv9006",
-        "cardName": "Maracachi",
-        "cardEngname": "Maractus",
-        "cardNumber": "006",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807593"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Karrablast-sv9007",
-        "cardName": "Carabing",
-        "cardEngname": "Karrablast",
-        "cardNumber": "007",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807594"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Shelmet-sv9008",
-        "cardName": "Escargaume",
-        "cardEngname": "Shelmet",
-        "cardNumber": "008",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807595"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Accelgor-sv9009",
-        "cardName": "Limaspeed",
-        "cardEngname": "Accelgor",
-        "cardNumber": "009",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807596"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Sprigatito-sv9010",
-        "cardName": "Poussacha",
-        "cardEngname": "Sprigatito",
-        "cardNumber": "010",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807597"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Floragato-sv9011",
-        "cardName": "Matourgeon",
-        "cardEngname": "Floragato",
-        "cardNumber": "011",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807598"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Meowscarada-sv9012",
-        "cardName": "Miascarade",
-        "cardEngname": "Meowscarada",
-        "cardNumber": "012",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807599"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Magmar-sv9013",
-        "cardName": "Magmar",
-        "cardEngname": "Magmar",
-        "cardNumber": "013",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807600"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Magmortar-sv9014",
-        "cardName": "Maganon",
-        "cardEngname": "Magmortar",
-        "cardNumber": "014",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807601"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Darumaka-sv9015",
-        "cardName": "Darumarond de N",
-        "cardEngname": "N's Darumaka",
-        "cardNumber": "015",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807602"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Darmanitan-sv9016",
-        "cardName": "Darumacho de N",
-        "cardEngname": "N's Darmanitan",
-        "cardNumber": "016",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807603"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Volcanion-ex-V1-sv9017",
-        "cardName": "Volcanion ex",
-        "cardEngname": "Volcanion ex",
-        "cardNumber": "017",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807604"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Articuno-V1-sv9018",
-        "cardName": "Artikodin",
-        "cardEngname": "Articuno",
-        "cardNumber": "018",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807605"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Remoraid-sv9019",
-        "cardName": "Rémoraid",
-        "cardEngname": "Remoraid",
-        "cardNumber": "019",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807606"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Octillery-sv9020",
-        "cardName": "Octillery",
-        "cardEngname": "Octillery",
-        "cardNumber": "020",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807607"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lotad-sv9021",
-        "cardName": "Nénupiot",
-        "cardEngname": "Lotad",
-        "cardNumber": "021",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807608"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lombre-sv9022",
-        "cardName": "Lombre",
-        "cardEngname": "Lombre",
-        "cardNumber": "022",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807609"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ludicolo-sv9023",
-        "cardName": "Ludicolo",
-        "cardEngname": "Ludicolo",
-        "cardNumber": "023",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807610"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Wailmer-sv9024",
-        "cardName": "Wailmer",
-        "cardEngname": "Wailmer",
-        "cardNumber": "024",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807611"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Wailord-V1-sv9025",
-        "cardName": "Wailord",
-        "cardEngname": "Wailord",
-        "cardNumber": "025",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807612"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ionos-Voltorb-sv9026",
-        "cardName": "Voltorbe de Mashynn",
-        "cardEngname": "Iono's Voltorb",
-        "cardNumber": "026",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807613"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ionos-Electrode-sv9027",
-        "cardName": "Électrode de Mashynn",
-        "cardEngname": "Iono's Electrode",
-        "cardNumber": "027",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807614"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Joltik-sv9028",
-        "cardName": "Statitik de N",
-        "cardEngname": "N's Joltik",
-        "cardNumber": "028",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807615"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ionos-Tadbulb-sv9029",
-        "cardName": "Têtampoule de Mashynn",
-        "cardEngname": "Iono's Tadbulb",
-        "cardNumber": "029",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807616"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ionos-Bellibolt-ex-V1-sv9030",
-        "cardName": "Ampibidou de Mashynn ex",
-        "cardEngname": "Iono's Bellibolt ex",
-        "cardNumber": "030",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807617"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ionos-Wattrel-sv9031",
-        "cardName": "Zapétrel de Mashynn",
-        "cardEngname": "Iono's Wattrel",
-        "cardNumber": "031",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807618"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ionos-Kilowattrel-V1-sv9032",
-        "cardName": "Fulgulairo de Mashynn",
-        "cardEngname": "Iono's Kilowattrel",
-        "cardNumber": "032",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807619"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lillies-Clefairy-ex-V1-sv9033",
-        "cardName": "Mélofée de Lilie ex",
-        "cardEngname": "Lillie's Clefairy ex",
-        "cardNumber": "033",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807620"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Mr-Mime-sv9034",
-        "cardName": "M. Mime",
-        "cardEngname": "Mr. Mime",
-        "cardNumber": "034",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807621"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Shuppet-sv9035",
-        "cardName": "Polichombr",
-        "cardEngname": "Shuppet",
-        "cardNumber": "035",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807622"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Banette-sv9036",
-        "cardName": "Branette",
-        "cardEngname": "Banette",
-        "cardNumber": "036",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807623"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Beldum-sv9037",
-        "cardName": "Terhal",
-        "cardEngname": "Beldum",
-        "cardNumber": "037",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807624"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Metang-sv9038",
-        "cardName": "Métang",
-        "cardEngname": "Metang",
-        "cardNumber": "038",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807625"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Metagross-sv9039",
-        "cardName": "Métalosse",
-        "cardEngname": "Metagross",
-        "cardNumber": "039",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807626"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Sigilyph-sv9040",
-        "cardName": "Cryptéro de N",
-        "cardEngname": "N's Sigilyph",
-        "cardNumber": "040",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807627"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lillies-Cutiefly-sv9041",
-        "cardName": "Bombydou de Lilie",
-        "cardEngname": "Lillie's Cutiefly",
-        "cardNumber": "041",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807628"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lillies-Ribombee-V1-sv9042",
-        "cardName": "Rubombelle de Lilie",
-        "cardEngname": "Lillie's Ribombee",
-        "cardNumber": "042",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807629"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lillies-Comfey-sv9043",
-        "cardName": "Guérilande de Lilie",
-        "cardEngname": "Lillie's Comfey",
-        "cardNumber": "043",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807630"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Swinub-V1-sv9044",
-        "cardName": "Marcacrin",
-        "cardEngname": "Swinub",
-        "cardNumber": "044",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807631"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Piloswine-sv9045",
-        "cardName": "Cochignon",
-        "cardEngname": "Piloswine",
-        "cardNumber": "045",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807632"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Mamoswine-ex-V1-sv9046",
-        "cardName": "Mammochon ex",
-        "cardEngname": "Mamoswine ex",
-        "cardNumber": "046",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807633"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Larvitar-sv9047",
-        "cardName": "Embrylex",
-        "cardEngname": "Larvitar",
-        "cardNumber": "047",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807634"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Pupitar-sv9048",
-        "cardName": "Ymphect",
-        "cardEngname": "Pupitar",
-        "cardNumber": "048",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807635"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Regirock-sv9049",
-        "cardName": "Regirock",
-        "cardEngname": "Regirock",
-        "cardNumber": "049",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807636"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Pancham-sv9050",
-        "cardName": "Pandespiègle",
-        "cardEngname": "Pancham",
-        "cardNumber": "050",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807637"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Rockruff-sv9051",
-        "cardName": "Rocabot",
-        "cardEngname": "Rockruff",
-        "cardNumber": "051",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807638"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lycanroc-V1-sv9052",
-        "cardName": "Lougaroc",
-        "cardEngname": "Lycanroc",
-        "cardNumber": "052",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807639"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Silicobra-sv9053",
-        "cardName": "Dunaja de Nabil",
-        "cardEngname": "Hop's Silicobra",
-        "cardNumber": "053",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807640"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Sandaconda-sv9054",
-        "cardName": "Dunaconda de Nabil",
-        "cardEngname": "Hop's Sandaconda",
-        "cardNumber": "054",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807641"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Klawf-sv9055",
-        "cardName": "Craparoi",
-        "cardEngname": "Klawf",
-        "cardNumber": "055",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807642"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Koffing-sv9056",
-        "cardName": "Smogo",
-        "cardEngname": "Koffing",
-        "cardNumber": "056",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807643"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Weezing-sv9057",
-        "cardName": "Smogogo",
-        "cardEngname": "Weezing",
-        "cardNumber": "057",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807644"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Tyranitar-sv9058",
-        "cardName": "Tyranocif",
-        "cardEngname": "Tyranitar",
-        "cardNumber": "058",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807645"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Purrloin-sv9059",
-        "cardName": "Chacripan de N",
-        "cardEngname": "N's Purrloin",
-        "cardNumber": "059",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807646"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Zorua-V1-sv9060",
-        "cardName": "Zorua de N",
-        "cardEngname": "N's Zorua",
-        "cardNumber": "060",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807647"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Zoroark-ex-V1-sv9061",
-        "cardName": "Zoroark de N ex",
-        "cardEngname": "N's Zoroark ex",
-        "cardNumber": "061",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807648"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Pangoro-sv9062",
-        "cardName": "Pandarbare",
-        "cardEngname": "Pangoro",
-        "cardNumber": "062",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807649"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Escavalier-sv9063",
-        "cardName": "Lançargot",
-        "cardEngname": "Escavalier",
-        "cardNumber": "063",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807650"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Klink-sv9064",
-        "cardName": "Tic de N",
-        "cardEngname": "N's Klink",
-        "cardNumber": "064",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807651"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Klang-sv9065",
-        "cardName": "Clic de N",
-        "cardEngname": "N's Klang",
-        "cardNumber": "065",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807652"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Klinklang-sv9066",
-        "cardName": "Cliticlic de N",
-        "cardEngname": "N's Klinklang",
-        "cardNumber": "066",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807653"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Magearna-sv9067",
-        "cardName": "Magearna",
-        "cardEngname": "Magearna",
-        "cardNumber": "067",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807654"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Corviknight-sv9068",
-        "cardName": "Corvaillus de Nabil",
-        "cardEngname": "Hop's Corviknight",
-        "cardNumber": "068",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807655"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Zacian-ex-V1-sv9069",
-        "cardName": "Zacian de Nabil ex",
-        "cardEngname": "Hop's Zacian ex",
-        "cardNumber": "069",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807656"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Bagon-sv9070",
-        "cardName": "Draby",
-        "cardEngname": "Bagon",
-        "cardNumber": "070",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807657"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Shelgon-sv9071",
-        "cardName": "Drackhaus",
-        "cardEngname": "Shelgon",
-        "cardNumber": "071",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807658"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Salamence-ex-V1-sv9072",
-        "cardName": "Drattak ex",
-        "cardEngname": "Salamence ex",
-        "cardNumber": "072",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807659"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Druddigon-sv9073",
-        "cardName": "Drakkarmin",
-        "cardEngname": "Druddigon",
-        "cardNumber": "073",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807660"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Reshiram-V1-sv9074",
-        "cardName": "Reshiram de N",
-        "cardEngname": "N's Reshiram",
-        "cardNumber": "074",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807661"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Snorlax-sv9075",
-        "cardName": "Ronflex de Nabil",
-        "cardEngname": "Hop's Snorlax",
-        "cardNumber": "075",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807662"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Sentret-sv9076",
-        "cardName": "Fouinette",
-        "cardEngname": "Sentret",
-        "cardNumber": "076",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807663"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Furret-V1-sv9077",
-        "cardName": "Fouinar",
-        "cardEngname": "Furret",
-        "cardNumber": "077",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807664"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Dunsparce-sv9078",
-        "cardName": "Insolourdo",
-        "cardEngname": "Dunsparce",
-        "cardNumber": "078",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807665"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Dudunsparce-ex-V1-sv9079",
-        "cardName": "Deusolourdo ex",
-        "cardEngname": "Dudunsparce ex",
-        "cardNumber": "079",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807666"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Noibat-V1-sv9080",
-        "cardName": "Sonistrelle",
-        "cardEngname": "Noibat",
-        "cardNumber": "080",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807667"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Noivern-sv9081",
-        "cardName": "Bruyverne",
-        "cardEngname": "Noivern",
-        "cardNumber": "081",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807668"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Komala-sv9082",
-        "cardName": "Dodoala",
-        "cardEngname": "Komala",
-        "cardNumber": "082",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807669"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Rookidee-sv9083",
-        "cardName": "Minisange de Nabil",
-        "cardEngname": "Hop's Rookidee",
-        "cardNumber": "083",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807670"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Corvisquire-sv9084",
-        "cardName": "Bleuseille de Nabil",
-        "cardEngname": "Hop's Corvisquire",
-        "cardNumber": "084",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807671"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Wooloo-V1-sv9085",
-        "cardName": "Moumouton de Nabil",
-        "cardEngname": "Hop's Wooloo",
-        "cardNumber": "085",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807672"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Dubwool-sv9086",
-        "cardName": "Moumouflon de Nabil",
-        "cardEngname": "Hop's Dubwool",
-        "cardNumber": "086",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807673"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Cramorant-sv9087",
-        "cardName": "Nigosier de Nabil",
-        "cardEngname": "Hop's Cramorant",
-        "cardNumber": "087",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807674"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Super-Potion-sv9088",
-        "cardName": "Super Potion",
-        "cardEngname": "Super Potion",
-        "cardNumber": "088",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807675"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-PP-Up-sv9089",
-        "cardName": "N's PP Up",
-        "cardEngname": "N's PP Up",
-        "cardNumber": "089",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807676"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Exchange-Ticket-sv9090",
-        "cardName": "Exchange Ticket",
-        "cardEngname": "Exchange Ticket",
-        "cardNumber": "090",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807677"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Bag-sv9091",
-        "cardName": "Hop's Bag",
-        "cardEngname": "Hop's Bag",
-        "cardNumber": "091",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807678"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Choice-Band-sv9092",
-        "cardName": "Hop's Choice Band",
-        "cardEngname": "Hop's Choice Band",
-        "cardNumber": "092",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807679"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lillies-Pearl-sv9093",
-        "cardName": "Lillie's Pearl",
-        "cardEngname": "Lillie's Pearl",
-        "cardNumber": "093",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807680"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Iriss-Fighting-Spirit-V1-sv9094",
-        "cardName": "Iris's Fighting Spirit",
-        "cardEngname": "Iris's Fighting Spirit",
-        "cardNumber": "094",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807681"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ruffian-V1-sv9095",
-        "cardName": "Ruffian",
-        "cardEngname": "Ruffian",
-        "cardNumber": "095",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807682"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Brocks-Scouting-V1-sv9096",
-        "cardName": "Brock's Scouting",
-        "cardEngname": "Brock's Scouting",
-        "cardNumber": "096",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807683"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Castle-sv9097",
-        "cardName": "N's Castle",
-        "cardEngname": "N's Castle",
-        "cardNumber": "097",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807684"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Levincia-sv9098",
-        "cardName": "Levalendura",
-        "cardEngname": "Levincia",
-        "cardNumber": "098",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807685"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Postwick-sv9099",
-        "cardName": "Paddoxton",
-        "cardEngname": "Postwick",
-        "cardNumber": "099",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807686"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Spike-Energy-V1-sv9100",
-        "cardName": "Spike Energy",
-        "cardEngname": "Spike Energy",
-        "cardNumber": "100",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807687"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Maractus-V2-sv9101",
-        "cardName": "Maracachi",
-        "cardEngname": "Maractus",
-        "cardNumber": "101",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807688"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Articuno-V2-sv9102",
-        "cardName": "Artikodin",
-        "cardEngname": "Articuno",
-        "cardNumber": "102",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807689"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Wailord-V2-sv9103",
-        "cardName": "Wailord",
-        "cardEngname": "Wailord",
-        "cardNumber": "103",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807690"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ionos-Kilowattrel-V2-sv9104",
-        "cardName": "Fulgulairo de Mashynn",
-        "cardEngname": "Iono's Kilowattrel",
-        "cardNumber": "104",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807691"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lillies-Ribombee-V2-sv9105",
-        "cardName": "Rubombelle de Lilie",
-        "cardEngname": "Lillie's Ribombee",
-        "cardNumber": "105",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807692"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Swinub-V2-sv9106",
-        "cardName": "Marcacrin",
-        "cardEngname": "Swinub",
-        "cardNumber": "106",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807693"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lycanroc-V2-sv9107",
-        "cardName": "Lougaroc",
-        "cardEngname": "Lycanroc",
-        "cardNumber": "107",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807694"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Zorua-V2-sv9108",
-        "cardName": "Zorua de N",
-        "cardEngname": "N's Zorua",
-        "cardNumber": "108",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807695"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Reshiram-V2-sv9109",
-        "cardName": "Reshiram de N",
-        "cardEngname": "N's Reshiram",
-        "cardNumber": "109",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807696"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Furret-V2-sv9110",
-        "cardName": "Fouinar",
-        "cardEngname": "Furret",
-        "cardNumber": "110",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807697"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Noibat-V2-sv9111",
-        "cardName": "Sonistrelle",
-        "cardEngname": "Noibat",
-        "cardNumber": "111",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807698"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Wooloo-V2-sv9112",
-        "cardName": "Moumouton de Nabil",
-        "cardEngname": "Hop's Wooloo",
-        "cardNumber": "112",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807699"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Volcanion-ex-V2-sv9113",
-        "cardName": "Volcanion ex",
-        "cardEngname": "Volcanion ex",
-        "cardNumber": "113",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807700"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ionos-Bellibolt-ex-V2-sv9114",
-        "cardName": "Ampibidou de Mashynn ex",
-        "cardEngname": "Iono's Bellibolt ex",
-        "cardNumber": "114",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807701"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lillies-Clefairy-ex-V2-sv9115",
-        "cardName": "Mélofée de Lilie ex",
-        "cardEngname": "Lillie's Clefairy ex",
-        "cardNumber": "115",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807702"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Mamoswine-ex-V2-sv9116",
-        "cardName": "Mammochon ex",
-        "cardEngname": "Mamoswine ex",
-        "cardNumber": "116",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807703"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Zoroark-ex-V2-sv9117",
-        "cardName": "Zoroark de N ex",
-        "cardEngname": "N's Zoroark ex",
-        "cardNumber": "117",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807704"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Zacian-ex-V2-sv9118",
-        "cardName": "Zacian de Nabil ex",
-        "cardEngname": "Hop's Zacian ex",
-        "cardNumber": "118",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807705"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Salamence-ex-V2-sv9119",
-        "cardName": "Drattak ex",
-        "cardEngname": "Salamence ex",
-        "cardNumber": "119",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807706"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Dudunsparce-ex-V2-sv9120",
-        "cardName": "Deusolourdo ex",
-        "cardEngname": "Dudunsparce ex",
-        "cardNumber": "120",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807707"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Iriss-Fighting-Spirit-V2-sv9121",
-        "cardName": "Iris's Fighting Spirit",
-        "cardEngname": "Iris's Fighting Spirit",
-        "cardNumber": "121",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807708"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ruffian-V2-sv9122",
-        "cardName": "Ruffian",
-        "cardEngname": "Ruffian",
-        "cardNumber": "122",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807709"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Brocks-Scouting-V2-sv9123",
-        "cardName": "Brock's Scouting",
-        "cardEngname": "Brock's Scouting",
-        "cardNumber": "123",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807710"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Volcanion-ex-V3-sv9124",
-        "cardName": "Volcanion ex",
-        "cardEngname": "Volcanion ex",
-        "cardNumber": "124",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807711"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ionos-Bellibolt-ex-V3-sv9125",
-        "cardName": "Ampibidou de Mashynn ex",
-        "cardEngname": "Iono's Bellibolt ex",
-        "cardNumber": "125",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807712"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Lillies-Clefairy-ex-V3-sv9126",
-        "cardName": "Mélofée de Lilie ex",
-        "cardEngname": "Lillie's Clefairy ex",
-        "cardNumber": "126",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807713"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Zoroark-ex-V3-sv9127",
-        "cardName": "Zoroark de N ex",
-        "cardEngname": "N's Zoroark ex",
-        "cardNumber": "127",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807714"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Hops-Zacian-ex-V3-sv9128",
-        "cardName": "Zacian de Nabil ex",
-        "cardEngname": "Hop's Zacian ex",
-        "cardNumber": "128",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807715"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Salamence-ex-V3-sv9129",
-        "cardName": "Drattak ex",
-        "cardEngname": "Salamence ex",
-        "cardNumber": "129",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807716"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ionos-Bellibolt-ex-V4-sv9130",
-        "cardName": "Ampibidou de Mashynn ex",
-        "cardEngname": "Iono's Bellibolt ex",
-        "cardNumber": "130",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807717"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Ns-Zoroark-ex-V4-sv9131",
-        "cardName": "Zoroark de N ex",
-        "cardEngname": "N's Zoroark ex",
-        "cardNumber": "131",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807718"
-      },
-      {
-        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Battle-Partners/Spike-Energy-V2-sv9132",
-        "cardName": "Spike Energy",
-        "cardEngname": "Spike Energy",
-        "cardNumber": "132",
-        "cardSerie": "sv9",
-        "productRowId": "productRow807719"
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Zubat-LST",
+        "cardName": "Brock's Zubat",
+        "cardEngname": "Brock's Zubat",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605112"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Oddish-V1-LST",
+        "cardName": "Erika's Oddish",
+        "cardEngname": "Erika's Oddish",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605113"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Oddish-V2-LST",
+        "cardName": "Erika's Oddish",
+        "cardEngname": "Erika's Oddish",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605114"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Paras-LST",
+        "cardName": "Erika's Paras",
+        "cardEngname": "Erika's Paras",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605115"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Bellsprout-V1-LST",
+        "cardName": "Erika's Bellsprout",
+        "cardEngname": "Erika's Bellsprout",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605116"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Tangela-LST",
+        "cardName": "Erika's Tangela",
+        "cardEngname": "Erika's Tangela",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605117"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Bulbasaur-LST",
+        "cardName": "Erika's Bulbasaur",
+        "cardEngname": "Erika's Bulbasaur",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605118"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Golbat-LST",
+        "cardName": "Brock's Golbat",
+        "cardEngname": "Brock's Golbat",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605119"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Gloom-LST",
+        "cardName": "Erika's Gloom",
+        "cardEngname": "Erika's Gloom",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605120"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Bellsprout-V2-LST",
+        "cardName": "Erika's Bellsprout",
+        "cardEngname": "Erika's Bellsprout",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605121"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Weepinbell-LST",
+        "cardName": "Erika's Weepinbell",
+        "cardEngname": "Erika's Weepinbell",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605122"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Exeggcute-LST",
+        "cardName": "Erika's Exeggcute",
+        "cardEngname": "Erika's Exeggcute",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605123"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Exeggutor-LST",
+        "cardName": "Erika's Exeggutor",
+        "cardEngname": "Erika's Exeggutor",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605124"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Vileplume-LST",
+        "cardName": "Erika's Vileplume",
+        "cardEngname": "Erika's Vileplume",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605125"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Victreebel-LST",
+        "cardName": "Erika's Victreebel",
+        "cardEngname": "Erika's Victreebel",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605126"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Rockets-Scyther-LST",
+        "cardName": "Rocket's Scyther",
+        "cardEngname": "Rocket's Scyther",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605127"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Vulpix-V1-LST",
+        "cardName": "Brock's Vulpix",
+        "cardEngname": "Brock's Vulpix",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605128"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Vulpix-V2-LST",
+        "cardName": "Brock's Vulpix",
+        "cardEngname": "Brock's Vulpix",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605129"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Ninetales-LST",
+        "cardName": "Brock's Ninetales",
+        "cardEngname": "Brock's Ninetales",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605130"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Rockets-Moltres-LST",
+        "cardName": "Rocket's Moltres",
+        "cardEngname": "Rocket's Moltres",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605131"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Psyduck-LST",
+        "cardName": "Misty's Psyduck",
+        "cardEngname": "Misty's Psyduck",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605132"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Poliwag-LST",
+        "cardName": "Misty's Poliwag",
+        "cardEngname": "Misty's Poliwag",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605133"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Seel-LST",
+        "cardName": "Misty's Seel",
+        "cardEngname": "Misty's Seel",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605134"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Horsea-V1-LST",
+        "cardName": "Misty's Horsea",
+        "cardEngname": "Misty's Horsea",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605135"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Horsea-V2-LST",
+        "cardName": "Misty's Horsea",
+        "cardEngname": "Misty's Horsea",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605136"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Goldeen-LST",
+        "cardName": "Misty's Goldeen",
+        "cardEngname": "Misty's Goldeen",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605137"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Staryu-LST",
+        "cardName": "Misty's Staryu",
+        "cardEngname": "Misty's Staryu",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605138"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Magikarp-LST",
+        "cardName": "Misty's Magikarp",
+        "cardEngname": "Misty's Magikarp",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605139"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Poliwhirl-LST",
+        "cardName": "Misty's Poliwhirl",
+        "cardEngname": "Misty's Poliwhirl",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605140"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Tentacool-LST",
+        "cardName": "Misty's Tentacool",
+        "cardEngname": "Misty's Tentacool",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605141"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Dewgong-LST",
+        "cardName": "Misty's Dewgong",
+        "cardEngname": "Misty's Dewgong",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605142"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Golduck-LST",
+        "cardName": "Misty's Golduck",
+        "cardEngname": "Misty's Golduck",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605143"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Tentacruel-LST",
+        "cardName": "Misty's Tentacruel",
+        "cardEngname": "Misty's Tentacruel",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605144"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Seadra-LST",
+        "cardName": "Misty's Seadra",
+        "cardEngname": "Misty's Seadra",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605145"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Gyarados-LST",
+        "cardName": "Misty's Gyarados",
+        "cardEngname": "Misty's Gyarados",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605146"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Pikachu-LST",
+        "cardName": "Lt. Surge's Pikachu",
+        "cardEngname": "Lt. Surge's Pikachu",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605147"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Magnemite-V1-LST",
+        "cardName": "Lt. Surge's Magnemite",
+        "cardEngname": "Lt. Surge's Magnemite",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605148"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Voltorb-LST",
+        "cardName": "Lt. Surge's Voltorb",
+        "cardEngname": "Lt. Surge's Voltorb",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605149"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Magnemite-V2-LST",
+        "cardName": "Lt. Surge's Magnemite",
+        "cardEngname": "Lt. Surge's Magnemite",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605150"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Magneton-LST",
+        "cardName": "Lt. Surge's Magneton",
+        "cardEngname": "Lt. Surge's Magneton",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605151"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Electabuzz-LST",
+        "cardName": "Lt. Surge's Electabuzz",
+        "cardEngname": "Lt. Surge's Electabuzz",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605152"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Jolteon-LST",
+        "cardName": "Lt. Surge's Jolteon",
+        "cardEngname": "Lt. Surge's Jolteon",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605153"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Sandshrew-LST",
+        "cardName": "Brock's Sandshrew",
+        "cardEngname": "Brock's Sandshrew",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605154"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Diglett-LST",
+        "cardName": "Brock's Diglett",
+        "cardEngname": "Brock's Diglett",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605155"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Mankey-LST",
+        "cardName": "Brock's Mankey",
+        "cardEngname": "Brock's Mankey",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605156"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Geodude-V1-LST",
+        "cardName": "Brock's Geodude",
+        "cardEngname": "Brock's Geodude",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605157"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Geodude-V2-LST",
+        "cardName": "Brock's Geodude",
+        "cardEngname": "Brock's Geodude",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605158"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Onix-LST",
+        "cardName": "Brock's Onix",
+        "cardEngname": "Brock's Onix",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605159"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Rhyhorn-LST",
+        "cardName": "Brock's Rhyhorn",
+        "cardEngname": "Brock's Rhyhorn",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605160"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Sandslash-LST",
+        "cardName": "Brock's Sandslash",
+        "cardEngname": "Brock's Sandslash",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605161"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Primeape-LST",
+        "cardName": "Brock's Primeape",
+        "cardEngname": "Brock's Primeape",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605162"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Graveler-LST",
+        "cardName": "Brock's Graveler",
+        "cardEngname": "Brock's Graveler",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605163"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Golem-LST",
+        "cardName": "Brock's Golem",
+        "cardEngname": "Brock's Golem",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605164"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Rockets-Hitmonchan-LST",
+        "cardName": "Rocket's Hitmonchan",
+        "cardEngname": "Rocket's Hitmonchan",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605165"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Rhydon-LST",
+        "cardName": "Brock's Rhydon",
+        "cardEngname": "Brock's Rhydon",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605166"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Rattata-LST",
+        "cardName": "Lt. Surge's Rattata",
+        "cardEngname": "Lt. Surge's Rattata",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605167"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Spearow-LST",
+        "cardName": "Lt. Surge's Spearow",
+        "cardEngname": "Lt. Surge's Spearow",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605168"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Jigglypuff-LST",
+        "cardName": "Erika's Jigglypuff",
+        "cardEngname": "Erika's Jigglypuff",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605169"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Raticate-LST",
+        "cardName": "Lt. Surge's Raticate",
+        "cardEngname": "Lt. Surge's Raticate",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605170"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Clefairy-LST",
+        "cardName": "Erika's Clefairy",
+        "cardEngname": "Erika's Clefairy",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605171"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Lickitung-LST",
+        "cardName": "Brock's Lickitung",
+        "cardEngname": "Brock's Lickitung",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605172"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Eevee-LST",
+        "cardName": "Lt. Surge's Eevee",
+        "cardEngname": "Lt. Surge's Eevee",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605173"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Dratini-LST",
+        "cardName": "Erika's Dratini",
+        "cardEngname": "Erika's Dratini",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605174"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Fearow-LST",
+        "cardName": "Lt. Surge's Fearow",
+        "cardEngname": "Lt. Surge's Fearow",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605175"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Clefable-LST",
+        "cardName": "Erika's Clefable",
+        "cardEngname": "Erika's Clefable",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605176"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Dragonair-LST",
+        "cardName": "Erika's Dragonair",
+        "cardEngname": "Erika's Dragonair",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605177"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Energy-Flow-LST",
+        "cardName": "Energy Flow",
+        "cardEngname": "Energy Flow",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605178"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Duel-LST",
+        "cardName": "Misty's Duel",
+        "cardEngname": "Misty's Duel",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605179"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Tears-LST",
+        "cardName": "Misty's Tears",
+        "cardEngname": "Misty's Tears",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605180"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Narrow-Gym-LST",
+        "cardName": "Narrow Gym",
+        "cardEngname": "Narrow Gym",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605181"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Recall-LST",
+        "cardName": "Recall",
+        "cardEngname": "Recall",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605182"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Maids-LST",
+        "cardName": "Erika's Maids",
+        "cardEngname": "Erika's Maids",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605183"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Perfume-LST",
+        "cardName": "Erika's Perfume",
+        "cardEngname": "Erika's Perfume",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605184"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Charity-LST",
+        "cardName": "Charity",
+        "cardEngname": "Charity",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605185"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Wrath-LST",
+        "cardName": "Misty's Wrath",
+        "cardEngname": "Misty's Wrath",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605186"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Vermilion-City-Gym-LST",
+        "cardName": "Vermilion City Gym",
+        "cardEngname": "Vermilion City Gym",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605187"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Training-Method-LST",
+        "cardName": "Brock's Training Method",
+        "cardEngname": "Brock's Training Method",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605188"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Celadon-City-Gym-LST",
+        "cardName": "Celadon City Gym",
+        "cardEngname": "Celadon City Gym",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605189"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Pewter-City-Gym-LST",
+        "cardName": "Pewter City Gym",
+        "cardEngname": "Pewter City Gym",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605190"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Cerulean-City-Gym-LST",
+        "cardName": "Cerulean City Gym",
+        "cardEngname": "Cerulean City Gym",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605191"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Treaty-LST",
+        "cardName": "Lt. Surge's Treaty",
+        "cardEngname": "Lt. Surge's Treaty",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605192"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Good-Manners-LST",
+        "cardName": "Good Manners",
+        "cardEngname": "Good Manners",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605193"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erika-LST",
+        "cardName": "Erika",
+        "cardEngname": "Erika",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605194"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Kindness-LST",
+        "cardName": "Erika's Kindness",
+        "cardEngname": "Erika's Kindness",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605195"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Misty-LST",
+        "cardName": "Misty",
+        "cardEngname": "Misty",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605196"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Wish-LST",
+        "cardName": "Misty's Wish",
+        "cardEngname": "Misty's Wish",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605197"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Chaos-Gym-LST",
+        "cardName": "Chaos Gym",
+        "cardEngname": "Chaos Gym",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605198"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Secret-Mission-LST",
+        "cardName": "Secret Mission",
+        "cardEngname": "Secret Mission",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605199"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brock-LST",
+        "cardName": "Brock",
+        "cardEngname": "Brock",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605200"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Protection-LST",
+        "cardName": "Brock's Protection",
+        "cardEngname": "Brock's Protection",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605201"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Resistance-Gym-LST",
+        "cardName": "Resistance Gym",
+        "cardEngname": "Resistance Gym",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605202"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surge-LST",
+        "cardName": "Lt. Surge",
+        "cardEngname": "Lt. Surge",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605203"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Secret-Plan-LST",
+        "cardName": "Lt. Surge's Secret Plan",
+        "cardEngname": "Lt. Surge's Secret Plan",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605204"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/No-Removal-Gym-LST",
+        "cardName": "No Removal Gym",
+        "cardEngname": "No Removal Gym",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605205"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/The-Rockets-Training-Gym-LST",
+        "cardName": "The Rocket's Training Gym",
+        "cardEngname": "The Rocket's Training Gym",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605206"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/The-Rockets-Trap-LST",
+        "cardName": "The Rocket's Trap",
+        "cardEngname": "The Rocket's Trap",
+        "cardNumber": "",
+        "cardSerie": {},
+        "codeSerie": "G1",
+        "productRowId": "productRow605207"
       }
     ]
   }

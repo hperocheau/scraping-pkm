@@ -1,6 +1,5 @@
-const fs = require('fs');
-const util = require('util');
-const readFile = util.promisify(fs.readFile);
+const fs = require('fs').promises; // Utilisation directe de fs.promises au lieu de util.promisify
+const path = require('path');
 
 class JsonAnalyzer {
   constructor(filePath) {
@@ -8,12 +7,13 @@ class JsonAnalyzer {
   }
 
   /**
-   * Lit le fichier JSON
+   * Lit et parse le fichier JSON
    * @returns {Promise<Array>}
+   * @throws {Error} Si le fichier ne peut pas être lu ou parsé
    */
   async readJson() {
     try {
-      const data = await readFile(this.filePath, 'utf-8');
+      const data = await fs.readFile(this.filePath, 'utf-8');
       return JSON.parse(data);
     } catch (error) {
       throw new Error(`Erreur de lecture du fichier JSON: ${error.message}`);
@@ -23,52 +23,70 @@ class JsonAnalyzer {
   /**
    * Analyse les statistiques générales du JSON
    * @param {Array} jsonData 
-   * @returns {Object}
+   * @returns {{totalElements: number, totalCards: number, coverage: number}}
    */
   analyzeData(jsonData) {
-    const totalElements = jsonData.filter(item => item.localName).length;
-    const totalCards = jsonData.reduce((sum, item) => 
-      sum + (item.cards?.length || 0), 0);
+    if (!Array.isArray(jsonData)) {
+      throw new Error('Les données JSON doivent être un tableau');
+    }
 
-    return { totalElements, totalCards };
+    const totalElements = jsonData.filter(item => item?.localName).length;
+    const totalCards = jsonData.reduce((sum, item) => 
+      sum + (Array.isArray(item?.cards) ? item.cards.length : 0), 0);
+    const coverage = totalElements ? (totalCards / totalElements).toFixed(2) : 0;
+
+    return { totalElements, totalCards, coverage };
   }
 
   /**
    * Compare le nombre de cartes attendu avec le nombre réel
-   * @returns {Promise<Object>}
+   * @returns {Promise<{
+   *   urlsToScrape: Array<{localName: string, numCards: number, cardsCount: number, difference: number}>,
+   *   totalNumCards: number,
+   *   totalCardsCount: number,
+   *   totalDifference: number
+   * }>}
    */
   async cardsDiff() {
     try {
       const dataArray = await this.readJson();
-      const urlsToScrape = [];
-      let totalNumCards = 0;
-      let totalCardsCount = 0;
-      let totalDifference = 0;
+      const stats = {
+        urlsToScrape: [],
+        totalNumCards: 0,
+        totalCardsCount: 0,
+        totalDifference: 0
+      };
 
-      for (const entry of dataArray) {
-        const { localName, numCards, cards } = entry;
+      dataArray.forEach(({ localName, numCards, cards }) => {
+        if (!localName || !numCards) return;
+
         const numCardsValue = parseInt(numCards);
-        const cardsCount = cards?.length || 0;
+        if (isNaN(numCardsValue)) return;
+
+        const cardsCount = Array.isArray(cards) ? cards.length : 0;
         const difference = numCardsValue - cardsCount;
 
         if (difference !== 0) {
-          urlsToScrape.push({ localName, numCards: numCardsValue, cardsCount, difference });
-          totalNumCards += numCardsValue;
-          totalCardsCount += cardsCount;
-          totalDifference += difference;
+          stats.urlsToScrape.push({ localName, numCards: numCardsValue, cardsCount, difference });
+          stats.totalNumCards += numCardsValue;
+          stats.totalCardsCount += cardsCount;
+          stats.totalDifference += difference;
         }
-      }
+      });
 
-      return { urlsToScrape, totalNumCards, totalCardsCount, totalDifference };
+      return stats;
     } catch (error) {
       console.error("Erreur lors de l'analyse des différences:", error);
-      return { urlsToScrape: [], totalNumCards: 0, totalCardsCount: 0, totalDifference: 0 };
+      throw error; // Propager l'erreur au lieu de retourner un objet vide
     }
   }
 
   /**
    * Vérifie les doublons d'URLs et d'IDs
-   * @returns {Promise<Object>}
+   * @returns {Promise<{
+   *   duplicateUrls: Array<{url: string, count: number, entries: Array}>,
+   *   duplicateIds: Array<{id: string, count: number, entries: Array}>
+   * }>}
    */
   async checkDuplicates() {
     try {
@@ -80,13 +98,13 @@ class JsonAnalyzer {
         if (!Array.isArray(cards)) return;
         
         cards.forEach(card => {
-          if (card.cardUrl) {
+          if (card?.cardUrl) {
             const urlEntries = urlMap.get(card.cardUrl) || [];
             urlEntries.push({ localName, cardUrl: card.cardUrl });
             urlMap.set(card.cardUrl, urlEntries);
           }
           
-          if (card.productRowId) {
+          if (card?.productRowId) {
             const idEntries = idMap.get(card.productRowId) || [];
             idEntries.push({ localName, productRowId: card.productRowId });
             idMap.set(card.productRowId, idEntries);
@@ -94,19 +112,23 @@ class JsonAnalyzer {
         });
       });
 
-      const duplicateUrls = this.getDuplicates(urlMap, 'url');
-      const duplicateIds = this.getDuplicates(idMap, 'id');
-
-      return { duplicateUrls, duplicateIds };
+      return {
+        duplicateUrls: this.getDuplicates(urlMap, 'url'),
+        duplicateIds: this.getDuplicates(idMap, 'id')
+      };
     } catch (error) {
       console.error('Erreur lors de la vérification des doublons:', error);
-      return { duplicateUrls: [], duplicateIds: [] };
+      throw error;
     }
   }
 
   /**
    * Vérifie les anomalies dans les séries de cartes
-   * @returns {Promise<Array>}
+   * @returns {Promise<Array<{
+   *   localName: string,
+   *   expectedSerie: string,
+   *   anomalies: Array<{cardUrl: string, incorrectSerie: string}>
+   * }>>}
    */
   async checkCardSeries() {
     try {
@@ -114,20 +136,30 @@ class JsonAnalyzer {
       const anomalies = [];
 
       jsonData.forEach(element => {
-        if (!element.cards?.length) return;
+        if (!element?.localName || !Array.isArray(element?.cards)) return;
 
-        const serieCount = {};
+        const serieCount = new Map();
+        let maxCount = 0;
+        let mostCommonSerie = null;
+
+        // Trouver la série la plus commune
         element.cards.forEach(card => {
-          if (card.cardSerie) {
-            serieCount[card.cardSerie] = (serieCount[card.cardSerie] || 0) + 1;
+          if (!card?.cardSerie) return;
+          
+          const count = (serieCount.get(card.cardSerie) || 0) + 1;
+          serieCount.set(card.cardSerie, count);
+          
+          if (count > maxCount) {
+            maxCount = count;
+            mostCommonSerie = card.cardSerie;
           }
         });
 
-        const mostCommonSerie = Object.entries(serieCount)
-          .reduce((a, b) => (a[1] > b[1] ? a : b))[0];
+        if (!mostCommonSerie) return;
 
+        // Identifier les anomalies
         const anomalyCards = element.cards.filter(card => 
-          card.cardSerie && card.cardSerie !== mostCommonSerie
+          card?.cardSerie && card.cardSerie !== mostCommonSerie
         );
 
         if (anomalyCards.length > 0) {
@@ -145,7 +177,7 @@ class JsonAnalyzer {
       return anomalies;
     } catch (error) {
       console.error('Erreur lors de la vérification des séries:', error);
-      return [];
+      throw error;
     }
   }
 
@@ -165,77 +197,170 @@ class JsonAnalyzer {
 }
 
 /**
- * Fonction principale d'exécution
+ * Parse une date au format français de CardMarket
+ * @param {string} dateStr - Date au format "DD mois YYYY"
+ * @returns {Date}
  */
+function parseCardMarketDate(dateStr) {
+  const monthsMap = {
+    'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5,
+    'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11
+  };
+
+  try {
+    const [day, month, year] = dateStr.split(' ');
+    if (!monthsMap.hasOwnProperty(month.toLowerCase())) {
+      return new Date(0); // Date invalide
+    }
+    return new Date(parseInt(year), monthsMap[month.toLowerCase()], parseInt(day));
+  } catch (error) {
+    console.error(`Erreur lors du parsing de la date: ${dateStr}`, error);
+    return new Date(0); // Date invalide
+  }
+}
+
+/**
+ * Vérifie la validité du format des séries dans le fichier JSON
+ * @param {string} filePath - Chemin vers le fichier JSON
+ * @returns {Promise<{urlsToUpdate: string[], isValid: boolean}>}
+ */
+async function checkJsonSeries(filePath) {
+  try {
+    const jsonContent = await fs.readFile(filePath, 'utf8');
+    const series = JSON.parse(jsonContent);
+
+    if (!Array.isArray(series)) {
+      throw new Error('Le contenu JSON doit être un tableau');
+    }
+
+    const validation = {
+      urlsToUpdate: [],
+      isValid: true
+    };
+
+    // Constantes pour la validation
+    const VALIDATIONS = {
+      numCards: /^[0-9]{1,3}\scartes$/,
+      date: /^\d{1,2}\s(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s\d{4}$/
+    };
+
+    const REQUIRED_FIELDS = ['localName', 'url', 'urlCards', 'date', 'langues', 'bloc', 'numCards'];
+
+    // Vérification de chaque série
+    series.forEach(serie => {
+      // Vérifier les champs requis
+      const hasAllFields = REQUIRED_FIELDS.every(field => 
+        serie[field]?.toString().trim().length > 0
+      );
+
+      if (!hasAllFields || !VALIDATIONS.numCards.test(serie.numCards)) {
+        validation.urlsToUpdate.push(serie.url);
+      }
+
+      // Vérification complète
+      const isSeriesValid = hasAllFields &&
+        VALIDATIONS.date.test(serie.date) &&
+        parseCardMarketDate(serie.date).getTime() !== 0 &&
+        VALIDATIONS.numCards.test(serie.numCards);
+
+      if (!isSeriesValid) {
+        validation.isValid = false;
+      }
+    });
+
+    return validation;
+  } catch (error) {
+    console.error('Erreur lors de la vérification du fichier JSON:', error);
+    throw error;
+  }
+}
+
+class ConsoleReporter {
+  static async report(analyzer) {
+    try {
+      // Analyse générale
+      console.log('\n=== Statistiques générales ===');
+      const jsonData = await analyzer.readJson();
+      console.table(analyzer.analyzeData(jsonData));
+
+      // Différences de cartes
+      console.log('\n=== Vérification des différences de cartes ===');
+      const diffResult = await analyzer.cardsDiff();
+      if (diffResult.urlsToScrape.length > 0) {
+        console.log('Séries avec différence de cartes:');
+        console.table(diffResult.urlsToScrape);
+        console.log(
+          `Total attendu: ${diffResult.totalNumCards}\n` +
+          `Total actuel: ${diffResult.totalCardsCount}\n` +
+          `Différence: ${diffResult.totalDifference}`
+        );
+      } else {
+        console.log('✅ Base de données à jour');
+      }
+
+      // Doublons
+      console.log('\n=== Vérification des doublons ===');
+      const { duplicateUrls, duplicateIds } = await analyzer.checkDuplicates();
+      
+      this.reportDuplicates('URLs', duplicateUrls);
+      this.reportDuplicates('IDs', duplicateIds);
+
+      // Anomalies des séries
+      console.log('\n=== Vérification des séries de cartes ===');
+      const serieAnomalies = await analyzer.checkCardSeries();
+      if (serieAnomalies.length > 0) {
+        console.log("❌ Anomalies détectées:");
+        serieAnomalies.forEach(this.reportAnomaly);
+      } else {
+        console.log('✅ Aucune anomalie détectée');
+      }
+    } catch (error) {
+      console.error('❌ Erreur lors de la génération du rapport:', error);
+      throw error;
+    }
+  }
+
+  static reportDuplicates(type, duplicates) {
+    if (duplicates.length > 0) {
+      console.log(`\n❌ ${type} en doublon:`);
+      duplicates.forEach(({ url, id, count, entries }) => {
+        console.log(`\n${type === 'URLs' ? url : id} (${count} occurrences):`);
+        console.table(entries);
+      });
+    } else {
+      console.log(`✅ Aucun doublon de ${type}`);
+    }
+  }
+
+  static reportAnomaly({ localName, expectedSerie, anomalies }) {
+    console.log(`\nDans ${localName}:`);
+    console.log(`Série attendue: ${expectedSerie}`);
+    console.log("Cartes incorrectes:");
+    anomalies.forEach(({ cardUrl, incorrectSerie }) => {
+      console.log(`- ${cardUrl} (${incorrectSerie})`);
+    });
+  }
+}
+
+// Point d'entrée principal
 async function main() {
   try {
-    const analyzer = new JsonAnalyzer('../Test1.json');
-    
-    // Analyse générale
-    console.log('\n=== Statistiques générales ===');
-    const jsonData = await analyzer.readJson();
-    console.log(analyzer.analyzeData(jsonData));
-
-    // Vérification des différences
-    console.log('\n=== Vérification des différences de cartes ===');
-    const diffResult = await analyzer.cardsDiff();
-    if (diffResult.urlsToScrape.length > 0) {
-      console.log('Séries avec différence de cartes:');
-      console.table(diffResult.urlsToScrape);
-      console.log(
-        `Total numCards: ${diffResult.totalNumCards}, ` +
-        `Total cardsCount: ${diffResult.totalCardsCount}, ` +
-        `Total difference: ${diffResult.totalDifference}`
-      );
-    } else {
-      console.log('La base de données est à jour.');
-    }
-
-    // Vérification des doublons
-    console.log('\n=== Vérification des doublons ===');
-    const { duplicateUrls, duplicateIds } = await analyzer.checkDuplicates();
-    
-    if (duplicateUrls.length > 0) {
-      console.log('\nURLs en doublon:');
-      duplicateUrls.forEach(({ url, count, entries }) => {
-        console.log(`\nURL "${url}" apparaît ${count} fois :`);
-        console.table(entries);
-      });
-    }
-    
-    if (duplicateIds.length > 0) {
-      console.log('\nIDs en doublon:');
-      duplicateIds.forEach(({ id, count, entries }) => {
-        console.log(`\nID "${id}" apparaît ${count} fois :`);
-        console.table(entries);
-      });
-    }
-
-    // Vérification des séries
-    console.log('\n=== Vérification des séries de cartes ===');
-    const serieAnomalies = await analyzer.checkCardSeries();
-    if (serieAnomalies.length > 0) {
-      console.log("Anomalies détectées :");
-      serieAnomalies.forEach(anomaly => {
-        console.log(`\nDans ${anomaly.localName} :`);
-        console.log(`Série attendue : ${anomaly.expectedSerie}`);
-        console.log("Cartes incorrectes :");
-        anomaly.anomalies.forEach(card => {
-          console.log(`- URL: ${card.cardUrl}`);
-          console.log(`  Série trouvée: ${card.incorrectSerie}`);
-        });
-      });
-    }
-
+    const filePath = path.join(__dirname, '../Test1.json');
+    const analyzer = new JsonAnalyzer(filePath);
+    await ConsoleReporter.report(analyzer);
   } catch (error) {
-    console.error('Erreur lors de l\'exécution:', error);
+    console.error('Erreur fatale:', error);
     process.exit(1);
   }
 }
 
-// Exécution et export
 if (require.main === module) {
   main();
 }
 
-module.exports = JsonAnalyzer;
+module.exports = {
+  JsonAnalyzer,
+  checkJsonSeries,
+  ConsoleReporter,
+  parseCardMarketDate // Exporter la fonction pour utilisation externe
+};
