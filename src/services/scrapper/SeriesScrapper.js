@@ -16,6 +16,24 @@ function findExtensionList(browser) {
 }
 
 /**
+ * Retourne une liste d'extension fix pour les tests
+ * 
+ * @returns une list d'extension
+ */
+function getDummyExtensionList() {
+    return [
+        {
+            "name": "Shiny Treasure ex",
+            "extension_group_name": "Écarlate et Violet JP",
+            "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Shiny-Treasure-ex",
+            "cards_url": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shiny-Treasure-ex",
+            "number_of_cards": "360",
+            "published_date": "01/12/2023"
+        }
+    ];
+}
+
+/**
  * Récupère des informations supplémentaires sur l'extension (langues)
  * 
  * @param browser
@@ -38,5 +56,6 @@ function findExtensionData(browser, extension) {
 
 export default {
     findExtensionList,
+    getDummyExtensionList,
     findExtensionData
 }
