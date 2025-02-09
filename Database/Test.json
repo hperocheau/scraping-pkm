@@ -1,83 +1,4056 @@
 [
   {
-    "localName": "EX Dragon",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/EX-Dragon",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/EX-Dragon",
-    "numCards": "1 cartes",
-    "date": "24 novembre 2003",
+    "localName": "Leaders' Stadium",
+    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Leaders-Stadium",
+    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium",
+    "numCards": "96 cartes",
+    "date": "24 octobre 1998",
+    "langues": "Japonais, Coréen, Chinois-T",
+    "bloc": "Gym JP",
+    "cards": [
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Zubat-LST",
+        "cardName": "Brock's Zubat",
+        "cardEngname": "Brock's Zubat",
+        "cardNumber": "",
+        "cardSerie": "Brock's Zubat  (G1)",
+        "productRowId": "productRow605112"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Oddish-V1-LST",
+        "cardName": "Erika's Oddish",
+        "cardEngname": "Erika's Oddish",
+        "cardNumber": "",
+        "cardSerie": "Erika's Oddish  (G1)",
+        "productRowId": "productRow605113"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Oddish-V2-LST",
+        "cardName": "Erika's Oddish",
+        "cardEngname": "Erika's Oddish",
+        "cardNumber": "",
+        "cardSerie": "Erika's Oddish  (G1)",
+        "productRowId": "productRow605114"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Paras-LST",
+        "cardName": "Erika's Paras",
+        "cardEngname": "Erika's Paras",
+        "cardNumber": "",
+        "cardSerie": "Erika's Paras  (G1)",
+        "productRowId": "productRow605115"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Bellsprout-V1-LST",
+        "cardName": "Erika's Bellsprout",
+        "cardEngname": "Erika's Bellsprout",
+        "cardNumber": "",
+        "cardSerie": "Erika's Bellsprout  (G1)",
+        "productRowId": "productRow605116"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Tangela-LST",
+        "cardName": "Erika's Tangela",
+        "cardEngname": "Erika's Tangela",
+        "cardNumber": "",
+        "cardSerie": "Erika's Tangela  (G1)",
+        "productRowId": "productRow605117"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Bulbasaur-LST",
+        "cardName": "Erika's Bulbasaur",
+        "cardEngname": "Erika's Bulbasaur",
+        "cardNumber": "",
+        "cardSerie": "Erika's Bulbasaur  (G1)",
+        "productRowId": "productRow605118"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Golbat-LST",
+        "cardName": "Brock's Golbat",
+        "cardEngname": "Brock's Golbat",
+        "cardNumber": "",
+        "cardSerie": "Brock's Golbat  (G1)",
+        "productRowId": "productRow605119"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Gloom-LST",
+        "cardName": "Erika's Gloom",
+        "cardEngname": "Erika's Gloom",
+        "cardNumber": "",
+        "cardSerie": "Erika's Gloom  (G1)",
+        "productRowId": "productRow605120"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Bellsprout-V2-LST",
+        "cardName": "Erika's Bellsprout",
+        "cardEngname": "Erika's Bellsprout",
+        "cardNumber": "",
+        "cardSerie": "Erika's Bellsprout  (G1)",
+        "productRowId": "productRow605121"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Weepinbell-LST",
+        "cardName": "Erika's Weepinbell",
+        "cardEngname": "Erika's Weepinbell",
+        "cardNumber": "",
+        "cardSerie": "Erika's Weepinbell  (G1)",
+        "productRowId": "productRow605122"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Exeggcute-LST",
+        "cardName": "Erika's Exeggcute",
+        "cardEngname": "Erika's Exeggcute",
+        "cardNumber": "",
+        "cardSerie": "Erika's Exeggcute  (G1)",
+        "productRowId": "productRow605123"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Exeggutor-LST",
+        "cardName": "Erika's Exeggutor",
+        "cardEngname": "Erika's Exeggutor",
+        "cardNumber": "",
+        "cardSerie": "Erika's Exeggutor  (G1)",
+        "productRowId": "productRow605124"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Vileplume-LST",
+        "cardName": "Erika's Vileplume",
+        "cardEngname": "Erika's Vileplume",
+        "cardNumber": "",
+        "cardSerie": "Erika's Vileplume  (G1)",
+        "productRowId": "productRow605125"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Victreebel-LST",
+        "cardName": "Erika's Victreebel",
+        "cardEngname": "Erika's Victreebel",
+        "cardNumber": "",
+        "cardSerie": "Erika's Victreebel  (G1)",
+        "productRowId": "productRow605126"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Rockets-Scyther-LST",
+        "cardName": "Rocket's Scyther",
+        "cardEngname": "Rocket's Scyther",
+        "cardNumber": "",
+        "cardSerie": "Rocket's Scyther  (G1)",
+        "productRowId": "productRow605127"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Vulpix-V1-LST",
+        "cardName": "Brock's Vulpix",
+        "cardEngname": "Brock's Vulpix",
+        "cardNumber": "",
+        "cardSerie": "Brock's Vulpix  (G1)",
+        "productRowId": "productRow605128"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Vulpix-V2-LST",
+        "cardName": "Brock's Vulpix",
+        "cardEngname": "Brock's Vulpix",
+        "cardNumber": "",
+        "cardSerie": "Brock's Vulpix  (G1)",
+        "productRowId": "productRow605129"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Ninetales-LST",
+        "cardName": "Brock's Ninetales",
+        "cardEngname": "Brock's Ninetales",
+        "cardNumber": "",
+        "cardSerie": "Brock's Ninetales  (G1)",
+        "productRowId": "productRow605130"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Rockets-Moltres-LST",
+        "cardName": "Rocket's Moltres",
+        "cardEngname": "Rocket's Moltres",
+        "cardNumber": "",
+        "cardSerie": "Rocket's Moltres  (G1)",
+        "productRowId": "productRow605131"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Psyduck-LST",
+        "cardName": "Misty's Psyduck",
+        "cardEngname": "Misty's Psyduck",
+        "cardNumber": "",
+        "cardSerie": "Misty's Psyduck  (G1)",
+        "productRowId": "productRow605132"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Poliwag-LST",
+        "cardName": "Misty's Poliwag",
+        "cardEngname": "Misty's Poliwag",
+        "cardNumber": "",
+        "cardSerie": "Misty's Poliwag  (G1)",
+        "productRowId": "productRow605133"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Seel-LST",
+        "cardName": "Misty's Seel",
+        "cardEngname": "Misty's Seel",
+        "cardNumber": "",
+        "cardSerie": "Misty's Seel  (G1)",
+        "productRowId": "productRow605134"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Horsea-V1-LST",
+        "cardName": "Misty's Horsea",
+        "cardEngname": "Misty's Horsea",
+        "cardNumber": "",
+        "cardSerie": "Misty's Horsea  (G1)",
+        "productRowId": "productRow605135"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Horsea-V2-LST",
+        "cardName": "Misty's Horsea",
+        "cardEngname": "Misty's Horsea",
+        "cardNumber": "",
+        "cardSerie": "Misty's Horsea  (G1)",
+        "productRowId": "productRow605136"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Goldeen-LST",
+        "cardName": "Misty's Goldeen",
+        "cardEngname": "Misty's Goldeen",
+        "cardNumber": "",
+        "cardSerie": "Misty's Goldeen  (G1)",
+        "productRowId": "productRow605137"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Staryu-LST",
+        "cardName": "Misty's Staryu",
+        "cardEngname": "Misty's Staryu",
+        "cardNumber": "",
+        "cardSerie": "Misty's Staryu  (G1)",
+        "productRowId": "productRow605138"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Magikarp-LST",
+        "cardName": "Misty's Magikarp",
+        "cardEngname": "Misty's Magikarp",
+        "cardNumber": "",
+        "cardSerie": "Misty's Magikarp  (G1)",
+        "productRowId": "productRow605139"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Poliwhirl-LST",
+        "cardName": "Misty's Poliwhirl",
+        "cardEngname": "Misty's Poliwhirl",
+        "cardNumber": "",
+        "cardSerie": "Misty's Poliwhirl  (G1)",
+        "productRowId": "productRow605140"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Tentacool-LST",
+        "cardName": "Misty's Tentacool",
+        "cardEngname": "Misty's Tentacool",
+        "cardNumber": "",
+        "cardSerie": "Misty's Tentacool  (G1)",
+        "productRowId": "productRow605141"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Dewgong-LST",
+        "cardName": "Misty's Dewgong",
+        "cardEngname": "Misty's Dewgong",
+        "cardNumber": "",
+        "cardSerie": "Misty's Dewgong  (G1)",
+        "productRowId": "productRow605142"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Golduck-LST",
+        "cardName": "Misty's Golduck",
+        "cardEngname": "Misty's Golduck",
+        "cardNumber": "",
+        "cardSerie": "Misty's Golduck  (G1)",
+        "productRowId": "productRow605143"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Tentacruel-LST",
+        "cardName": "Misty's Tentacruel",
+        "cardEngname": "Misty's Tentacruel",
+        "cardNumber": "",
+        "cardSerie": "Misty's Tentacruel  (G1)",
+        "productRowId": "productRow605144"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Seadra-LST",
+        "cardName": "Misty's Seadra",
+        "cardEngname": "Misty's Seadra",
+        "cardNumber": "",
+        "cardSerie": "Misty's Seadra  (G1)",
+        "productRowId": "productRow605145"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Gyarados-LST",
+        "cardName": "Misty's Gyarados",
+        "cardEngname": "Misty's Gyarados",
+        "cardNumber": "",
+        "cardSerie": "Misty's Gyarados  (G1)",
+        "productRowId": "productRow605146"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Pikachu-LST",
+        "cardName": "Lt. Surge's Pikachu",
+        "cardEngname": "Lt. Surge's Pikachu",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Pikachu  (G1)",
+        "productRowId": "productRow605147"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Magnemite-V1-LST",
+        "cardName": "Lt. Surge's Magnemite",
+        "cardEngname": "Lt. Surge's Magnemite",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Magnemite  (G1)",
+        "productRowId": "productRow605148"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Voltorb-LST",
+        "cardName": "Lt. Surge's Voltorb",
+        "cardEngname": "Lt. Surge's Voltorb",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Voltorb  (G1)",
+        "productRowId": "productRow605149"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Magnemite-V2-LST",
+        "cardName": "Lt. Surge's Magnemite",
+        "cardEngname": "Lt. Surge's Magnemite",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Magnemite  (G1)",
+        "productRowId": "productRow605150"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Magneton-LST",
+        "cardName": "Lt. Surge's Magneton",
+        "cardEngname": "Lt. Surge's Magneton",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Magneton  (G1)",
+        "productRowId": "productRow605151"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Electabuzz-LST",
+        "cardName": "Lt. Surge's Electabuzz",
+        "cardEngname": "Lt. Surge's Electabuzz",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Electabuzz  (G1)",
+        "productRowId": "productRow605152"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Jolteon-LST",
+        "cardName": "Lt. Surge's Jolteon",
+        "cardEngname": "Lt. Surge's Jolteon",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Jolteon  (G1)",
+        "productRowId": "productRow605153"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Sandshrew-LST",
+        "cardName": "Brock's Sandshrew",
+        "cardEngname": "Brock's Sandshrew",
+        "cardNumber": "",
+        "cardSerie": "Brock's Sandshrew  (G1)",
+        "productRowId": "productRow605154"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Diglett-LST",
+        "cardName": "Brock's Diglett",
+        "cardEngname": "Brock's Diglett",
+        "cardNumber": "",
+        "cardSerie": "Brock's Diglett  (G1)",
+        "productRowId": "productRow605155"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Mankey-LST",
+        "cardName": "Brock's Mankey",
+        "cardEngname": "Brock's Mankey",
+        "cardNumber": "",
+        "cardSerie": "Brock's Mankey  (G1)",
+        "productRowId": "productRow605156"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Geodude-V1-LST",
+        "cardName": "Brock's Geodude",
+        "cardEngname": "Brock's Geodude",
+        "cardNumber": "",
+        "cardSerie": "Brock's Geodude  (G1)",
+        "productRowId": "productRow605157"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Geodude-V2-LST",
+        "cardName": "Brock's Geodude",
+        "cardEngname": "Brock's Geodude",
+        "cardNumber": "",
+        "cardSerie": "Brock's Geodude  (G1)",
+        "productRowId": "productRow605158"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Onix-LST",
+        "cardName": "Brock's Onix",
+        "cardEngname": "Brock's Onix",
+        "cardNumber": "",
+        "cardSerie": "Brock's Onix  (G1)",
+        "productRowId": "productRow605159"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Rhyhorn-LST",
+        "cardName": "Brock's Rhyhorn",
+        "cardEngname": "Brock's Rhyhorn",
+        "cardNumber": "",
+        "cardSerie": "Brock's Rhyhorn  (G1)",
+        "productRowId": "productRow605160"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Sandslash-LST",
+        "cardName": "Brock's Sandslash",
+        "cardEngname": "Brock's Sandslash",
+        "cardNumber": "",
+        "cardSerie": "Brock's Sandslash  (G1)",
+        "productRowId": "productRow605161"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Primeape-LST",
+        "cardName": "Brock's Primeape",
+        "cardEngname": "Brock's Primeape",
+        "cardNumber": "",
+        "cardSerie": "Brock's Primeape  (G1)",
+        "productRowId": "productRow605162"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Graveler-LST",
+        "cardName": "Brock's Graveler",
+        "cardEngname": "Brock's Graveler",
+        "cardNumber": "",
+        "cardSerie": "Brock's Graveler  (G1)",
+        "productRowId": "productRow605163"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Golem-LST",
+        "cardName": "Brock's Golem",
+        "cardEngname": "Brock's Golem",
+        "cardNumber": "",
+        "cardSerie": "Brock's Golem  (G1)",
+        "productRowId": "productRow605164"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Rockets-Hitmonchan-LST",
+        "cardName": "Rocket's Hitmonchan",
+        "cardEngname": "Rocket's Hitmonchan",
+        "cardNumber": "",
+        "cardSerie": "Rocket's Hitmonchan  (G1)",
+        "productRowId": "productRow605165"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Rhydon-LST",
+        "cardName": "Brock's Rhydon",
+        "cardEngname": "Brock's Rhydon",
+        "cardNumber": "",
+        "cardSerie": "Brock's Rhydon  (G1)",
+        "productRowId": "productRow605166"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Rattata-LST",
+        "cardName": "Lt. Surge's Rattata",
+        "cardEngname": "Lt. Surge's Rattata",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Rattata  (G1)",
+        "productRowId": "productRow605167"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Spearow-LST",
+        "cardName": "Lt. Surge's Spearow",
+        "cardEngname": "Lt. Surge's Spearow",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Spearow  (G1)",
+        "productRowId": "productRow605168"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Jigglypuff-LST",
+        "cardName": "Erika's Jigglypuff",
+        "cardEngname": "Erika's Jigglypuff",
+        "cardNumber": "",
+        "cardSerie": "Erika's Jigglypuff  (G1)",
+        "productRowId": "productRow605169"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Raticate-LST",
+        "cardName": "Lt. Surge's Raticate",
+        "cardEngname": "Lt. Surge's Raticate",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Raticate  (G1)",
+        "productRowId": "productRow605170"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Clefairy-LST",
+        "cardName": "Erika's Clefairy",
+        "cardEngname": "Erika's Clefairy",
+        "cardNumber": "",
+        "cardSerie": "Erika's Clefairy  (G1)",
+        "productRowId": "productRow605171"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Lickitung-LST",
+        "cardName": "Brock's Lickitung",
+        "cardEngname": "Brock's Lickitung",
+        "cardNumber": "",
+        "cardSerie": "Brock's Lickitung  (G1)",
+        "productRowId": "productRow605172"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Eevee-LST",
+        "cardName": "Lt. Surge's Eevee",
+        "cardEngname": "Lt. Surge's Eevee",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Eevee  (G1)",
+        "productRowId": "productRow605173"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Dratini-LST",
+        "cardName": "Erika's Dratini",
+        "cardEngname": "Erika's Dratini",
+        "cardNumber": "",
+        "cardSerie": "Erika's Dratini  (G1)",
+        "productRowId": "productRow605174"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Fearow-LST",
+        "cardName": "Lt. Surge's Fearow",
+        "cardEngname": "Lt. Surge's Fearow",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Fearow  (G1)",
+        "productRowId": "productRow605175"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Clefable-LST",
+        "cardName": "Erika's Clefable",
+        "cardEngname": "Erika's Clefable",
+        "cardNumber": "",
+        "cardSerie": "Erika's Clefable  (G1)",
+        "productRowId": "productRow605176"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Dragonair-LST",
+        "cardName": "Erika's Dragonair",
+        "cardEngname": "Erika's Dragonair",
+        "cardNumber": "",
+        "cardSerie": "Erika's Dragonair  (G1)",
+        "productRowId": "productRow605177"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Energy-Flow-LST",
+        "cardName": "Energy Flow",
+        "cardEngname": "Energy Flow",
+        "cardNumber": "",
+        "cardSerie": "Energy Flow (G1)",
+        "productRowId": "productRow605178"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Duel-LST",
+        "cardName": "Misty's Duel",
+        "cardEngname": "Misty's Duel",
+        "cardNumber": "",
+        "cardSerie": "Misty's Duel (G1)",
+        "productRowId": "productRow605179"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Tears-LST",
+        "cardName": "Misty's Tears",
+        "cardEngname": "Misty's Tears",
+        "cardNumber": "",
+        "cardSerie": "Misty's Tears (G1)",
+        "productRowId": "productRow605180"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Narrow-Gym-LST",
+        "cardName": "Narrow Gym",
+        "cardEngname": "Narrow Gym",
+        "cardNumber": "",
+        "cardSerie": "Narrow Gym (G1)",
+        "productRowId": "productRow605181"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Recall-LST",
+        "cardName": "Recall",
+        "cardEngname": "Recall",
+        "cardNumber": "",
+        "cardSerie": "Recall (G1)",
+        "productRowId": "productRow605182"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Maids-LST",
+        "cardName": "Erika's Maids",
+        "cardEngname": "Erika's Maids",
+        "cardNumber": "",
+        "cardSerie": "Erika's Maids (G1)",
+        "productRowId": "productRow605183"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Perfume-LST",
+        "cardName": "Erika's Perfume",
+        "cardEngname": "Erika's Perfume",
+        "cardNumber": "",
+        "cardSerie": "Erika's Perfume (G1)",
+        "productRowId": "productRow605184"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Charity-LST",
+        "cardName": "Charity",
+        "cardEngname": "Charity",
+        "cardNumber": "",
+        "cardSerie": "Charity (G1)",
+        "productRowId": "productRow605185"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Wrath-LST",
+        "cardName": "Misty's Wrath",
+        "cardEngname": "Misty's Wrath",
+        "cardNumber": "",
+        "cardSerie": "Misty's Wrath (G1)",
+        "productRowId": "productRow605186"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Vermilion-City-Gym-LST",
+        "cardName": "Vermilion City Gym",
+        "cardEngname": "Vermilion City Gym",
+        "cardNumber": "",
+        "cardSerie": "Vermilion City Gym (G1)",
+        "productRowId": "productRow605187"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Training-Method-LST",
+        "cardName": "Brock's Training Method",
+        "cardEngname": "Brock's Training Method",
+        "cardNumber": "",
+        "cardSerie": "Brock's Training Method (G1)",
+        "productRowId": "productRow605188"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Celadon-City-Gym-LST",
+        "cardName": "Celadon City Gym",
+        "cardEngname": "Celadon City Gym",
+        "cardNumber": "",
+        "cardSerie": "Celadon City Gym (G1)",
+        "productRowId": "productRow605189"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Pewter-City-Gym-LST",
+        "cardName": "Pewter City Gym",
+        "cardEngname": "Pewter City Gym",
+        "cardNumber": "",
+        "cardSerie": "Pewter City Gym (G1)",
+        "productRowId": "productRow605190"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Cerulean-City-Gym-LST",
+        "cardName": "Cerulean City Gym",
+        "cardEngname": "Cerulean City Gym",
+        "cardNumber": "",
+        "cardSerie": "Cerulean City Gym (G1)",
+        "productRowId": "productRow605191"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Treaty-LST",
+        "cardName": "Lt. Surge's Treaty",
+        "cardEngname": "Lt. Surge's Treaty",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Treaty (G1)",
+        "productRowId": "productRow605192"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Good-Manners-LST",
+        "cardName": "Good Manners",
+        "cardEngname": "Good Manners",
+        "cardNumber": "",
+        "cardSerie": "Good Manners (G1)",
+        "productRowId": "productRow605193"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erika-LST",
+        "cardName": "Erika",
+        "cardEngname": "Erika",
+        "cardNumber": "",
+        "cardSerie": "Erika (G1)",
+        "productRowId": "productRow605194"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Erikas-Kindness-LST",
+        "cardName": "Erika's Kindness",
+        "cardEngname": "Erika's Kindness",
+        "cardNumber": "",
+        "cardSerie": "Erika's Kindness (G1)",
+        "productRowId": "productRow605195"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Misty-LST",
+        "cardName": "Misty",
+        "cardEngname": "Misty",
+        "cardNumber": "",
+        "cardSerie": "Misty (G1)",
+        "productRowId": "productRow605196"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Mistys-Wish-LST",
+        "cardName": "Misty's Wish",
+        "cardEngname": "Misty's Wish",
+        "cardNumber": "",
+        "cardSerie": "Misty's Wish (G1)",
+        "productRowId": "productRow605197"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Chaos-Gym-LST",
+        "cardName": "Chaos Gym",
+        "cardEngname": "Chaos Gym",
+        "cardNumber": "",
+        "cardSerie": "Chaos Gym (G1)",
+        "productRowId": "productRow605198"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Secret-Mission-LST",
+        "cardName": "Secret Mission",
+        "cardEngname": "Secret Mission",
+        "cardNumber": "",
+        "cardSerie": "Secret Mission (G1)",
+        "productRowId": "productRow605199"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brock-LST",
+        "cardName": "Brock",
+        "cardEngname": "Brock",
+        "cardNumber": "",
+        "cardSerie": "Brock (G1)",
+        "productRowId": "productRow605200"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Brocks-Protection-LST",
+        "cardName": "Brock's Protection",
+        "cardEngname": "Brock's Protection",
+        "cardNumber": "",
+        "cardSerie": "Brock's Protection (G1)",
+        "productRowId": "productRow605201"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Resistance-Gym-LST",
+        "cardName": "Resistance Gym",
+        "cardEngname": "Resistance Gym",
+        "cardNumber": "",
+        "cardSerie": "Resistance Gym (G1)",
+        "productRowId": "productRow605202"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surge-LST",
+        "cardName": "Lt. Surge",
+        "cardEngname": "Lt. Surge",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge (G1)",
+        "productRowId": "productRow605203"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/Lt-Surges-Secret-Plan-LST",
+        "cardName": "Lt. Surge's Secret Plan",
+        "cardEngname": "Lt. Surge's Secret Plan",
+        "cardNumber": "",
+        "cardSerie": "Lt. Surge's Secret Plan (G1)",
+        "productRowId": "productRow605204"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/No-Removal-Gym-LST",
+        "cardName": "No Removal Gym",
+        "cardEngname": "No Removal Gym",
+        "cardNumber": "",
+        "cardSerie": "No Removal Gym (G1)",
+        "productRowId": "productRow605205"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/The-Rockets-Training-Gym-LST",
+        "cardName": "The Rocket's Training Gym",
+        "cardEngname": "The Rocket's Training Gym",
+        "cardNumber": "",
+        "cardSerie": "The Rocket's Training Gym (G1)",
+        "productRowId": "productRow605206"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Leaders-Stadium/The-Rockets-Trap-LST",
+        "cardName": "The Rocket's Trap",
+        "cardEngname": "The Rocket's Trap",
+        "cardNumber": "",
+        "cardSerie": "The Rocket's Trap (G1)",
+        "productRowId": "productRow605207"
+      }
+    ],
+    "codeSerie": "(G1)"
+  },
+  {
+    "localName": "Destinées Radieuses",
+    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Shining-Fates",
+    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates",
+    "numCards": "208 cartes",
+    "date": "1 mars 2021",
+    "langues": "Anglais, Français, Allemand, Espagnol, Italien, Portugais",
+    "bloc": "Épée et Bouclier",
+    "cards": [
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Eternatus-VMAX-SHFSV122",
+        "cardName": "Éthernatos VMAX",
+        "cardEngname": "Eternatus VMAX",
+        "cardNumber": "",
+        "cardSerie": "Éthernatos VMAX  (SHF SV122)",
+        "productRowId": "productRow539998"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Eternatus-V",
+        "cardName": "Éthernatos V",
+        "cardEngname": "Eternatus V",
+        "cardNumber": "",
+        "cardSerie": "Éthernatos V  (SHF SV121)",
+        "productRowId": "productRow539993"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dubwool-V-SHFSV120",
+        "cardName": "Moumouflon V",
+        "cardEngname": "Dubwool V",
+        "cardNumber": "",
+        "cardSerie": "Moumouflon V  (SHF SV120)",
+        "productRowId": "productRow539988"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Ditto-VMAX-V2",
+        "cardName": "Ditto VMAX",
+        "cardEngname": "Ditto VMAX",
+        "cardNumber": "",
+        "cardSerie": "Ditto VMAX  (SHF SV119)",
+        "productRowId": "productRow539983"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Ditto-V-V2-SHFSV118",
+        "cardName": "Ditto V",
+        "cardEngname": "Ditto V",
+        "cardNumber": "",
+        "cardSerie": "Ditto V  (SHF SV118)",
+        "productRowId": "productRow539978"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Grimmsnarl-VMAX",
+        "cardName": "Angoliath VMAX",
+        "cardEngname": "Grimmsnarl VMAX",
+        "cardNumber": "",
+        "cardSerie": "Angoliath VMAX  (SHF SV117)",
+        "productRowId": "productRow539973"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Grimmsnarl-V",
+        "cardName": "Angoliath V",
+        "cardEngname": "Grimmsnarl V",
+        "cardNumber": "",
+        "cardSerie": "Angoliath V  (SHF SV116)",
+        "productRowId": "productRow539968"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Falinks-V-SHFSV115",
+        "cardName": "Hexadron V",
+        "cardEngname": "Falinks V",
+        "cardNumber": "",
+        "cardSerie": "Hexadron V  (SHF SV115)",
+        "productRowId": "productRow539963"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Indeedee-V-V2-SHFSV114",
+        "cardName": "Wimessir V",
+        "cardEngname": "Indeedee V",
+        "cardNumber": "",
+        "cardSerie": "Wimessir V  (SHF SV114)",
+        "productRowId": "productRow539958"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Toxtricity-VMAX",
+        "cardName": "Salarsen VMAX",
+        "cardEngname": "Toxtricity VMAX",
+        "cardNumber": "",
+        "cardSerie": "Salarsen VMAX  (SHF SV113)",
+        "productRowId": "productRow539953"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Toxtricity-V",
+        "cardName": "Salarsen V",
+        "cardEngname": "Toxtricity V",
+        "cardNumber": "",
+        "cardSerie": "Salarsen V  (SHF SV112)",
+        "productRowId": "productRow539948"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Lapras-VMAX",
+        "cardName": "Lapras VMAX",
+        "cardEngname": "Lapras VMAX",
+        "cardNumber": "",
+        "cardSerie": "Lapras VMAX  (SHF SV111)",
+        "productRowId": "productRow539943"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Lapras-V",
+        "cardName": "Lokhlass V",
+        "cardEngname": "Lapras V",
+        "cardNumber": "",
+        "cardSerie": "Lokhlass V  (SHF SV110)",
+        "productRowId": "productRow539938"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Centiskorch-VMAX",
+        "cardName": "Scolocendre VMAX",
+        "cardEngname": "Centiskorch VMAX",
+        "cardNumber": "",
+        "cardSerie": "Scolocendre VMAX  (SHF SV109)",
+        "productRowId": "productRow539933"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Centiskorch-V",
+        "cardName": "Scolocendre V",
+        "cardEngname": "Centiskorch V",
+        "cardNumber": "",
+        "cardSerie": "Scolocendre V  (SHF SV108)",
+        "productRowId": "productRow539928"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Charizard-VMAX",
+        "cardName": "Dracaufeu VMAX",
+        "cardEngname": "Charizard VMAX",
+        "cardNumber": "",
+        "cardSerie": "Dracaufeu VMAX  (SHF SV107)",
+        "productRowId": "productRow539923"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rillaboom-VMAX",
+        "cardName": "Gorythmic VMAX",
+        "cardEngname": "Rillaboom VMAX",
+        "cardNumber": "",
+        "cardSerie": "Gorythmic VMAX  (SHF SV106)",
+        "productRowId": "productRow539918"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rillaboom-V",
+        "cardName": "Gorythmic V",
+        "cardEngname": "Rillaboom V",
+        "cardNumber": "",
+        "cardSerie": "Gorythmic V  (SHF SV105)",
+        "productRowId": "productRow539913"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dubwool",
+        "cardName": "Moumouflon",
+        "cardEngname": "Dubwool",
+        "cardNumber": "",
+        "cardSerie": "Moumouflon  (SHF SV104)",
+        "productRowId": "productRow539908"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Wooloo",
+        "cardName": "Moumouton",
+        "cardEngname": "Wooloo",
+        "cardNumber": "",
+        "cardSerie": "Moumouton  (SHF SV103)",
+        "productRowId": "productRow539903"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Corvisquire",
+        "cardName": "Bleuseille",
+        "cardEngname": "Corvisquire",
+        "cardNumber": "",
+        "cardSerie": "Bleuseille  (SHF SV102)",
+        "productRowId": "productRow539898"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rookidee-V2",
+        "cardName": "Minisange",
+        "cardEngname": "Rookidee",
+        "cardNumber": "",
+        "cardSerie": "Minisange  (SHF SV101)",
+        "productRowId": "productRow539893"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Greedent-V2-SHFSV100",
+        "cardName": "Rongrigou",
+        "cardEngname": "Greedent",
+        "cardNumber": "",
+        "cardSerie": "Rongrigou  (SHF SV100)",
+        "productRowId": "productRow539888"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Skwovet",
+        "cardName": "Rongourmand",
+        "cardEngname": "Skwovet",
+        "cardNumber": "",
+        "cardSerie": "Rongourmand  (SHF SV99)",
+        "productRowId": "productRow539883"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Oranguru-SHFSV98",
+        "cardName": "Gouroutan",
+        "cardEngname": "Oranguru",
+        "cardNumber": "",
+        "cardSerie": "Gouroutan  (SHF SV98)",
+        "productRowId": "productRow539878"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Bunnelby",
+        "cardName": "Bunnelby",
+        "cardEngname": "Bunnelby",
+        "cardNumber": "",
+        "cardSerie": "Bunnelby  (SHF SV97)",
+        "productRowId": "productRow539873"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Swanna-SHFSV96",
+        "cardName": "Swanna",
+        "cardEngname": "Swanna",
+        "cardNumber": "",
+        "cardSerie": "Swanna  (SHF SV96)",
+        "productRowId": "productRow539868"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Ducklett",
+        "cardName": "Ducklett",
+        "cardEngname": "Ducklett",
+        "cardNumber": "",
+        "cardSerie": "Ducklett  (SHF SV95)",
+        "productRowId": "productRow539863"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cinccino-SHFSV94",
+        "cardName": "Pashmilla",
+        "cardEngname": "Cinccino",
+        "cardNumber": "",
+        "cardSerie": "Pashmilla  (SHF SV94)",
+        "productRowId": "productRow539858"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Minccino",
+        "cardName": "Chinchidou",
+        "cardEngname": "Minccino",
+        "cardNumber": "",
+        "cardSerie": "Chinchidou  (SHF SV93)",
+        "productRowId": "productRow539853"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Duraludon",
+        "cardName": "Duralugon",
+        "cardEngname": "Duraludon",
+        "cardNumber": "",
+        "cardSerie": "Duralugon  (SHF SV92)",
+        "productRowId": "productRow539848"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Copperajah-SHFSV91",
+        "cardName": "Pachyradjah",
+        "cardEngname": "Copperajah",
+        "cardNumber": "",
+        "cardSerie": "Pachyradjah  (SHF SV91)",
+        "productRowId": "productRow539843"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cufant-V2",
+        "cardName": "Charibari",
+        "cardEngname": "Cufant",
+        "cardNumber": "",
+        "cardSerie": "Charibari  (SHF SV90)",
+        "productRowId": "productRow539838"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Corviknight",
+        "cardName": "Corvaillus",
+        "cardEngname": "Corviknight",
+        "cardNumber": "",
+        "cardSerie": "Corvaillus  (SHF SV89)",
+        "productRowId": "productRow539833"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Stunfisk-SHFSV88",
+        "cardName": "Limonde de Galar",
+        "cardEngname": "Galarian Stunfisk",
+        "cardNumber": "",
+        "cardSerie": "Limonde de Galar  (SHF SV88)",
+        "productRowId": "productRow539828"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Perrserker-SHFSV87",
+        "cardName": "Berserkatt de Galar",
+        "cardEngname": "Galarian Perrserker",
+        "cardNumber": "",
+        "cardSerie": "Berserkatt de Galar  (SHF SV87)",
+        "productRowId": "productRow539823"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Meowth-SHFSV86",
+        "cardName": "Galarian Meowth",
+        "cardEngname": "Galarian Meowth",
+        "cardNumber": "",
+        "cardSerie": "Galarian Meowth  (SHF SV86)",
+        "productRowId": "productRow539818"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Grimmsnarl-SHFSV85",
+        "cardName": "Angoliath",
+        "cardEngname": "Grimmsnarl",
+        "cardNumber": "",
+        "cardSerie": "Angoliath  (SHF SV85)",
+        "productRowId": "productRow539813"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Morgrem",
+        "cardName": "Fourbelin",
+        "cardEngname": "Morgrem",
+        "cardNumber": "",
+        "cardSerie": "Fourbelin  (SHF SV84)",
+        "productRowId": "productRow539808"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Impidimp",
+        "cardName": "Grimalin",
+        "cardEngname": "Impidimp",
+        "cardNumber": "",
+        "cardSerie": "Grimalin  (SHF SV83)",
+        "productRowId": "productRow539803"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Thievul-V2",
+        "cardName": "Roublenard",
+        "cardEngname": "Thievul",
+        "cardNumber": "",
+        "cardSerie": "Roublenard  (SHF SV82)",
+        "productRowId": "productRow539798"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Nickit-V2-SHFSV81",
+        "cardName": "Goupilou",
+        "cardEngname": "Nickit",
+        "cardNumber": "",
+        "cardSerie": "Goupilou  (SHF SV81)",
+        "productRowId": "productRow539793"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Obstagoon-SHFSV80",
+        "cardName": "Ixon de Galar",
+        "cardEngname": "Galarian Obstagoon",
+        "cardNumber": "",
+        "cardSerie": "Ixon de Galar  (SHF SV80)",
+        "productRowId": "productRow539788"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Linoone",
+        "cardName": "Linéon de Galar",
+        "cardEngname": "Galarian Linoone",
+        "cardNumber": "",
+        "cardSerie": "Linéon de Galar  (SHF SV79)",
+        "productRowId": "productRow539783"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Zigzagoon-SHFSV78",
+        "cardName": "Zigzaton de Galar",
+        "cardEngname": "Galarian Zigzagoon",
+        "cardNumber": "",
+        "cardSerie": "Zigzaton de Galar  (SHF SV78)",
+        "productRowId": "productRow539778"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Weezing-V2-SHFSV77",
+        "cardName": "Galarian Weezing",
+        "cardEngname": "Galarian Weezing",
+        "cardNumber": "",
+        "cardSerie": "Galarian Weezing  (SHF SV77)",
+        "productRowId": "productRow539773"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Koffing-V2",
+        "cardName": "Koffing",
+        "cardEngname": "Koffing",
+        "cardNumber": "",
+        "cardSerie": "Koffing  (SHF SV76)",
+        "productRowId": "productRow539768"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Stonjourner",
+        "cardName": "Dolman",
+        "cardEngname": "Stonjourner",
+        "cardNumber": "",
+        "cardSerie": "Dolman  (SHF SV75)",
+        "productRowId": "productRow539763"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Falinks",
+        "cardName": "Hexadron",
+        "cardEngname": "Falinks",
+        "cardNumber": "",
+        "cardSerie": "Hexadron  (SHF SV74)",
+        "productRowId": "productRow539758"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Grapploct",
+        "cardName": "Krakos",
+        "cardEngname": "Grapploct",
+        "cardNumber": "",
+        "cardSerie": "Krakos  (SHF SV73)",
+        "productRowId": "productRow539753"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Clobbopus",
+        "cardName": "Poulpaf",
+        "cardEngname": "Clobbopus",
+        "cardNumber": "",
+        "cardSerie": "Poulpaf  (SHF SV72)",
+        "productRowId": "productRow539748"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Sandaconda",
+        "cardName": "Dunaconda",
+        "cardEngname": "Sandaconda",
+        "cardNumber": "",
+        "cardSerie": "Dunaconda  (SHF SV71)",
+        "productRowId": "productRow539743"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Silicobra",
+        "cardName": "Dunaja",
+        "cardEngname": "Silicobra",
+        "cardNumber": "",
+        "cardSerie": "Dunaja  (SHF SV70)",
+        "productRowId": "productRow539738"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Coalossal-SHFSV69",
+        "cardName": "Monthracite",
+        "cardEngname": "Coalossal",
+        "cardNumber": "",
+        "cardSerie": "Monthracite  (SHF SV69)",
+        "productRowId": "productRow539733"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Carkol",
+        "cardName": "Wagomine",
+        "cardEngname": "Carkol",
+        "cardNumber": "",
+        "cardSerie": "Wagomine  (SHF SV68)",
+        "productRowId": "productRow539728"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rolycoly",
+        "cardName": "Charbi",
+        "cardEngname": "Rolycoly",
+        "cardNumber": "",
+        "cardSerie": "Charbi  (SHF SV67)",
+        "productRowId": "productRow539723"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Runerigus",
+        "cardName": "Tutétékri de Galar",
+        "cardEngname": "Galarian Runerigus",
+        "cardNumber": "",
+        "cardSerie": "Tutétékri de Galar  (SHF SV66)",
+        "productRowId": "productRow539718"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Yamask",
+        "cardName": "Galarian Yamask",
+        "cardEngname": "Galarian Yamask",
+        "cardNumber": "",
+        "cardSerie": "Galarian Yamask  (SHF SV65)",
+        "productRowId": "productRow539713"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Sirfetchd-V2",
+        "cardName": "Palarticho de Galar",
+        "cardEngname": "Galarian Sirfetch'd",
+        "cardNumber": "",
+        "cardSerie": "Palarticho de Galar  (SHF SV64)",
+        "productRowId": "productRow539708"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Farfetchd-V2",
+        "cardName": "Galarian Farfetch'd",
+        "cardEngname": "Galarian Farfetch'd",
+        "cardNumber": "",
+        "cardSerie": "Galarian Farfetch'd  (SHF SV63)",
+        "productRowId": "productRow539703"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dragapult-V2-SHFSV62",
+        "cardName": "Lanssorien",
+        "cardEngname": "Dragapult",
+        "cardNumber": "",
+        "cardSerie": "Lanssorien  (SHF SV62)",
+        "productRowId": "productRow539698"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Drakloak-V2",
+        "cardName": "Dispareptil",
+        "cardEngname": "Drakloak",
+        "cardNumber": "",
+        "cardSerie": "Dispareptil  (SHF SV61)",
+        "productRowId": "productRow539693"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dreepy-V2",
+        "cardName": "Fantyrm",
+        "cardEngname": "Dreepy",
+        "cardNumber": "",
+        "cardSerie": "Fantyrm  (SHF SV60)",
+        "productRowId": "productRow539688"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Indeedee-SHFSV59",
+        "cardName": "Wimessir",
+        "cardEngname": "Indeedee",
+        "cardNumber": "",
+        "cardSerie": "Wimessir  (SHF SV59)",
+        "productRowId": "productRow539683"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Alcremie",
+        "cardName": "Charmilly",
+        "cardEngname": "Alcremie",
+        "cardNumber": "",
+        "cardSerie": "Charmilly  (SHF SV58)",
+        "productRowId": "productRow539678"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Milcery",
+        "cardName": "Crèmy",
+        "cardEngname": "Milcery",
+        "cardNumber": "",
+        "cardSerie": "Crèmy  (SHF SV57)",
+        "productRowId": "productRow539673"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Hatterene-SHFSV56",
+        "cardName": "Sorcilence",
+        "cardEngname": "Hatterene",
+        "cardNumber": "",
+        "cardSerie": "Sorcilence  (SHF SV56)",
+        "productRowId": "productRow539668"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Hattrem",
+        "cardName": "Chapotus",
+        "cardEngname": "Hattrem",
+        "cardNumber": "",
+        "cardSerie": "Chapotus  (SHF SV55)",
+        "productRowId": "productRow539663"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Hatenna",
+        "cardName": "Bibichut",
+        "cardEngname": "Hatenna",
+        "cardNumber": "",
+        "cardSerie": "Bibichut  (SHF SV54)",
+        "productRowId": "productRow539658"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Polteageist-SHFSV53",
+        "cardName": "Polthégeist",
+        "cardEngname": "Polteageist",
+        "cardNumber": "",
+        "cardSerie": "Polthégeist  (SHF SV53)",
+        "productRowId": "productRow539653"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Sinistea",
+        "cardName": "Théffroi",
+        "cardEngname": "Sinistea",
+        "cardNumber": "",
+        "cardSerie": "Théffroi  (SHF SV52)",
+        "productRowId": "productRow539648"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dedenne",
+        "cardName": "Dedenne",
+        "cardEngname": "Dedenne",
+        "cardNumber": "",
+        "cardSerie": "Dedenne  (SHF SV51)",
+        "productRowId": "productRow539643"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Cursola-SHFSV50",
+        "cardName": "Corayôme de Galar",
+        "cardEngname": "Galarian Cursola",
+        "cardNumber": "",
+        "cardSerie": "Corayôme de Galar  (SHF SV50)",
+        "productRowId": "productRow539633"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Corsola",
+        "cardName": "Galarian Corsola",
+        "cardEngname": "Galarian Corsola",
+        "cardNumber": "",
+        "cardSerie": "Galarian Corsola  (SHF SV49)",
+        "productRowId": "productRow539628"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Rapidash-SHFSV48",
+        "cardName": "Galopa de Galar",
+        "cardEngname": "Galarian Rapidash",
+        "cardNumber": "",
+        "cardSerie": "Galopa de Galar  (SHF SV48)",
+        "productRowId": "productRow539623"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Ponyta",
+        "cardName": "Ponyta de Galar",
+        "cardEngname": "Galarian Ponyta",
+        "cardNumber": "",
+        "cardSerie": "Ponyta de Galar  (SHF SV47)",
+        "productRowId": "productRow539618"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Arctozolt-SHFSV46",
+        "cardName": "Galvagla",
+        "cardEngname": "Arctozolt",
+        "cardNumber": "",
+        "cardSerie": "Galvagla  (SHF SV46)",
+        "productRowId": "productRow539613"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dracozolt",
+        "cardName": "Galvagon",
+        "cardEngname": "Dracozolt",
+        "cardNumber": "",
+        "cardSerie": "Galvagon  (SHF SV45)",
+        "productRowId": "productRow539638"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Morpeko-V3",
+        "cardName": "Morpeko",
+        "cardEngname": "Morpeko",
+        "cardNumber": "",
+        "cardSerie": "Morpeko  (SHF SV44)",
+        "productRowId": "productRow539608"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Pincurchin",
+        "cardName": "Wattapik",
+        "cardEngname": "Pincurchin",
+        "cardNumber": "",
+        "cardSerie": "Wattapik  (SHF SV43)",
+        "productRowId": "productRow539603"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Toxtricity",
+        "cardName": "Salarsen",
+        "cardEngname": "Toxtricity",
+        "cardNumber": "",
+        "cardSerie": "Salarsen  (SHF SV42)",
+        "productRowId": "productRow539598"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Toxel",
+        "cardName": "Toxizap",
+        "cardEngname": "Toxel",
+        "cardNumber": "",
+        "cardSerie": "Toxizap  (SHF SV41)",
+        "productRowId": "productRow539593"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Boltund",
+        "cardName": "Fulgudog",
+        "cardEngname": "Boltund",
+        "cardNumber": "",
+        "cardSerie": "Fulgudog  (SHF SV40)",
+        "productRowId": "productRow539588"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Yamper",
+        "cardName": "Voltoutou",
+        "cardEngname": "Yamper",
+        "cardNumber": "",
+        "cardSerie": "Voltoutou  (SHF SV39)",
+        "productRowId": "productRow539583"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rotom-V2-SHFSV38",
+        "cardName": "Rotom",
+        "cardEngname": "Rotom",
+        "cardNumber": "",
+        "cardSerie": "Rotom  (SHF SV38)",
+        "productRowId": "productRow539578"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Arctovish",
+        "cardName": "Hydragla",
+        "cardEngname": "Arctovish",
+        "cardNumber": "",
+        "cardSerie": "Hydragla  (SHF SV37)",
+        "productRowId": "productRow539573"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dracovish-SHFSV36",
+        "cardName": "Hydragon",
+        "cardEngname": "Dracovish",
+        "cardNumber": "",
+        "cardSerie": "Hydragon  (SHF SV36)",
+        "productRowId": "productRow539568"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Eiscue-SHFSV35",
+        "cardName": "Bekaglaçon",
+        "cardEngname": "Eiscue",
+        "cardNumber": "",
+        "cardSerie": "Bekaglaçon  (SHF SV35)",
+        "productRowId": "productRow539563"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Frosmoth-V2-SHFSV34",
+        "cardName": "Beldeneige",
+        "cardEngname": "Frosmoth",
+        "cardNumber": "",
+        "cardSerie": "Beldeneige  (SHF SV34)",
+        "productRowId": "productRow539558"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Snom-V2",
+        "cardName": "Frissonille",
+        "cardEngname": "Snom",
+        "cardNumber": "",
+        "cardSerie": "Frissonille  (SHF SV33)",
+        "productRowId": "productRow539553"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Barraskewda",
+        "cardName": "Hastacuda",
+        "cardEngname": "Barraskewda",
+        "cardNumber": "",
+        "cardSerie": "Hastacuda  (SHF SV32)",
+        "productRowId": "productRow539548"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Arrokuda",
+        "cardName": "Embrochet",
+        "cardEngname": "Arrokuda",
+        "cardNumber": "",
+        "cardSerie": "Embrochet  (SHF SV31)",
+        "productRowId": "productRow539543"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cramorant-V2",
+        "cardName": "Nigosier",
+        "cardEngname": "Cramorant",
+        "cardNumber": "",
+        "cardSerie": "Nigosier  (SHF SV30)",
+        "productRowId": "productRow539538"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Drednaw-V2",
+        "cardName": "Torgamord",
+        "cardEngname": "Drednaw",
+        "cardNumber": "",
+        "cardSerie": "Torgamord  (SHF SV29)",
+        "productRowId": "productRow539533"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Chewtle-V2",
+        "cardName": "Khélocrok",
+        "cardEngname": "Chewtle",
+        "cardNumber": "",
+        "cardSerie": "Khélocrok  (SHF SV28)",
+        "productRowId": "productRow539528"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Inteleon-SHFSV27",
+        "cardName": "Lézargus",
+        "cardEngname": "Inteleon",
+        "cardNumber": "",
+        "cardSerie": "Lézargus  (SHF SV27)",
+        "productRowId": "productRow539523"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Drizzile-SHFSV26",
+        "cardName": "Arrozard",
+        "cardEngname": "Drizzile",
+        "cardNumber": "",
+        "cardSerie": "Arrozard  (SHF SV26)",
+        "productRowId": "productRow539518"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Sobble",
+        "cardName": "Larméléon",
+        "cardEngname": "Sobble",
+        "cardNumber": "",
+        "cardSerie": "Larméléon  (SHF SV25)",
+        "productRowId": "productRow539513"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Darmanitan",
+        "cardName": "Galarian Darmanitan",
+        "cardEngname": "Galarian Darmanitan",
+        "cardNumber": "",
+        "cardSerie": "Galarian Darmanitan  (SHF SV24)",
+        "productRowId": "productRow539508"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Darumaka",
+        "cardName": "Galarian Darumaka",
+        "cardEngname": "Galarian Darumaka",
+        "cardNumber": "",
+        "cardSerie": "Galarian Darumaka  (SHF SV23)",
+        "productRowId": "productRow539503"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Suicune",
+        "cardName": "Suicune",
+        "cardEngname": "Suicune",
+        "cardNumber": "",
+        "cardSerie": "Suicune  (SHF SV22)",
+        "productRowId": "productRow539498"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Mr-Rime-SHFSV21",
+        "cardName": "M. Glaquette de Galar",
+        "cardEngname": "Galarian Mr. Rime",
+        "cardNumber": "",
+        "cardSerie": "M. Glaquette de Galar  (SHF SV21)",
+        "productRowId": "productRow539493"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Mr-Mime",
+        "cardName": "Galarian Mr. Mime",
+        "cardEngname": "Galarian Mr. Mime",
+        "cardNumber": "",
+        "cardSerie": "Galarian Mr. Mime  (SHF SV20)",
+        "productRowId": "productRow539488"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Centiskorch",
+        "cardName": "Scolocendre",
+        "cardEngname": "Centiskorch",
+        "cardNumber": "",
+        "cardSerie": "Scolocendre  (SHF SV19)",
+        "productRowId": "productRow539483"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Sizzlipede",
+        "cardName": "Grillepattes",
+        "cardEngname": "Sizzlipede",
+        "cardNumber": "",
+        "cardSerie": "Grillepattes  (SHF SV18)",
+        "productRowId": "productRow539478"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cinderace-SHFSV17",
+        "cardName": "Pyrobut",
+        "cardEngname": "Cinderace",
+        "cardNumber": "",
+        "cardSerie": "Pyrobut  (SHF SV17)",
+        "productRowId": "productRow539473"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Raboot",
+        "cardName": "Lapyro",
+        "cardEngname": "Raboot",
+        "cardNumber": "",
+        "cardSerie": "Lapyro  (SHF SV16)",
+        "productRowId": "productRow539468"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Scorbunny",
+        "cardName": "Flambino",
+        "cardEngname": "Scorbunny",
+        "cardNumber": "",
+        "cardSerie": "Flambino  (SHF SV15)",
+        "productRowId": "productRow539463"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Appletun-SHFSV14",
+        "cardName": "Dratatin",
+        "cardEngname": "Appletun",
+        "cardNumber": "",
+        "cardSerie": "Dratatin  (SHF SV14)",
+        "productRowId": "productRow539458"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Flapple-SHFSV13",
+        "cardName": "Pomdrapi",
+        "cardEngname": "Flapple",
+        "cardNumber": "",
+        "cardSerie": "Pomdrapi  (SHF SV13)",
+        "productRowId": "productRow539453"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Applin",
+        "cardName": "Verpom",
+        "cardEngname": "Applin",
+        "cardNumber": "",
+        "cardSerie": "Verpom  (SHF SV12)",
+        "productRowId": "productRow539448"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Eldegoss-V2",
+        "cardName": "Blancoton",
+        "cardEngname": "Eldegoss",
+        "cardNumber": "",
+        "cardSerie": "Blancoton  (SHF SV11)",
+        "productRowId": "productRow539443"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Gossifleur-V2",
+        "cardName": "Tournicoton",
+        "cardEngname": "Gossifleur",
+        "cardNumber": "",
+        "cardSerie": "Tournicoton  (SHF SV10)",
+        "productRowId": "productRow539438"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Orbeetle-SHFSV9",
+        "cardName": "Astronelle",
+        "cardEngname": "Orbeetle",
+        "cardNumber": "",
+        "cardSerie": "Astronelle  (SHF SV9)",
+        "productRowId": "productRow539433"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dottler",
+        "cardName": "Coléodôme",
+        "cardEngname": "Dottler",
+        "cardNumber": "",
+        "cardSerie": "Coléodôme  (SHF SV8)",
+        "productRowId": "productRow539428"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Blipbug",
+        "cardName": "Larvadar",
+        "cardEngname": "Blipbug",
+        "cardNumber": "",
+        "cardSerie": "Larvadar  (SHF SV7)",
+        "productRowId": "productRow539423"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rillaboom-V2-SHFSV6",
+        "cardName": "Gorythmic",
+        "cardEngname": "Rillaboom",
+        "cardNumber": "",
+        "cardSerie": "Gorythmic  (SHF SV6)",
+        "productRowId": "productRow539418"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Thwackey-V2-SHFSV5",
+        "cardName": "Badabouin",
+        "cardEngname": "Thwackey",
+        "cardNumber": "",
+        "cardSerie": "Badabouin  (SHF SV5)",
+        "productRowId": "productRow539413"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Grookey-V2",
+        "cardName": "Ouistempo",
+        "cardEngname": "Grookey",
+        "cardNumber": "",
+        "cardSerie": "Ouistempo  (SHF SV4)",
+        "productRowId": "productRow539408"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Decidueye-V2-SHFSV3",
+        "cardName": "Decidueye",
+        "cardEngname": "Decidueye",
+        "cardNumber": "",
+        "cardSerie": "Decidueye  (SHF SV3)",
+        "productRowId": "productRow539403"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dartrix-V2",
+        "cardName": "Dartrix",
+        "cardEngname": "Dartrix",
+        "cardNumber": "",
+        "cardSerie": "Dartrix  (SHF SV2)",
+        "productRowId": "productRow539398"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rowlet-V2-SHFSV1",
+        "cardName": "Brindibou",
+        "cardEngname": "Rowlet",
+        "cardNumber": "",
+        "cardSerie": "Brindibou  (SHF SV1)",
+        "productRowId": "productRow539393"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Alcremie-VMAX",
+        "cardName": "Charmilly VMAX",
+        "cardEngname": "Alcremie VMAX",
+        "cardNumber": "",
+        "cardSerie": "Charmilly VMAX  (SHF 73)",
+        "productRowId": "productRow539388"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Skyla",
+        "cardName": "Carolina",
+        "cardEngname": "Skyla",
+        "cardNumber": "",
+        "cardSerie": "Carolina (SHF 72)",
+        "productRowId": "productRow539383"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rose",
+        "cardName": "Shehroz",
+        "cardEngname": "Rose",
+        "cardNumber": "",
+        "cardSerie": "Shehroz (SHF 71)",
+        "productRowId": "productRow539378"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Poke-Kid",
+        "cardName": "Poké Enfant",
+        "cardEngname": "Poké Kid",
+        "cardNumber": "",
+        "cardSerie": "Poké Enfant (SHF 70)",
+        "productRowId": "productRow539373"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Piers",
+        "cardName": "Peterson",
+        "cardEngname": "Piers",
+        "cardNumber": "",
+        "cardSerie": "Peterson (SHF 69)",
+        "productRowId": "productRow539368"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Gym-Trainer-V2",
+        "cardName": "Dresseurs d'Arène",
+        "cardEngname": "Gym Trainer",
+        "cardNumber": "",
+        "cardSerie": "Dresseurs d'Arène (SHF 68)",
+        "productRowId": "productRow539363"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cara-Liss",
+        "cardName": "Alba Minçalor",
+        "cardEngname": "Cara Liss",
+        "cardNumber": "",
+        "cardSerie": "Alba Minçalor (SHF 67)",
+        "productRowId": "productRow539358"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Bird-Keeper",
+        "cardName": "Ornithologue",
+        "cardEngname": "Bird Keeper",
+        "cardNumber": "",
+        "cardSerie": "Ornithologue (SHF 66)",
+        "productRowId": "productRow539353"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Ball-Guy-V2",
+        "cardName": "Ball Masqué",
+        "cardEngname": "Ball Guy",
+        "cardNumber": "",
+        "cardSerie": "Ball Masqué (SHF 65)",
+        "productRowId": "productRow539348"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Alcremie-V",
+        "cardName": "Charmilly V",
+        "cardEngname": "Alcremie V",
+        "cardNumber": "",
+        "cardSerie": "Charmilly V  (SHF 64)",
+        "productRowId": "productRow539343"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Team-Yell-Towel-SHF63",
+        "cardName": "Bannière de la Team Yell",
+        "cardEngname": "Team Yell Towel",
+        "cardNumber": "",
+        "cardSerie": "Bannière de la Team Yell (SHF 63)",
+        "productRowId": "productRow539338"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rusted-Sword",
+        "cardName": "Épée Rouillée",
+        "cardEngname": "Rusted Sword",
+        "cardNumber": "",
+        "cardSerie": "Épée Rouillée (SHF 62)",
+        "productRowId": "productRow539333"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rusted-Shield",
+        "cardName": "Bouclier Rouillé",
+        "cardEngname": "Rusted Shield",
+        "cardNumber": "",
+        "cardSerie": "Bouclier Rouillé (SHF 61)",
+        "productRowId": "productRow539328"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Professors-Research-Professor-Juniper-V1-SHF60",
+        "cardName": "Recherches Professorales - Professeure Keteleeria",
+        "cardEngname": "Professor's Research - Professor Juniper",
+        "cardNumber": "",
+        "cardSerie": "Recherches Professorales - Professeure Keteleeria (SHF 60)",
+        "productRowId": "productRow539323"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Professors-Research-Professor-Juniper-V2-SHF60",
+        "cardName": "Recherches Professorales - Professeure Keteleeria",
+        "cardEngname": "Professor's Research - Professor Juniper",
+        "cardNumber": "",
+        "cardSerie": "Recherches Professorales - Professeure Keteleeria (SHF 60)",
+        "productRowId": "productRow659583"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Gym-Trainer",
+        "cardName": "Dresseurs d'Arène",
+        "cardEngname": "Gym Trainer",
+        "cardNumber": "",
+        "cardSerie": "Dresseurs d'Arène (SHF 59)",
+        "productRowId": "productRow539318"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Bosss-Orders-Lysandre-SHF58",
+        "cardName": "Ordres du Boss - Lysandre",
+        "cardEngname": "Boss's Orders - Lysandre",
+        "cardNumber": "",
+        "cardSerie": "Ordres du Boss - Lysandre (SHF 58)",
+        "productRowId": "productRow539313"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Ball-Guy",
+        "cardName": "Ball Masqué",
+        "cardEngname": "Ball Guy",
+        "cardNumber": "",
+        "cardSerie": "Ball Masqué (SHF 57)",
+        "productRowId": "productRow539308"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Indeedee",
+        "cardName": "Wimessir",
+        "cardEngname": "Indeedee",
+        "cardNumber": "",
+        "cardSerie": "Wimessir  (SHF 56)",
+        "productRowId": "productRow539303"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cramorant-VMAX-SHF55",
+        "cardName": "Nigosier VMAX",
+        "cardEngname": "Cramorant VMAX",
+        "cardNumber": "",
+        "cardSerie": "Nigosier VMAX  (SHF 55)",
+        "productRowId": "productRow539298"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cramorant-V",
+        "cardName": "Nigosier V",
+        "cardEngname": "Cramorant V",
+        "cardNumber": "",
+        "cardSerie": "Nigosier V  (SHF 54)",
+        "productRowId": "productRow539293"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Greedent-V-SHF53",
+        "cardName": "Rongrigou V",
+        "cardEngname": "Greedent V",
+        "cardNumber": "",
+        "cardSerie": "Rongrigou V  (SHF 53)",
+        "productRowId": "productRow539288"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Eevee",
+        "cardName": "Eevee",
+        "cardEngname": "Eevee",
+        "cardNumber": "",
+        "cardSerie": "Eevee  (SHF 52)",
+        "productRowId": "productRow539283"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Ditto-VMAX",
+        "cardName": "Ditto VMAX",
+        "cardEngname": "Ditto VMAX",
+        "cardNumber": "",
+        "cardSerie": "Ditto VMAX  (SHF 51)",
+        "productRowId": "productRow539278"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Ditto-V-SHF50",
+        "cardName": "Ditto V",
+        "cardEngname": "Ditto V",
+        "cardNumber": "",
+        "cardSerie": "Ditto V  (SHF 50)",
+        "productRowId": "productRow539273"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cufant",
+        "cardName": "Charibari",
+        "cardEngname": "Cufant",
+        "cardNumber": "",
+        "cardSerie": "Charibari  (SHF 49)",
+        "productRowId": "productRow539268"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Thievul",
+        "cardName": "Roublenard",
+        "cardEngname": "Thievul",
+        "cardNumber": "",
+        "cardSerie": "Roublenard  (SHF 48)",
+        "productRowId": "productRow539263"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Nickit",
+        "cardName": "Goupilou",
+        "cardEngname": "Nickit",
+        "cardNumber": "",
+        "cardSerie": "Goupilou  (SHF 47)",
+        "productRowId": "productRow539258"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Yveltal-SHF46",
+        "cardName": "Yveltal",
+        "cardEngname": "Yveltal",
+        "cardNumber": "",
+        "cardSerie": "Yveltal  (SHF 46)",
+        "productRowId": "productRow539253"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Crobat-VMAX",
+        "cardName": "Crobat VMAX",
+        "cardEngname": "Crobat VMAX",
+        "cardNumber": "",
+        "cardSerie": "Crobat VMAX  (SHF 45)",
+        "productRowId": "productRow539248"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Crobat-V-SHF44",
+        "cardName": "Nostenfer V",
+        "cardEngname": "Crobat V",
+        "cardNumber": "",
+        "cardSerie": "Nostenfer V  (SHF 44)",
+        "productRowId": "productRow539243"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Spinarak",
+        "cardName": "Mimigal",
+        "cardEngname": "Spinarak",
+        "cardNumber": "",
+        "cardSerie": "Mimigal  (SHF 43)",
+        "productRowId": "productRow539238"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Galarian-Weezing-SHF42",
+        "cardName": "Galarian Weezing",
+        "cardEngname": "Galarian Weezing",
+        "cardNumber": "",
+        "cardSerie": "Galarian Weezing  (SHF 42)",
+        "productRowId": "productRow539233"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Koffing",
+        "cardName": "Koffing",
+        "cardEngname": "Koffing",
+        "cardNumber": "",
+        "cardSerie": "Koffing  (SHF 41)",
+        "productRowId": "productRow539228"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Trapinch",
+        "cardName": "Trapinch",
+        "cardEngname": "Trapinch",
+        "cardNumber": "",
+        "cardSerie": "Trapinch  (SHF 40)",
+        "productRowId": "productRow539223"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Indeedee-V-V1-SHF39",
+        "cardName": "Wimessir V",
+        "cardEngname": "Indeedee V",
+        "cardNumber": "",
+        "cardSerie": "Wimessir V  (SHF 39)",
+        "productRowId": "productRow539218"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Morpeko-VMAX",
+        "cardName": "Morpeko VMAX",
+        "cardEngname": "Morpeko VMAX",
+        "cardNumber": "",
+        "cardSerie": "Morpeko VMAX  (SHF 38)",
+        "productRowId": "productRow539213"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Morpeko-V",
+        "cardName": "Morpeko V",
+        "cardEngname": "Morpeko V",
+        "cardNumber": "",
+        "cardSerie": "Morpeko V  (SHF 37)",
+        "productRowId": "productRow539208"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Morpeko-V2",
+        "cardName": "Morpeko",
+        "cardEngname": "Morpeko",
+        "cardNumber": "",
+        "cardSerie": "Morpeko  (SHF 36)",
+        "productRowId": "productRow539203"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Morpeko",
+        "cardName": "Morpeko",
+        "cardEngname": "Morpeko",
+        "cardNumber": "",
+        "cardSerie": "Morpeko  (SHF 35)",
+        "productRowId": "productRow539198"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rotom-SHF34",
+        "cardName": "Rotom",
+        "cardEngname": "Rotom",
+        "cardNumber": "",
+        "cardSerie": "Rotom  (SHF 34)",
+        "productRowId": "productRow539193"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Luxray",
+        "cardName": "Luxray",
+        "cardEngname": "Luxray",
+        "cardNumber": "",
+        "cardSerie": "Luxray  (SHF 33)",
+        "productRowId": "productRow539188"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Luxio-SHF32",
+        "cardName": "Luxio",
+        "cardEngname": "Luxio",
+        "cardNumber": "",
+        "cardSerie": "Luxio  (SHF 32)",
+        "productRowId": "productRow539183"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Shinx",
+        "cardName": "Shinx",
+        "cardEngname": "Shinx",
+        "cardNumber": "",
+        "cardSerie": "Shinx  (SHF 31)",
+        "productRowId": "productRow539178"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Frosmoth-SHF30",
+        "cardName": "Beldeneige",
+        "cardEngname": "Frosmoth",
+        "cardNumber": "",
+        "cardSerie": "Beldeneige  (SHF 30)",
+        "productRowId": "productRow539173"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Snom",
+        "cardName": "Frissonille",
+        "cardEngname": "Snom",
+        "cardNumber": "",
+        "cardSerie": "Frissonille  (SHF 29)",
+        "productRowId": "productRow539168"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cramorant-SHF28",
+        "cardName": "Nigosier",
+        "cardEngname": "Cramorant",
+        "cardNumber": "",
+        "cardSerie": "Nigosier  (SHF 28)",
+        "productRowId": "productRow539163"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Drednaw-SHF27",
+        "cardName": "Torgamord",
+        "cardEngname": "Drednaw",
+        "cardNumber": "",
+        "cardSerie": "Torgamord  (SHF 27)",
+        "productRowId": "productRow539158"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Chewtle",
+        "cardName": "Khélocrok",
+        "cardEngname": "Chewtle",
+        "cardNumber": "",
+        "cardSerie": "Khélocrok  (SHF 26)",
+        "productRowId": "productRow539153"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Volcanion",
+        "cardName": "Volcanion",
+        "cardEngname": "Volcanion",
+        "cardNumber": "",
+        "cardSerie": "Volcanion  (SHF 25)",
+        "productRowId": "productRow539148"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Manaphy-SHF24",
+        "cardName": "Manaphy",
+        "cardEngname": "Manaphy",
+        "cardNumber": "",
+        "cardSerie": "Manaphy  (SHF 24)",
+        "productRowId": "productRow539143"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Floatzel",
+        "cardName": "Floatzel",
+        "cardEngname": "Floatzel",
+        "cardNumber": "",
+        "cardSerie": "Floatzel  (SHF 23)",
+        "productRowId": "productRow539138"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Buizel",
+        "cardName": "Buizel",
+        "cardEngname": "Buizel",
+        "cardNumber": "",
+        "cardSerie": "Buizel  (SHF 22)",
+        "productRowId": "productRow539133"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Kyogre",
+        "cardName": "Kyogre",
+        "cardEngname": "Kyogre",
+        "cardNumber": "",
+        "cardSerie": "Kyogre  (SHF 21)",
+        "productRowId": "productRow539128"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Horsea-SHF20",
+        "cardName": "Horsea",
+        "cardEngname": "Horsea",
+        "cardNumber": "",
+        "cardSerie": "Horsea  (SHF 20)",
+        "productRowId": "productRow539123"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cinderace-VMAX",
+        "cardName": "Pyrobut VMAX",
+        "cardEngname": "Cinderace VMAX",
+        "cardNumber": "",
+        "cardSerie": "Pyrobut VMAX  (SHF 19)",
+        "productRowId": "productRow539118"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cinderace-V-SHF18",
+        "cardName": "Pyrobut V",
+        "cardEngname": "Cinderace V",
+        "cardNumber": "",
+        "cardSerie": "Pyrobut V  (SHF 18)",
+        "productRowId": "productRow539113"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Reshiram",
+        "cardName": "Reshiram",
+        "cardEngname": "Reshiram",
+        "cardNumber": "",
+        "cardSerie": "Reshiram  (SHF 17)",
+        "productRowId": "productRow539108"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Zarude-SHF16",
+        "cardName": "Zarude",
+        "cardEngname": "Zarude",
+        "cardNumber": "",
+        "cardSerie": "Zarude  (SHF 16)",
+        "productRowId": "productRow539103"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Eldegoss-SHF15",
+        "cardName": "Blancoton",
+        "cardEngname": "Eldegoss",
+        "cardNumber": "",
+        "cardSerie": "Blancoton  (SHF 15)",
+        "productRowId": "productRow539098"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Gossifleur",
+        "cardName": "Tournicoton",
+        "cardEngname": "Gossifleur",
+        "cardNumber": "",
+        "cardSerie": "Tournicoton  (SHF 14)",
+        "productRowId": "productRow539093"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rillaboom-SHF13",
+        "cardName": "Gorythmic",
+        "cardEngname": "Rillaboom",
+        "cardNumber": "",
+        "cardSerie": "Gorythmic  (SHF 13)",
+        "productRowId": "productRow539088"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Thwackey-SHF12",
+        "cardName": "Badabouin",
+        "cardEngname": "Thwackey",
+        "cardNumber": "",
+        "cardSerie": "Badabouin  (SHF 12)",
+        "productRowId": "productRow539083"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Grookey",
+        "cardName": "Ouistempo",
+        "cardEngname": "Grookey",
+        "cardNumber": "",
+        "cardSerie": "Ouistempo  (SHF 11)",
+        "productRowId": "productRow539078"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dhelmise-VMAX",
+        "cardName": "Dhelmise VMAX",
+        "cardEngname": "Dhelmise VMAX",
+        "cardNumber": "",
+        "cardSerie": "Dhelmise VMAX  (SHF 10)",
+        "productRowId": "productRow539073"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dhelmise-V",
+        "cardName": "Sinistrail V",
+        "cardEngname": "Dhelmise V",
+        "cardNumber": "",
+        "cardSerie": "Sinistrail V  (SHF 9)",
+        "productRowId": "productRow539068"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Decidueye-SHF8",
+        "cardName": "Decidueye",
+        "cardEngname": "Decidueye",
+        "cardNumber": "",
+        "cardSerie": "Decidueye  (SHF 8)",
+        "productRowId": "productRow539063"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Dartrix",
+        "cardName": "Dartrix",
+        "cardEngname": "Dartrix",
+        "cardNumber": "",
+        "cardSerie": "Dartrix  (SHF 7)",
+        "productRowId": "productRow539058"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Rowlet-SHF6",
+        "cardName": "Brindibou",
+        "cardEngname": "Rowlet",
+        "cardNumber": "",
+        "cardSerie": "Brindibou  (SHF 6)",
+        "productRowId": "productRow539053"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Tropius-SHF5",
+        "cardName": "Tropius",
+        "cardEngname": "Tropius",
+        "cardNumber": "",
+        "cardSerie": "Tropius  (SHF 5)",
+        "productRowId": "productRow539048"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Cacnea",
+        "cardName": "Cacnea",
+        "cardEngname": "Cacnea",
+        "cardNumber": "",
+        "cardSerie": "Cacnea  (SHF 4)",
+        "productRowId": "productRow539043"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Celebi-SHF3",
+        "cardName": "Celebi",
+        "cardEngname": "Celebi",
+        "cardNumber": "",
+        "cardSerie": "Celebi  (SHF 3)",
+        "productRowId": "productRow539038"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Yanmega",
+        "cardName": "Yanmega",
+        "cardEngname": "Yanmega",
+        "cardNumber": "",
+        "cardSerie": "Yanmega  (SHF 2)",
+        "productRowId": "productRow539033"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Yanma",
+        "cardName": "Yanma",
+        "cardEngname": "Yanma",
+        "cardNumber": "",
+        "cardSerie": "Yanma  (SHF 1)",
+        "productRowId": "productRow539028"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Shining-Fates-Pikachu-V-Collection",
+        "cardName": "Online Code Card (Shining Fates: Pikachu V Collection)",
+        "cardEngname": "Online Code Card (Shining Fates: Pikachu V Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Shining Fates: Pikachu V Collection) (SHF)",
+        "productRowId": "productRow544741"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Elite-Trainer-Box",
+        "cardName": "Online Code Card (Elite Trainer Box)",
+        "cardEngname": "Online Code Card (Elite Trainer Box)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Elite Trainer Box) (SHF)",
+        "productRowId": "productRow544746"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Booster",
+        "cardName": "Online Code Card (Booster)",
+        "cardEngname": "Online Code Card (Booster)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Booster) (SHF)",
+        "productRowId": "productRow544751"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Shining-Fates-Shiny-Dragapult-VMAX-Collection",
+        "cardName": "Online Code Card (Shining Fates: Shiny Dragapult VMAX Collection)",
+        "cardEngname": "Online Code Card (Shining Fates: Shiny Dragapult VMAX Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Shining Fates: Shiny Dragapult VMAX Collection) (SHF)",
+        "productRowId": "productRow544756"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Shining-Fates-Shiny-Crobat-VMAX-Collection",
+        "cardName": "Online Code Card (Shining Fates: Shiny Crobat VMAX Collection)",
+        "cardEngname": "Online Code Card (Shining Fates: Shiny Crobat VMAX Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Shining Fates: Shiny Crobat VMAX Collection) (SHF)",
+        "productRowId": "productRow544761"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Shining-Fates-Bunnelby-Mad-Party-Collection",
+        "cardName": "Online Code Card (Shining Fates: Bunnelby Mad Party Collection)",
+        "cardEngname": "Online Code Card (Shining Fates: Bunnelby Mad Party Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Shining Fates: Bunnelby Mad Party Collection) (SHF)",
+        "productRowId": "productRow544766"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Shining-Fates-Dedenne-Mad-Party-Collection",
+        "cardName": "Online Code Card (Shining Fates: Dedenne Mad Party Collection)",
+        "cardEngname": "Online Code Card (Shining Fates: Dedenne Mad Party Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Shining Fates: Dedenne Mad Party Collection) (SHF)",
+        "productRowId": "productRow544771"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Shining-Fates-Galarian-Mr-Rime-Mad-Party-Collection",
+        "cardName": "Online Code Card (Shining Fates: Galarian Mr. Rime Mad Party Collection)",
+        "cardEngname": "Online Code Card (Shining Fates: Galarian Mr. Rime Mad Party Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Shining Fates: Galarian Mr. Rime Mad Party Collection) (SHF)",
+        "productRowId": "productRow544776"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Shining-Fates-Polteageist-Mad-Party-Collection",
+        "cardName": "Online Code Card (Shining Fates: Polteageist Mad Party Collection)",
+        "cardEngname": "Online Code Card (Shining Fates: Polteageist Mad Party Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Shining Fates: Polteageist Mad Party Collection) (SHF)",
+        "productRowId": "productRow544781"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Shining-Fates-Eldegoss-V-Tin",
+        "cardName": "Online Code Card (Shining Fates: Eldegoss V Tin)",
+        "cardEngname": "Online Code Card (Shining Fates: Eldegoss V Tin)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Shining Fates: Eldegoss V Tin) (SHF)",
+        "productRowId": "productRow544786"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Shining-Fates-Boltund-V-Tin",
+        "cardName": "Online Code Card (Shining Fates: Boltund V Tin)",
+        "cardEngname": "Online Code Card (Shining Fates: Boltund V Tin)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Shining Fates: Boltund V Tin) (SHF)",
+        "productRowId": "productRow544791"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Shining-Fates/Online-Code-Card-Shining-Fates-Cramorant-V-Tin",
+        "cardName": "Online Code Card (Shining Fates: Cramorant V Tin)",
+        "cardEngname": "Online Code Card (Shining Fates: Cramorant V Tin)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Shining Fates: Cramorant V Tin) (SHF)",
+        "productRowId": "productRow544796"
+      }
+    ],
+    "codeSerie": "(SHF"
+  },
+  {
+    "localName": "Destinées Occultes",
+    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Hidden-Fates",
+    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates",
+    "numCards": "196 cartes",
+    "date": "23 août 2019",
+    "langues": "Anglais, Français, Allemand, Espagnol, Italien, Portugais",
+    "bloc": "Soleil et Lune",
+    "cards": [
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Tapu-Lele-GX-HIFSV94",
+        "cardName": "Tokopiyon GX",
+        "cardEngname": "Tapu Lele GX",
+        "cardNumber": "",
+        "cardSerie": "Tokopiyon GX  (HIF SV94)",
+        "productRowId": "productRow397102"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Tapu-Koko-GX-HIFSV93",
+        "cardName": "Tokorico GX",
+        "cardEngname": "Tapu Koko GX",
+        "cardNumber": "",
+        "cardSerie": "Tokorico GX  (HIF SV93)",
+        "productRowId": "productRow397097"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Tapu-Fini-GX-HIFSV92",
+        "cardName": "Tokopisco GX",
+        "cardEngname": "Tapu Fini GX",
+        "cardNumber": "",
+        "cardSerie": "Tokopisco GX  (HIF SV92)",
+        "productRowId": "productRow397092"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Tapu-Bulu-GX-HIFSV91",
+        "cardName": "Tokotoro GX",
+        "cardEngname": "Tapu Bulu GX",
+        "cardNumber": "",
+        "cardSerie": "Tokotoro GX  (HIF SV91)",
+        "productRowId": "productRow397087"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Shrine-of-Punishment-HIFSV90",
+        "cardName": "Chapelle des Châtiments",
+        "cardEngname": "Shrine of Punishment",
+        "cardNumber": "",
+        "cardSerie": "Chapelle des Châtiments (HIF SV90)",
+        "productRowId": "productRow397077"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Mt-Coronet-HIFSV89",
+        "cardName": "Mont Couronné",
+        "cardEngname": "Mt. Coronet",
+        "cardNumber": "",
+        "cardSerie": "Mont Couronné (HIF SV89)",
+        "productRowId": "productRow397072"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Brooklet-Hill-HIFSV88",
+        "cardName": "Colline Clapotis",
+        "cardEngname": "Brooklet Hill",
+        "cardNumber": "",
+        "cardSerie": "Colline Clapotis (HIF SV88)",
+        "productRowId": "productRow397067"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Aether-Paradise-Conservation-Area-HIFSV87",
+        "cardName": "Réserve Naturelle du Paradis Æther",
+        "cardEngname": "Aether Paradise Conservation Area",
+        "cardNumber": "",
+        "cardSerie": "Réserve Naturelle du Paradis Æther (HIF SV87)",
+        "productRowId": "productRow397082"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Lady-HIFSV86",
+        "cardName": "Mademoiselle",
+        "cardEngname": "Lady",
+        "cardNumber": "",
+        "cardSerie": "Mademoiselle (HIF SV86)",
+        "productRowId": "productRow397062"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Hiker-HIFSV85",
+        "cardName": "Montagnard",
+        "cardEngname": "Hiker",
+        "cardNumber": "",
+        "cardSerie": "Montagnard (HIF SV85)",
+        "productRowId": "productRow397057"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Guzma-HIFSV84",
+        "cardName": "Guzma",
+        "cardEngname": "Guzma",
+        "cardNumber": "",
+        "cardSerie": "Guzma (HIF SV84)",
+        "productRowId": "productRow397052"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Fisherman-HIFSV83",
+        "cardName": "Pêcheur",
+        "cardEngname": "Fisherman",
+        "cardNumber": "",
+        "cardSerie": "Pêcheur (HIF SV83)",
+        "productRowId": "productRow397047"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Cynthia-HIFSV82",
+        "cardName": "Cynthia",
+        "cardEngname": "Cynthia",
+        "cardNumber": "",
+        "cardSerie": "Cynthia (HIF SV82)",
+        "productRowId": "productRow381249"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Aether-Foundation-Employee-HIFSV81",
+        "cardName": "Employés de la Fondation Æther",
+        "cardEngname": "Aether Foundation Employee",
+        "cardNumber": "",
+        "cardSerie": "Employés de la Fondation Æther (HIF SV81)",
+        "productRowId": "productRow397042"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Drampa-GX-HIFSV80",
+        "cardName": "Draïeul GX",
+        "cardEngname": "Drampa GX",
+        "cardNumber": "",
+        "cardSerie": "Draïeul GX  (HIF SV80)",
+        "productRowId": "productRow397037"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Silvally-GX-HIFSV79",
+        "cardName": "Silvally GX",
+        "cardEngname": "Silvally GX",
+        "cardNumber": "",
+        "cardSerie": "Silvally GX  (HIF SV79)",
+        "productRowId": "productRow397032"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Noivern-GX-HIFSV78",
+        "cardName": "Noivern GX",
+        "cardEngname": "Noivern GX",
+        "cardNumber": "",
+        "cardSerie": "Noivern GX  (HIF SV78)",
+        "productRowId": "productRow397027"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Altaria-GX-HIFSV77",
+        "cardName": "Altaria GX",
+        "cardEngname": "Altaria GX",
+        "cardNumber": "",
+        "cardSerie": "Altaria GX  (HIF SV77)",
+        "productRowId": "productRow397022"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Sylveon-GX-HIFSV76",
+        "cardName": "Nymphali GX",
+        "cardEngname": "Sylveon GX",
+        "cardNumber": "",
+        "cardSerie": "Nymphali GX  (HIF SV76)",
+        "productRowId": "productRow397017"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Gardevoir-GX-HIFSV75",
+        "cardName": "Gardevoir GX",
+        "cardEngname": "Gardevoir GX",
+        "cardNumber": "",
+        "cardSerie": "Gardevoir GX  (HIF SV75)",
+        "productRowId": "productRow397012"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Stakataka-GX-HIFSV74",
+        "cardName": "Ama-Ama GX",
+        "cardEngname": "Stakataka GX",
+        "cardNumber": "",
+        "cardSerie": "Ama-Ama GX  (HIF SV74)",
+        "productRowId": "productRow397007"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Kartana-GX-HIFSV73",
+        "cardName": "Katagami GX",
+        "cardEngname": "Kartana GX",
+        "cardNumber": "",
+        "cardSerie": "Katagami GX  (HIF SV73)",
+        "productRowId": "productRow397002"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Scizor-GX-HIFSV72",
+        "cardName": "Scizor GX",
+        "cardEngname": "Scizor GX",
+        "cardNumber": "",
+        "cardSerie": "Scizor GX  (HIF SV72)",
+        "productRowId": "productRow396997"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Guzzlord-GX-HIFSV71",
+        "cardName": "Engloutyran GX",
+        "cardEngname": "Guzzlord GX",
+        "cardNumber": "",
+        "cardSerie": "Engloutyran GX  (HIF SV71)",
+        "productRowId": "productRow396992"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Darkrai-GX-HIFSV70",
+        "cardName": "Darkrai GX",
+        "cardEngname": "Darkrai GX",
+        "cardNumber": "",
+        "cardSerie": "Darkrai GX  (HIF SV70)",
+        "productRowId": "productRow396987"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Umbreon-GX-HIFSV69",
+        "cardName": "Noctali GX",
+        "cardEngname": "Umbreon GX",
+        "cardNumber": "",
+        "cardSerie": "Noctali GX  (HIF SV69)",
+        "productRowId": "productRow396982"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Buzzwole-GX-HIFSV68",
+        "cardName": "Mouscoto GX",
+        "cardEngname": "Buzzwole GX",
+        "cardNumber": "",
+        "cardSerie": "Mouscoto GX  (HIF SV68)",
+        "productRowId": "productRow396977"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Lycanroc-GX-HIFSV67",
+        "cardName": "Lycanroc GX",
+        "cardEngname": "Lycanroc GX",
+        "cardNumber": "",
+        "cardSerie": "Lycanroc GX  (HIF SV67)",
+        "productRowId": "productRow396972"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Lycanroc-GX-HIFSV66",
+        "cardName": "Lougaroc GX",
+        "cardEngname": "Lycanroc GX",
+        "cardNumber": "",
+        "cardSerie": "Lougaroc GX  (HIF SV66)",
+        "productRowId": "productRow396967"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Zygarde-GX-HIFSV65",
+        "cardName": "Zygarde GX",
+        "cardEngname": "Zygarde GX",
+        "cardNumber": "",
+        "cardSerie": "Zygarde GX  (HIF SV65)",
+        "productRowId": "productRow396962"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Lucario-GX-HIFSV64",
+        "cardName": "Lucario GX",
+        "cardEngname": "Lucario GX",
+        "cardNumber": "",
+        "cardSerie": "Lucario GX  (HIF SV64)",
+        "productRowId": "productRow381246"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Naganadel-GX-HIFSV63",
+        "cardName": "Mandrillon GX",
+        "cardEngname": "Naganadel GX",
+        "cardNumber": "",
+        "cardSerie": "Mandrillon GX  (HIF SV63)",
+        "productRowId": "productRow396957"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Nihilego-GX-HIFSV62",
+        "cardName": "Zéroïd GX",
+        "cardEngname": "Nihilego GX",
+        "cardNumber": "",
+        "cardSerie": "Zéroïd GX  (HIF SV62)",
+        "productRowId": "productRow396952"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Banette-GX-HIFSV61",
+        "cardName": "Banette GX",
+        "cardEngname": "Banette GX",
+        "cardNumber": "",
+        "cardSerie": "Banette GX  (HIF SV61)",
+        "productRowId": "productRow396947"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Espeon-GX-HIFSV60",
+        "cardName": "Mentali GX",
+        "cardEngname": "Espeon GX",
+        "cardNumber": "",
+        "cardSerie": "Mentali GX  (HIF SV60)",
+        "productRowId": "productRow396942"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Mewtwo-GX-HIFSV59",
+        "cardName": "Mewtwo GX",
+        "cardEngname": "Mewtwo GX",
+        "cardNumber": "",
+        "cardSerie": "Mewtwo GX  (HIF SV59)",
+        "productRowId": "productRow396937"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Xurkitree-GX-HIFSV58",
+        "cardName": "Câblifère GX",
+        "cardEngname": "Xurkitree GX",
+        "cardNumber": "",
+        "cardSerie": "Câblifère GX  (HIF SV58)",
+        "productRowId": "productRow396932"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Electrode-GX-HIFSV57",
+        "cardName": "Electrode GX",
+        "cardEngname": "Electrode GX",
+        "cardNumber": "",
+        "cardSerie": "Electrode GX  (HIF SV57)",
+        "productRowId": "productRow394782"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Greninja-GX-HIFSV56",
+        "cardName": "Greninja GX",
+        "cardEngname": "Greninja GX",
+        "cardNumber": "",
+        "cardSerie": "Greninja GX  (HIF SV56)",
+        "productRowId": "productRow396927"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Glaceon-GX-HIFSV55",
+        "cardName": "Glaceon GX",
+        "cardEngname": "Glaceon GX",
+        "cardNumber": "",
+        "cardSerie": "Glaceon GX  (HIF SV55)",
+        "productRowId": "productRow396922"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Articuno-GX-HIFSV54",
+        "cardName": "Articuno GX",
+        "cardEngname": "Articuno GX",
+        "cardNumber": "",
+        "cardSerie": "Articuno GX  (HIF SV54)",
+        "productRowId": "productRow396917"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Alolan-Ninetales-GX-HIFSV53",
+        "cardName": "Feunard d'Alola GX",
+        "cardEngname": "Alolan Ninetales GX",
+        "cardNumber": "",
+        "cardSerie": "Feunard d'Alola GX  (HIF SV53)",
+        "productRowId": "productRow396912"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Turtonator-GX-HIFSV52",
+        "cardName": "Boumata GX",
+        "cardEngname": "Turtonator GX",
+        "cardNumber": "",
+        "cardSerie": "Boumata GX  (HIF SV52)",
+        "productRowId": "productRow396907"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Reshiram-GX-HIFSV51",
+        "cardName": "Reshiram GX",
+        "cardEngname": "Reshiram GX",
+        "cardNumber": "",
+        "cardSerie": "Reshiram GX  (HIF SV51)",
+        "productRowId": "productRow396902"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Ho-Oh-GX-HIFSV50",
+        "cardName": "Ho-Oh GX",
+        "cardEngname": "Ho-Oh GX",
+        "cardNumber": "",
+        "cardSerie": "Ho-Oh GX  (HIF SV50)",
+        "productRowId": "productRow396897"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Charizard-GX-HIFSV49",
+        "cardName": "Charizard GX",
+        "cardEngname": "Charizard GX",
+        "cardNumber": "",
+        "cardSerie": "Charizard GX  (HIF SV49)",
+        "productRowId": "productRow381243"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Golisopod-GX-HIFSV48",
+        "cardName": "Golisopod GX",
+        "cardEngname": "Golisopod GX",
+        "cardNumber": "",
+        "cardSerie": "Golisopod GX  (HIF SV48)",
+        "productRowId": "productRow396892"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Decidueye-GX-HIFSV47",
+        "cardName": "Archéduc GX",
+        "cardEngname": "Decidueye GX",
+        "cardNumber": "",
+        "cardSerie": "Archéduc GX  (HIF SV47)",
+        "productRowId": "productRow396887"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Leafeon-GX-HIFSV46",
+        "cardName": "Leafeon GX",
+        "cardEngname": "Leafeon GX",
+        "cardNumber": "",
+        "cardSerie": "Leafeon GX  (HIF SV46)",
+        "productRowId": "productRow396882"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Type-Null-HIFSV45",
+        "cardName": "Type: Null",
+        "cardEngname": "Type: Null",
+        "cardNumber": "",
+        "cardSerie": "Type: Null  (HIF SV45)",
+        "productRowId": "productRow396877"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Oranguru-HIFSV44",
+        "cardName": "Gouroutan",
+        "cardEngname": "Oranguru",
+        "cardNumber": "",
+        "cardSerie": "Gouroutan  (HIF SV44)",
+        "productRowId": "productRow396872"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Noibat-HIFSV43",
+        "cardName": "Sonistrelle",
+        "cardEngname": "Noibat",
+        "cardNumber": "",
+        "cardSerie": "Sonistrelle  (HIF SV43)",
+        "productRowId": "productRow394727"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Swablu-HIFSV42",
+        "cardName": "Swablu",
+        "cardEngname": "Swablu",
+        "cardNumber": "",
+        "cardSerie": "Swablu  (HIF SV42)",
+        "productRowId": "productRow396867"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Eevee-HIFSV41",
+        "cardName": "Évoli",
+        "cardEngname": "Eevee",
+        "cardNumber": "",
+        "cardSerie": "Évoli  (HIF SV41)",
+        "productRowId": "productRow396862"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Garchomp-HIFSV40",
+        "cardName": "Garchomp",
+        "cardEngname": "Garchomp",
+        "cardNumber": "",
+        "cardSerie": "Garchomp  (HIF SV40)",
+        "productRowId": "productRow396857"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Gabite-HIFSV39",
+        "cardName": "Carmache",
+        "cardEngname": "Gabite",
+        "cardNumber": "",
+        "cardSerie": "Carmache  (HIF SV39)",
+        "productRowId": "productRow396852"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Gible-HIFSV38",
+        "cardName": "Griknot",
+        "cardEngname": "Gible",
+        "cardNumber": "",
+        "cardSerie": "Griknot  (HIF SV38)",
+        "productRowId": "productRow396847"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Altaria-HIFSV37",
+        "cardName": "Altaria",
+        "cardEngname": "Altaria",
+        "cardNumber": "",
+        "cardSerie": "Altaria  (HIF SV37)",
+        "productRowId": "productRow396842"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Diancie-HIFSV36",
+        "cardName": "Diancie",
+        "cardEngname": "Diancie",
+        "cardNumber": "",
+        "cardSerie": "Diancie  (HIF SV36)",
+        "productRowId": "productRow396837"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Kirlia-HIFSV35",
+        "cardName": "Kirlia",
+        "cardEngname": "Kirlia",
+        "cardNumber": "",
+        "cardSerie": "Kirlia  (HIF SV35)",
+        "productRowId": "productRow396832"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Ralts-HIFSV34",
+        "cardName": "Tarsal",
+        "cardEngname": "Ralts",
+        "cardNumber": "",
+        "cardSerie": "Tarsal  (HIF SV34)",
+        "productRowId": "productRow396827"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Kartana-HIFSV33",
+        "cardName": "Katagami",
+        "cardEngname": "Kartana",
+        "cardNumber": "",
+        "cardSerie": "Katagami  (HIF SV33)",
+        "productRowId": "productRow396822"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Celesteela-HIFSV32",
+        "cardName": "Bamboiselle",
+        "cardEngname": "Celesteela",
+        "cardNumber": "",
+        "cardSerie": "Bamboiselle  (HIF SV32)",
+        "productRowId": "productRow394792"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Metang-HIFSV31",
+        "cardName": "Métang",
+        "cardEngname": "Metang",
+        "cardNumber": "",
+        "cardSerie": "Métang  (HIF SV31)",
+        "productRowId": "productRow396817"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Beldum-HIFSV30",
+        "cardName": "Terhal",
+        "cardEngname": "Beldum",
+        "cardNumber": "",
+        "cardSerie": "Terhal  (HIF SV30)",
+        "productRowId": "productRow396812"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Magnezone-HIFSV29",
+        "cardName": "Magnezone",
+        "cardEngname": "Magnezone",
+        "cardNumber": "",
+        "cardSerie": "Magnezone  (HIF SV29)",
+        "productRowId": "productRow396807"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Magneton-HIFSV28",
+        "cardName": "Magnéton",
+        "cardEngname": "Magneton",
+        "cardNumber": "",
+        "cardSerie": "Magnéton  (HIF SV28)",
+        "productRowId": "productRow394827"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Magnemite-HIFSV27",
+        "cardName": "Magnéti",
+        "cardEngname": "Magnemite",
+        "cardNumber": "",
+        "cardSerie": "Magnéti  (HIF SV27)",
+        "productRowId": "productRow396802"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Guzzlord-HIFSV26",
+        "cardName": "Engloutyran",
+        "cardEngname": "Guzzlord",
+        "cardNumber": "",
+        "cardSerie": "Engloutyran  (HIF SV26)",
+        "productRowId": "productRow396797"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Zorua-HIFSV25",
+        "cardName": "Zorua",
+        "cardEngname": "Zorua",
+        "cardNumber": "",
+        "cardSerie": "Zorua  (HIF SV25)",
+        "productRowId": "productRow396792"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Buzzwole-HIFSV24",
+        "cardName": "Mouscoto",
+        "cardEngname": "Buzzwole",
+        "cardNumber": "",
+        "cardSerie": "Mouscoto  (HIF SV24)",
+        "productRowId": "productRow381237"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Rockruff-HIFSV23",
+        "cardName": "Rocabot",
+        "cardEngname": "Rockruff",
+        "cardNumber": "",
+        "cardSerie": "Rocabot  (HIF SV23)",
+        "productRowId": "productRow396787"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Lucario-HIFSV22",
+        "cardName": "Lucario",
+        "cardEngname": "Lucario",
+        "cardNumber": "",
+        "cardSerie": "Lucario  (HIF SV22)",
+        "productRowId": "productRow396782"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Riolu-HIFSV21",
+        "cardName": "Riolu",
+        "cardEngname": "Riolu",
+        "cardNumber": "",
+        "cardSerie": "Riolu  (HIF SV21)",
+        "productRowId": "productRow396777"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Sudowoodo-HIFSV20",
+        "cardName": "Simularbre",
+        "cardEngname": "Sudowoodo",
+        "cardNumber": "",
+        "cardSerie": "Simularbre  (HIF SV20)",
+        "productRowId": "productRow396772"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Poipole-HIFSV19",
+        "cardName": "Vémini",
+        "cardEngname": "Poipole",
+        "cardNumber": "",
+        "cardSerie": "Vémini  (HIF SV19)",
+        "productRowId": "productRow396767"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Malamar-HIFSV18",
+        "cardName": "Malamar",
+        "cardEngname": "Malamar",
+        "cardNumber": "",
+        "cardSerie": "Malamar  (HIF SV18)",
+        "productRowId": "productRow381240"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Inkay-HIFSV17",
+        "cardName": "Sepiatop",
+        "cardEngname": "Inkay",
+        "cardNumber": "",
+        "cardSerie": "Sepiatop  (HIF SV17)",
+        "productRowId": "productRow396762"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Shuppet-HIFSV16",
+        "cardName": "Shuppet",
+        "cardEngname": "Shuppet",
+        "cardNumber": "",
+        "cardSerie": "Shuppet  (HIF SV16)",
+        "productRowId": "productRow396757"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Seviper-HIFSV15",
+        "cardName": "Seviper",
+        "cardEngname": "Seviper",
+        "cardNumber": "",
+        "cardSerie": "Seviper  (HIF SV15)",
+        "productRowId": "productRow396752"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Xurkitree-HIFSV14",
+        "cardName": "Câblifère",
+        "cardEngname": "Xurkitree",
+        "cardNumber": "",
+        "cardSerie": "Câblifère  (HIF SV14)",
+        "productRowId": "productRow394817"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Voltorb-HIFSV13",
+        "cardName": "Voltorbe",
+        "cardEngname": "Voltorb",
+        "cardNumber": "",
+        "cardSerie": "Voltorbe  (HIF SV13)",
+        "productRowId": "productRow394832"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Frogadier-HIFSV12",
+        "cardName": "Croâporal",
+        "cardEngname": "Frogadier",
+        "cardNumber": "",
+        "cardSerie": "Croâporal  (HIF SV12)",
+        "productRowId": "productRow396747"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Froakie-HIFSV11",
+        "cardName": "Froakie",
+        "cardEngname": "Froakie",
+        "cardNumber": "",
+        "cardSerie": "Froakie  (HIF SV11)",
+        "productRowId": "productRow396742"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Quagsire-HIFSV10",
+        "cardName": "Quagsire",
+        "cardEngname": "Quagsire",
+        "cardNumber": "",
+        "cardSerie": "Quagsire  (HIF SV10)",
+        "productRowId": "productRow396737"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Wooper-HIFSV9",
+        "cardName": "Wooper",
+        "cardEngname": "Wooper",
+        "cardNumber": "",
+        "cardSerie": "Wooper  (HIF SV9)",
+        "productRowId": "productRow396732"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Alolan-Vulpix-HIFSV8",
+        "cardName": "Goupix d'Alola",
+        "cardEngname": "Alolan Vulpix",
+        "cardNumber": "",
+        "cardSerie": "Goupix d'Alola  (HIF SV8)",
+        "productRowId": "productRow396727"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Charmeleon-HIFSV7",
+        "cardName": "Charmeleon",
+        "cardEngname": "Charmeleon",
+        "cardNumber": "",
+        "cardSerie": "Charmeleon  (HIF SV7)",
+        "productRowId": "productRow396722"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Charmander-HIFSV6",
+        "cardName": "Salamèche",
+        "cardEngname": "Charmander",
+        "cardNumber": "",
+        "cardSerie": "Salamèche  (HIF SV6)",
+        "productRowId": "productRow396717"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Pheromosa-HIFSV5",
+        "cardName": "Cancrelove",
+        "cardEngname": "Pheromosa",
+        "cardNumber": "",
+        "cardSerie": "Cancrelove  (HIF SV5)",
+        "productRowId": "productRow396712"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Wimpod-HIFSV4",
+        "cardName": "Sovkipou",
+        "cardEngname": "Wimpod",
+        "cardNumber": "",
+        "cardSerie": "Sovkipou  (HIF SV4)",
+        "productRowId": "productRow396707"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Dartrix-HIFSV3",
+        "cardName": "Efflèche",
+        "cardEngname": "Dartrix",
+        "cardNumber": "",
+        "cardSerie": "Efflèche  (HIF SV3)",
+        "productRowId": "productRow396702"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Rowlet-HIFSV2",
+        "cardName": "Brindibou",
+        "cardEngname": "Rowlet",
+        "cardNumber": "",
+        "cardSerie": "Brindibou  (HIF SV2)",
+        "productRowId": "productRow396697"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Scyther-HIFSV1",
+        "cardName": "Insécateur",
+        "cardEngname": "Scyther",
+        "cardNumber": "",
+        "cardSerie": "Insécateur  (HIF SV1)",
+        "productRowId": "productRow396692"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Moltres-Zapdos-Articuno-GX-V3-HIF69",
+        "cardName": "Moltres & Zapdos & Articuno GX",
+        "cardEngname": "Moltres & Zapdos & Articuno GX",
+        "cardNumber": "",
+        "cardSerie": "Moltres & Zapdos & Articuno GX  (HIF 69)",
+        "productRowId": "productRow396687"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Jessie-James-V2-HIF68",
+        "cardName": "Jessie et James",
+        "cardEngname": "Jessie & James",
+        "cardNumber": "",
+        "cardSerie": "Jessie et James (HIF 68)",
+        "productRowId": "productRow396682"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Giovannis-Exile-V2-HIF67",
+        "cardName": "Exil de Giovanni",
+        "cardEngname": "Giovanni's Exile",
+        "cardNumber": "",
+        "cardSerie": "Exil de Giovanni (HIF 67)",
+        "productRowId": "productRow396677"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Moltres-Zapdos-Articuno-GX-V2-HIF66",
+        "cardName": "Moltres & Zapdos & Articuno GX",
+        "cardEngname": "Moltres & Zapdos & Articuno GX",
+        "cardNumber": "",
+        "cardSerie": "Moltres & Zapdos & Articuno GX  (HIF 66)",
+        "productRowId": "productRow396672"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Sabrinas-Suggestion-HIF65",
+        "cardName": "Suggestion de Morgane",
+        "cardEngname": "Sabrina's Suggestion",
+        "cardNumber": "",
+        "cardSerie": "Suggestion de Morgane (HIF 65)",
+        "productRowId": "productRow396667"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Pokemon-Center-Lady-HIF64",
+        "cardName": "Dame du Centre Pokémon",
+        "cardEngname": "Pokémon Center Lady",
+        "cardNumber": "",
+        "cardSerie": "Dame du Centre Pokémon (HIF 64)",
+        "productRowId": "productRow394612"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Mistys-Water-Command-HIF63",
+        "cardName": "Maîtrise Aquatique d'Ondine",
+        "cardEngname": "Misty's Water Command",
+        "cardNumber": "",
+        "cardSerie": "Maîtrise Aquatique d'Ondine (HIF 63)",
+        "productRowId": "productRow396662"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Mistys-Determination-HIF62",
+        "cardName": "Détermination d'Ondine",
+        "cardEngname": "Misty's Determination",
+        "cardNumber": "",
+        "cardSerie": "Détermination d'Ondine (HIF 62)",
+        "productRowId": "productRow394752"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Mistys-Cerulean-City-Gym-HIF61",
+        "cardName": "Arène d'Azuria d'Ondine",
+        "cardEngname": "Misty's Cerulean City Gym",
+        "cardNumber": "",
+        "cardSerie": "Arène d'Azuria d'Ondine (HIF 61)",
+        "productRowId": "productRow394577"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Lt-Surges-Strategy-HIF60",
+        "cardName": "Stratégie de Major Bob",
+        "cardEngname": "Lt. Surge's Strategy",
+        "cardNumber": "",
+        "cardSerie": "Stratégie de Major Bob (HIF 60)",
+        "productRowId": "productRow394622"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Kogas-Trap-HIF59",
+        "cardName": "Piège de Koga",
+        "cardEngname": "Koga's Trap",
+        "cardNumber": "",
+        "cardSerie": "Piège de Koga (HIF 59)",
+        "productRowId": "productRow394627"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Jessie-James-V1-HIF58",
+        "cardName": "Jessie et James",
+        "cardEngname": "Jessie & James",
+        "cardNumber": "",
+        "cardSerie": "Jessie et James (HIF 58)",
+        "productRowId": "productRow381225"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Giovannis-Exile-V1-HIF57",
+        "cardName": "Exil de Giovanni",
+        "cardEngname": "Giovanni's Exile",
+        "cardNumber": "",
+        "cardSerie": "Exil de Giovanni (HIF 57)",
+        "productRowId": "productRow394717"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Erikas-Hospitality-HIF56",
+        "cardName": "Hospitalité d'Erika",
+        "cardEngname": "Erika's Hospitality",
+        "cardNumber": "",
+        "cardSerie": "Hospitalité d'Erika (HIF 56)",
+        "productRowId": "productRow394617"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Brocks-Training-HIF55",
+        "cardName": "Entraînement de Pierre",
+        "cardEngname": "Brock's Training",
+        "cardNumber": "",
+        "cardSerie": "Entraînement de Pierre (HIF 55)",
+        "productRowId": "productRow394742"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Brocks-Pewter-City-Gym-HIF54",
+        "cardName": "Arène d'Argenta de Pierre",
+        "cardEngname": "Brock's Pewter City Gym",
+        "cardNumber": "",
+        "cardSerie": "Arène d'Argenta de Pierre (HIF 54)",
+        "productRowId": "productRow394582"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Brocks-Grit-HIF53",
+        "cardName": "Vaillance de Pierre",
+        "cardEngname": "Brock's Grit",
+        "cardNumber": "",
+        "cardSerie": "Vaillance de Pierre (HIF 53)",
+        "productRowId": "productRow394632"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Blaines-Last-Stand-HIF52",
+        "cardName": "Dernière Chance d'Auguste",
+        "cardEngname": "Blaine's Last Stand",
+        "cardNumber": "",
+        "cardSerie": "Dernière Chance d'Auguste (HIF 52)",
+        "productRowId": "productRow396657"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Bills-Analysis-HIF51",
+        "cardName": "Analyse de Léo",
+        "cardEngname": "Bill's Analysis",
+        "cardNumber": "",
+        "cardSerie": "Analyse de Léo (HIF 51)",
+        "productRowId": "productRow394807"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Snorlax-V1-HIF50",
+        "cardName": "Snorlax",
+        "cardEngname": "Snorlax",
+        "cardNumber": "",
+        "cardSerie": "Snorlax  (HIF 50)",
+        "productRowId": "productRow396652"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Snorlax-V2",
+        "cardName": "Snorlax",
+        "cardEngname": "Snorlax",
+        "cardNumber": "",
+        "cardSerie": "Snorlax  (HIF 50)",
+        "productRowId": "productRow550296"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Eevee-V1-HIF49",
+        "cardName": "Evoli",
+        "cardEngname": "Eevee",
+        "cardNumber": "",
+        "cardSerie": "Evoli  (HIF 49)",
+        "productRowId": "productRow394587"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Eevee-V2",
+        "cardName": "Evoli",
+        "cardEngname": "Eevee",
+        "cardNumber": "",
+        "cardSerie": "Evoli  (HIF 49)",
+        "productRowId": "productRow550111"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Eevee-V3",
+        "cardName": "Evoli",
+        "cardEngname": "Eevee",
+        "cardNumber": "",
+        "cardSerie": "Evoli  (HIF 49)",
+        "productRowId": "productRow550266"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Eevee-HIF48",
+        "cardName": "Eevee",
+        "cardEngname": "Eevee",
+        "cardNumber": "",
+        "cardSerie": "Eevee  (HIF 48)",
+        "productRowId": "productRow396647"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Kangaskhan-HIF47",
+        "cardName": "Kangaskhan",
+        "cardEngname": "Kangaskhan",
+        "cardNumber": "",
+        "cardSerie": "Kangaskhan  (HIF 47)",
+        "productRowId": "productRow396642"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Chansey-V1-HIF46",
+        "cardName": "Chansey",
+        "cardEngname": "Chansey",
+        "cardNumber": "",
+        "cardSerie": "Chansey  (HIF 46)",
+        "productRowId": "productRow394712"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Chansey-V2",
+        "cardName": "Chansey",
+        "cardEngname": "Chansey",
+        "cardNumber": "",
+        "cardSerie": "Chansey  (HIF 46)",
+        "productRowId": "productRow550341"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Farfetchd-HIF45",
+        "cardName": "Farfetch'd",
+        "cardEngname": "Farfetch'd",
+        "cardNumber": "",
+        "cardSerie": "Farfetch'd  (HIF 45)",
+        "productRowId": "productRow394572"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Moltres-Zapdos-Articuno-GX-V1-HIF44",
+        "cardName": "Moltres & Zapdos & Articuno GX",
+        "cardEngname": "Moltres & Zapdos & Articuno GX",
+        "cardNumber": "",
+        "cardSerie": "Moltres & Zapdos & Articuno GX  (HIF 44)",
+        "productRowId": "productRow381222"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Mr-Mime-HIF43",
+        "cardName": "Mr. Mime",
+        "cardEngname": "Mr. Mime",
+        "cardNumber": "",
+        "cardSerie": "Mr. Mime  (HIF 43)",
+        "productRowId": "productRow396637"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Wigglytuff-GX-HIF42",
+        "cardName": "Wigglytuff GX",
+        "cardEngname": "Wigglytuff GX",
+        "cardNumber": "",
+        "cardSerie": "Wigglytuff GX  (HIF 42)",
+        "productRowId": "productRow396632"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Jigglypuff-HIF41",
+        "cardName": "Jigglypuff",
+        "cardEngname": "Jigglypuff",
+        "cardNumber": "",
+        "cardSerie": "Jigglypuff  (HIF 41)",
+        "productRowId": "productRow394602"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Clefable-HIF40",
+        "cardName": "Clefable",
+        "cardEngname": "Clefable",
+        "cardNumber": "",
+        "cardSerie": "Clefable  (HIF 40)",
+        "productRowId": "productRow394667"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Clefairy-HIF39",
+        "cardName": "Clefairy",
+        "cardEngname": "Clefairy",
+        "cardNumber": "",
+        "cardSerie": "Clefairy  (HIF 39)",
+        "productRowId": "productRow394652"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Clefairy-HIF38",
+        "cardName": "Clefairy",
+        "cardEngname": "Clefairy",
+        "cardNumber": "",
+        "cardSerie": "Clefairy  (HIF 38)",
+        "productRowId": "productRow394597"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Cubone-HIF37",
+        "cardName": "Cubone",
+        "cardEngname": "Cubone",
+        "cardNumber": "",
+        "cardSerie": "Cubone  (HIF 37)",
+        "productRowId": "productRow394657"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Onix-GX-HIF36",
+        "cardName": "Onix GX",
+        "cardEngname": "Onix GX",
+        "cardNumber": "",
+        "cardSerie": "Onix GX  (HIF 36)",
+        "productRowId": "productRow396627"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Golem-HIF35",
+        "cardName": "Golem",
+        "cardEngname": "Golem",
+        "cardNumber": "",
+        "cardSerie": "Golem  (HIF 35)",
+        "productRowId": "productRow394697"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Graveler-HIF34",
+        "cardName": "Graveler",
+        "cardEngname": "Graveler",
+        "cardNumber": "",
+        "cardSerie": "Graveler  (HIF 34)",
+        "productRowId": "productRow394682"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Geodude-HIF33",
+        "cardName": "Geodude",
+        "cardEngname": "Geodude",
+        "cardNumber": "",
+        "cardSerie": "Geodude  (HIF 33)",
+        "productRowId": "productRow394647"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Mew-V1-HIF32",
+        "cardName": "Mew",
+        "cardEngname": "Mew",
+        "cardNumber": "",
+        "cardSerie": "Mew  (HIF 32)",
+        "productRowId": "productRow394812"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Mew-V2",
+        "cardName": "Mew",
+        "cardEngname": "Mew",
+        "cardNumber": "",
+        "cardSerie": "Mew  (HIF 32)",
+        "productRowId": "productRow550281"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Mewtwo-GX-V1-HIF31",
+        "cardName": "Mewtwo GX",
+        "cardEngname": "Mewtwo GX",
+        "cardNumber": "",
+        "cardSerie": "Mewtwo GX  (HIF 31)",
+        "productRowId": "productRow381234"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Mewtwo-GX-V2-HIF31",
+        "cardName": "Mewtwo GX",
+        "cardEngname": "Mewtwo GX",
+        "cardNumber": "",
+        "cardSerie": "Mewtwo GX  (HIF 31)",
+        "productRowId": "productRow550256"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Jynx-HIF30",
+        "cardName": "Jynx",
+        "cardEngname": "Jynx",
+        "cardNumber": "",
+        "cardSerie": "Jynx  (HIF 30)",
+        "productRowId": "productRow394677"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Weezing-HIF29",
+        "cardName": "Weezing",
+        "cardEngname": "Weezing",
+        "cardNumber": "",
+        "cardSerie": "Weezing  (HIF 29)",
+        "productRowId": "productRow381228"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Koffing-HIF28",
+        "cardName": "Koffing",
+        "cardEngname": "Koffing",
+        "cardNumber": "",
+        "cardSerie": "Koffing  (HIF 28)",
+        "productRowId": "productRow394762"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Arbok-HIF27",
+        "cardName": "Arbok",
+        "cardEngname": "Arbok",
+        "cardNumber": "",
+        "cardSerie": "Arbok  (HIF 27)",
+        "productRowId": "productRow381231"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Ekans-HIF26",
+        "cardName": "Ekans",
+        "cardEngname": "Ekans",
+        "cardNumber": "",
+        "cardSerie": "Ekans  (HIF 26)",
+        "productRowId": "productRow394722"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Ekans-HIF25",
+        "cardName": "Ekans",
+        "cardEngname": "Ekans",
+        "cardNumber": "",
+        "cardSerie": "Ekans  (HIF 25)",
+        "productRowId": "productRow394767"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Zapdos-HIF24",
+        "cardName": "Zapdos",
+        "cardEngname": "Zapdos",
+        "cardNumber": "",
+        "cardSerie": "Zapdos  (HIF 24)",
+        "productRowId": "productRow394747"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Jolteon-HIF23",
+        "cardName": "Jolteon",
+        "cardEngname": "Jolteon",
+        "cardNumber": "",
+        "cardSerie": "Jolteon  (HIF 23)",
+        "productRowId": "productRow396622"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Electrode-HIF22",
+        "cardName": "Electrode",
+        "cardEngname": "Electrode",
+        "cardNumber": "",
+        "cardSerie": "Electrode  (HIF 22)",
+        "productRowId": "productRow396617"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Voltorb-HIF21",
+        "cardName": "Voltorb",
+        "cardEngname": "Voltorb",
+        "cardNumber": "",
+        "cardSerie": "Voltorb  (HIF 21)",
+        "productRowId": "productRow394642"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Raichu-GX-V1-HIF20",
+        "cardName": "Raichu GX",
+        "cardEngname": "Raichu GX",
+        "cardNumber": "",
+        "cardSerie": "Raichu GX  (HIF 20)",
+        "productRowId": "productRow396612"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Raichu-GX-V2-HIF20",
+        "cardName": "Raichu GX",
+        "cardEngname": "Raichu GX",
+        "cardNumber": "",
+        "cardSerie": "Raichu GX  (HIF 20)",
+        "productRowId": "productRow550251"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Pikachu-V1-HIF19",
+        "cardName": "Pikachu",
+        "cardEngname": "Pikachu",
+        "cardNumber": "",
+        "cardSerie": "Pikachu  (HIF 19)",
+        "productRowId": "productRow394592"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Pikachu-V2",
+        "cardName": "Pikachu",
+        "cardEngname": "Pikachu",
+        "cardNumber": "",
+        "cardSerie": "Pikachu  (HIF 19)",
+        "productRowId": "productRow550171"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Vaporeon-HIF18",
+        "cardName": "Vaporeon",
+        "cardEngname": "Vaporeon",
+        "cardNumber": "",
+        "cardSerie": "Vaporeon  (HIF 18)",
+        "productRowId": "productRow396607"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Lapras-HIF17",
+        "cardName": "Lapras",
+        "cardEngname": "Lapras",
+        "cardNumber": "",
+        "cardSerie": "Lapras  (HIF 17)",
+        "productRowId": "productRow394702"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Gyarados-GX-HIF16",
+        "cardName": "Gyarados GX",
+        "cardEngname": "Gyarados GX",
+        "cardNumber": "",
+        "cardSerie": "Gyarados GX  (HIF 16)",
+        "productRowId": "productRow396602"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Magikarp-HIF15",
+        "cardName": "Magikarp",
+        "cardEngname": "Magikarp",
+        "cardNumber": "",
+        "cardSerie": "Magikarp  (HIF 15)",
+        "productRowId": "productRow394732"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Starmie-GX-HIF14",
+        "cardName": "Starmie GX",
+        "cardEngname": "Starmie GX",
+        "cardNumber": "",
+        "cardSerie": "Starmie GX  (HIF 14)",
+        "productRowId": "productRow396597"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Staryu-HIF13",
+        "cardName": "Staryu",
+        "cardEngname": "Staryu",
+        "cardNumber": "",
+        "cardSerie": "Staryu  (HIF 13)",
+        "productRowId": "productRow394777"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Slowpoke-HIF12",
+        "cardName": "Ramoloss",
+        "cardEngname": "Slowpoke",
+        "cardNumber": "",
+        "cardSerie": "Ramoloss  (HIF 12)",
+        "productRowId": "productRow394662"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Psyduck-HIF11",
+        "cardName": "Psyduck",
+        "cardEngname": "Psyduck",
+        "cardNumber": "",
+        "cardSerie": "Psyduck  (HIF 11)",
+        "productRowId": "productRow394772"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Magmar-HIF10",
+        "cardName": "Magmar",
+        "cardEngname": "Magmar",
+        "cardNumber": "",
+        "cardSerie": "Magmar  (HIF 10)",
+        "productRowId": "productRow394822"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Charizard-GX-V1-HIF9",
+        "cardName": "Charizard GX",
+        "cardEngname": "Charizard GX",
+        "cardNumber": "",
+        "cardSerie": "Charizard GX  (HIF 9)",
+        "productRowId": "productRow394737"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Charizard-GX-V2-HIF9",
+        "cardName": "Charizard GX",
+        "cardEngname": "Charizard GX",
+        "cardNumber": "",
+        "cardSerie": "Charizard GX  (HIF 9)",
+        "productRowId": "productRow550161"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Charmeleon-V1-HIF8",
+        "cardName": "Charmeleon",
+        "cardEngname": "Charmeleon",
+        "cardNumber": "",
+        "cardSerie": "Charmeleon  (HIF 8)",
+        "productRowId": "productRow394802"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Charmeleon-V2-HIF8",
+        "cardName": "Charmeleon",
+        "cardEngname": "Charmeleon",
+        "cardNumber": "",
+        "cardSerie": "Charmeleon  (HIF 8)",
+        "productRowId": "productRow550096"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Charmander-HIF7",
+        "cardName": "Charmander",
+        "cardEngname": "Charmander",
+        "cardNumber": "",
+        "cardSerie": "Charmander  (HIF 7)",
+        "productRowId": "productRow394692"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Pinsir-GX-HIF6",
+        "cardName": "Pinsir GX",
+        "cardEngname": "Pinsir GX",
+        "cardNumber": "",
+        "cardSerie": "Pinsir GX  (HIF 6)",
+        "productRowId": "productRow394787"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Scyther-HIF5",
+        "cardName": "Scyther",
+        "cardEngname": "Scyther",
+        "cardNumber": "",
+        "cardSerie": "Scyther  (HIF 5)",
+        "productRowId": "productRow394672"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Paras-HIF4",
+        "cardName": "Paras",
+        "cardEngname": "Paras",
+        "cardNumber": "",
+        "cardSerie": "Paras  (HIF 4)",
+        "productRowId": "productRow394687"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Butterfree-HIF3",
+        "cardName": "Butterfree",
+        "cardEngname": "Butterfree",
+        "cardNumber": "",
+        "cardSerie": "Butterfree  (HIF 3)",
+        "productRowId": "productRow394797"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Metapod-HIF2",
+        "cardName": "Metapod",
+        "cardEngname": "Metapod",
+        "cardNumber": "",
+        "cardSerie": "Metapod  (HIF 2)",
+        "productRowId": "productRow396592"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Caterpie-HIF1",
+        "cardName": "Caterpie",
+        "cardEngname": "Caterpie",
+        "cardNumber": "",
+        "cardSerie": "Caterpie  (HIF 1)",
+        "productRowId": "productRow394607"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Ultra-Premium-Collection-HIF",
+        "cardName": "Online Code Card (Hidden Fates: Ultra-Premium Collection)",
+        "cardEngname": "Online Code Card (Hidden Fates: Ultra-Premium Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Hidden Fates: Ultra-Premium Collection) (HIF)",
+        "productRowId": "productRow453473"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Charizard-GX-Collection",
+        "cardName": "Online Code Card (Destinées Occultes: Charizard GX Collection)",
+        "cardEngname": "Online Code Card (Hidden Fates: Charizard GX Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Destinées Occultes: Charizard GX Collection) (HIF)",
+        "productRowId": "productRow560794"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Grass-Energy",
+        "cardName": "Énergie Plante",
+        "cardEngname": "Grass Energy",
+        "cardNumber": "",
+        "cardSerie": "Énergie Plante (HIF)",
+        "productRowId": "productRow566116"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Fire-Energy",
+        "cardName": "Énergie Feu",
+        "cardEngname": "Fire Energy",
+        "cardNumber": "",
+        "cardSerie": "Énergie Feu (HIF)",
+        "productRowId": "productRow566117"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Water-Energy",
+        "cardName": "Énergie Eau",
+        "cardEngname": "Water Energy",
+        "cardNumber": "",
+        "cardSerie": "Énergie Eau (HIF)",
+        "productRowId": "productRow566118"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Lightning-Energy",
+        "cardName": "Énergie Électrique",
+        "cardEngname": "Lightning Energy",
+        "cardNumber": "",
+        "cardSerie": "Énergie Électrique (HIF)",
+        "productRowId": "productRow566119"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Psychic-Energy",
+        "cardName": "Énergie Psy",
+        "cardEngname": "Psychic Energy",
+        "cardNumber": "",
+        "cardSerie": "Énergie Psy (HIF)",
+        "productRowId": "productRow566120"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Fighting-Energy",
+        "cardName": "Énergie Combat",
+        "cardEngname": "Fighting Energy",
+        "cardNumber": "",
+        "cardSerie": "Énergie Combat (HIF)",
+        "productRowId": "productRow566121"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Darkness-Energy",
+        "cardName": "Énergie Obscurité",
+        "cardEngname": "Darkness Energy",
+        "cardNumber": "",
+        "cardSerie": "Énergie Obscurité (HIF)",
+        "productRowId": "productRow566122"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Metal-Energy",
+        "cardName": "Énergie Métal",
+        "cardEngname": "Metal Energy",
+        "cardNumber": "",
+        "cardSerie": "Énergie Métal (HIF)",
+        "productRowId": "productRow566123"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Fairy-Energy",
+        "cardName": "Énergie Fée",
+        "cardEngname": "Fairy Energy",
+        "cardNumber": "",
+        "cardSerie": "Énergie Fée (HIF)",
+        "productRowId": "productRow566124"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Gyarados-GX-Collection",
+        "cardName": "Online Code Card (Collection Destinées Occultes: Léviator GX)",
+        "cardEngname": "Online Code Card (Hidden Fates: Gyarados GX Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Collection Destinées Occultes: Léviator GX) (HIF)",
+        "productRowId": "productRow570349"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Booster-HIF",
+        "cardName": "Online Code Card (Booster)",
+        "cardEngname": "Online Code Card (Booster)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Booster) (HIF)",
+        "productRowId": "productRow394002"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Elite-Trainer-Box-HIF",
+        "cardName": "Online Code Card (Elite Trainer Box)",
+        "cardEngname": "Online Code Card (Elite Trainer Box)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Elite Trainer Box) (HIF)",
+        "productRowId": "productRow394007"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Mew-Collection-HIF",
+        "cardName": "Online Code Card (Hidden Fates: Mew Collection)",
+        "cardEngname": "Online Code Card (Hidden Fates: Mew Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Hidden Fates: Mew Collection) (HIF)",
+        "productRowId": "productRow394012"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Mewtwo-Collection-HIF",
+        "cardName": "Online Code Card (Hidden Fates: Mewtwo Collection)",
+        "cardEngname": "Online Code Card (Hidden Fates: Mewtwo Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Hidden Fates: Mewtwo Collection) (HIF)",
+        "productRowId": "productRow394017"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Charizard-GX-Tin-HIF",
+        "cardName": "Online Code Card (Hidden Fates: Charizard GX Tin)",
+        "cardEngname": "Online Code Card (Hidden Fates: Charizard GX Tin)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Hidden Fates: Charizard GX Tin) (HIF)",
+        "productRowId": "productRow394022"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Gyarados-GX-Tin-HIF",
+        "cardName": "Online Code Card (Hidden Fates: Gyarados GX Tin)",
+        "cardEngname": "Online Code Card (Hidden Fates: Gyarados GX Tin)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Hidden Fates: Gyarados GX Tin) (HIF)",
+        "productRowId": "productRow394027"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Raichu-GX-Tin-HIF",
+        "cardName": "Online Code Card (Hidden Fates: Raichu GX Tin)",
+        "cardEngname": "Online Code Card (Hidden Fates: Raichu GX Tin)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Hidden Fates: Raichu GX Tin) (HIF)",
+        "productRowId": "productRow394032"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Shiny-Metagross-GX-Poke-Ball-Collection-HIF",
+        "cardName": "Online Code Card (Hidden Fates: Shiny Metagross GX Poke Ball Collection)",
+        "cardEngname": "Online Code Card (Hidden Fates: Shiny Metagross GX Poke Ball Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Hidden Fates: Shiny Metagross GX Poke Ball Collection) (HIF)",
+        "productRowId": "productRow394037"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Shiny-Zoroark-GX-Poke-Ball-Collection-HIF",
+        "cardName": "Online Code Card (Hidden Fates: Shiny Zoroark GX Poke Ball Collection)",
+        "cardEngname": "Online Code Card (Hidden Fates: Shiny Zoroark GX Poke Ball Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Hidden Fates: Shiny Zoroark GX Poke Ball Collection) (HIF)",
+        "productRowId": "productRow394042"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Premium-Powers-Collection-HIF",
+        "cardName": "Online Code Card (Hidden Fates: Premium Powers Collection)",
+        "cardEngname": "Online Code Card (Hidden Fates: Premium Powers Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Hidden Fates: Premium Powers Collection) (HIF)",
+        "productRowId": "productRow399619"
+      },
+      {
+        "cardUrl": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hidden-Fates/Online-Code-Card-Hidden-Fates-Raichu-GX-Collection-HIF",
+        "cardName": "Online Code Card (Hidden Fates: Raichu GX Collection)",
+        "cardEngname": "Online Code Card (Hidden Fates: Raichu GX Collection)",
+        "cardNumber": "",
+        "cardSerie": "Online Code Card (Hidden Fates: Raichu GX Collection) (HIF)",
+        "productRowId": "productRow399624"
+      }
+    ],
+    "codeSerie": "(HIF"
+  },
+  {
+    "localName": "Lumière Interdite",
+    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Forbidden-Light",
+    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Forbidden-Light",
+    "numCards": "183 cartes",
+    "date": "4 mai 2018",
+    "langues": "Anglais, Français, Allemand, Espagnol, Italien, Portugais",
+    "bloc": "Soleil et Lune"
+  },
+  {
+    "localName": "Générations",
+    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Generations",
+    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Generations",
+    "numCards": "136 cartes",
+    "date": "22 février 2016",
     "langues": "Anglais, Français, Allemand, Espagnol, Italien, Chinois-S, Japonais, Portugais, Russe, Coréen, Chinois-T, Néerlandais, Polonais, Tchèque, Hongrois",
-    "bloc": "ex"
-  },
-  {
-    "localName": "Unnumbered Promos",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Unnumbered-Promos",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Unnumbered-Promos",
-    "numCards": "201 cartes",
-    "date": "15 octobre 1996",
-    "langues": "Japonais, Coréen, Chinois-T",
-    "bloc": "Base JP"
-  },
-  {
-    "localName": "Unnumbered Promos",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Unnumbered-Promos",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Unnumbered-Promos",
-    "numCards": "200 cartes",
-    "date": "15 octobre 1996",
-    "langues": "Japonais, Coréen, Chinois-T",
-    "bloc": "Base JP"
-  },
-  {
-    "localName": "Unnumbered Promos",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Unnumbered-Promos",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Unnumbered-Promos",
-    "numCards": "200 cartes",
-    "date": "15 octobre 1996",
-    "langues": "Japonais, Coréen, Chinois-T",
-    "bloc": "Base JP"
-  },
-  {
-    "localName": "Unnumbered Promos",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Unnumbered-Promos",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Unnumbered-Promos",
-    "numCards": "200 cartes",
-    "date": "15 octobre 1996",
-    "langues": "Japonais, Coréen, Chinois-T",
-    "bloc": "Base JP"
-  },
-  {
-    "localName": "Unnumbered Promos",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Unnumbered-Promos",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Unnumbered-Promos",
-    "numCards": "200 cartes",
-    "date": "15 octobre 1996",
-    "langues": "Japonais, Coréen, Chinois-T",
-    "bloc": "Base JP"
-  },
-  {
-    "localName": "Unnumbered Promos",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Unnumbered-Promos",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Unnumbered-Promos",
-    "numCards": "200 cartes",
-    "date": "15 octobre 1996",
-    "langues": "Japonais, Coréen, Chinois-T",
-    "bloc": "Base JP"
-  },
-  {
-    "localName": "Unnumbered Promos",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Unnumbered-Promos",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Unnumbered-Promos",
-    "numCards": "200 cartes",
-    "date": "15 octobre 1996",
-    "langues": "Japonais, Coréen, Chinois-T",
-    "bloc": "Base JP"
-  },
-  {
-    "localName": "Unnumbered Promos",
-    "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Unnumbered-Promos",
-    "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Unnumbered-Promos",
-    "numCards": "200 cartes",
-    "date": "15 octobre 1996",
-    "langues": "Japonais, Coréen, Chinois-T",
-    "bloc": "Base JP"
+    "bloc": "XY"
   }
 ]

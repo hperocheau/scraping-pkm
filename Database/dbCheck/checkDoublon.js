@@ -1,71 +1,118 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 
-// Fonction pour détecter les doublons avec une combinaison de deux clés
-function findDuplicatesByTwoKeys(data, keys) {
-  const seen = new Map();
-  const duplicates = [];
-
-  data.forEach(item => {
-    const compositeKey = keys.map(key => item[key] || '').join('|'); // Combiner les deux clés en une seule chaîne
-    if (seen.has(compositeKey)) {
-      // Ajouter les deux éléments en conflit
-      const original = seen.get(compositeKey);
-      if (!duplicates.includes(original)) duplicates.push(original);
-      duplicates.push(item);
-    } else {
-      seen.set(compositeKey, item);
-    }
-  });
-
-  return duplicates;
-}
-
-fs.readFile('../data.json', 'utf8', (err, fileContent) => {
-  if (err) {
-    console.error('Erreur lors de la lecture du fichier:', err);
-    return;
+class DataChecker {
+  constructor(filePath) {
+    this.filePath = filePath;
   }
 
-  try {
-    // Parsing du contenu JSON
-    const data = JSON.parse(fileContent);
+  async readJsonFile() {
+    const rawData = await fs.readFile(this.filePath, 'utf-8');
+    return JSON.parse(rawData);
+  }
 
-    if (!Array.isArray(data)) {
-      console.error('Le fichier JSON doit contenir un tableau à la racine.');
-      return;
-    }
+  findMostCommonSerie(cards) {
+    const serieCount = cards.reduce((acc, card) => {
+      acc[card.codeSerie] = (acc[card.codeSerie] || 0) + 1;
+      return acc;
+    }, {});
+    return Object.entries(serieCount)
+      .reduce((a, b) => (a[1] > b[1] ? a : b))[0];
+  }
 
-    let totalDuplicateCount = 0; // Compteur global pour le nombre total de cartes détectées comme doublons
+  async displayIncorrectSeries() {
+    try {
+      const data = await this.readJsonFile();
+      const incorrectCards = [];
 
-    // Parcourir chaque élément principal du tableau
-    data.forEach((item, index) => {
-      if (!item.cards || !Array.isArray(item.cards)) {
-        console.warn(`L'élément à l'index ${index} ne contient pas de tableau "cards".`);
-        return;
-      }
-
-      // Détection des doublons pour différentes paires de clés
-      const pairsToCheck = [
-        ['cardUrl', 'cardNumber'],
-        ['cardUrl', 'productRowId'],
-        ['cardNumber', 'productRowId']
-      ];
-
-      pairsToCheck.forEach(pair => {
-        const duplicates = findDuplicatesByTwoKeys(item.cards, pair);
-        if (duplicates.length > 0) {
-          console.log(`Doublons pour "${pair.join(' et ')}" dans l'élément à l'index ${index}:`, duplicates);
-
-          // Ajouter au compteur global (éviter les doublons multiples dans le même groupe)
-          const uniqueDuplicates = new Set(duplicates); // Utiliser un Set pour éviter les doublons
-          totalDuplicateCount += uniqueDuplicates.size; // Ajouter la taille de ce groupe au total
+      data.forEach(element => {
+        if (element.cards?.length > 0) {
+          const mostCommonSerie = this.findMostCommonSerie(element.cards);
+          
+          element.cards.forEach(card => {
+            if (card.cardSerie !== mostCommonSerie) {
+              incorrectCards.push({
+                localName: element.localName,
+                cardName: card.cardName,
+                incorrectSerie: card.codeSerie,
+                expectedSerie: mostCommonSerie
+              });
+            }
+          });
         }
       });
-    });
 
-    console.log(`\nNombre total de cartes détectées comme doublons: ${totalDuplicateCount}`);
-
-  } catch (parseError) {
-    console.error('Erreur lors du parsing du fichier JSON:', parseError);
+      if (incorrectCards.length > 0) {
+        console.log('\nCartes avec séries incorrectes:');
+        incorrectCards.forEach(card => {
+          console.log(`\n${card.localName}:`);
+          console.log(`  - ${card.cardName}`);
+          console.log(`    Série actuelle: ${card.incorrectSerie}`);
+          console.log(`    Série attendue: ${card.expectedSerie}`);
+        });
+        console.log(`\nTotal: ${incorrectCards.length} carte(s) avec séries incorrectes`);
+      } else {
+        console.log('Aucune carte avec série incorrecte trouvée.');
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'affichage des séries incorrectes:', error);
+    }
   }
-});
+
+  findDuplicatesByTwoKeys(data, keys) {
+    const seen = new Map();
+    const duplicates = [];
+    data.forEach(item => {
+      const compositeKey = keys.map(key => item[key] || '').join('|');
+      if (seen.has(compositeKey)) {
+        const original = seen.get(compositeKey);
+        if (!duplicates.includes(original)) duplicates.push(original);
+        duplicates.push(item);
+      } else {
+        seen.set(compositeKey, item);
+      }
+    });
+    return duplicates;
+  }
+
+  async checkDuplicates() {
+    try {
+      const data = await this.readJsonFile();
+      let totalDuplicateCount = 0;
+
+      data.forEach((item, index) => {
+        if (!item.cards || !Array.isArray(item.cards)) {
+          console.warn(`L'élément à l'index ${index} ne contient pas de tableau "cards".`);
+          return;
+        }
+
+        const pairsToCheck = [
+          ['cardUrl', 'cardNumber'],
+          ['cardUrl', 'productRowId'],
+          ['cardNumber', 'productRowId']
+        ];
+
+        pairsToCheck.forEach(pair => {
+          const duplicates = this.findDuplicatesByTwoKeys(item.cards, pair);
+          if (duplicates.length > 0) {
+            console.log(`Doublons pour "${pair.join(' et ')}" dans l'élément à l'index ${index}:`, duplicates);
+            const uniqueDuplicates = new Set(duplicates);
+            totalDuplicateCount += uniqueDuplicates.size;
+          }
+        });
+      });
+
+      console.log(`\nNombre total de cartes détectées comme doublons: ${totalDuplicateCount}`);
+    } catch (error) {
+      console.error('Erreur lors de la vérification des doublons:', error);
+    }
+  }
+}
+
+// Usage
+const checker = new DataChecker('../Test2.json');
+async function runChecks() {
+  await checker.displayIncorrectSeries();
+  await checker.checkDuplicates();
+}
+
+runChecks();

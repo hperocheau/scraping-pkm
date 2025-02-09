@@ -9,9 +9,9 @@ class CardScraper {
     this.browser = null;
     this.concurrentPages = 3; // Nombre de pages à traiter en parallèle
     this.retryAttempts = 3; // Nombre de tentatives en cas d'échec
-    this.retryDelay = 3000; // Délai entre les tentatives en ms
-    this.pageGroupDelay = 2000; // Délai entre les groupes de pages
-    this.requestDelay = 750;   // Délai entre les requêtes individuelles
+    this.retryDelay = 2000; // Délai entre les tentatives en ms
+    this.pageGroupDelay = 750; // Délai entre les groupes de pages
+    this.requestDelay = 300;   // Délai entre les requêtes individuelles
   }
 
   async initialize() {
@@ -90,28 +90,19 @@ class CardScraper {
   async scrapePage(url, page) {
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
     await page.waitForTimeout(Math.random() * 1000 + 500);
-  
+
     return page.evaluate(() => {
       return Array.from(document.querySelectorAll('[id^="productRow"]')).map(productRow => {
         const cardNameElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
         const cardNameText = cardNameElement?.textContent.trim();
-  
-        // Extraction de toutes les parenthèses
-        const parenthesesMatches = cardNameText?.match(/\(([^)]+)\)/g);
-        const lastParenthesis = parenthesesMatches 
-        ? parenthesesMatches[parenthesesMatches.length - 1].replace(/[()]/g, '') 
-        : '';
-  
-        // Séparation de la série et du numéro
-        const serieNumberMatch = lastParenthesis.match(/^(\w+)(?:\s+(\d+))?$/);
-        
+
         return {
           cardUrl: cardNameElement?.href,
           cardName: cardNameText?.replace(/\s*\([^)]*\)\s*$/g, '').trim(),
           cardEngname: productRow.querySelector('.d-block.small.text-muted.fst-italic')?.textContent.trim(),
-          cardNumber: serieNumberMatch?.[2] || '',
-          cardSerie: cardNameElement, // Modification ici
-          codeSerie: serieNumberMatch?.[1] || lastParenthesis, // Nouvelle clé
+          cardNumber: '',
+          cardFullTitle: cardNameElement?.textContent.trim() || '',
+          codeSerie: '',
           cardRarity: productRow.querySelector('.d-none.d-md-flex span[data-original-title]')?.getAttribute('data-original-title'),
           productRowId: productRow.id
         };
@@ -169,6 +160,63 @@ class CardScraper {
     return productInfoList;
   }
 
+  findCommonString(strings) {
+    if (!strings.length) return '';
+    
+    let commonStr = '';
+    const firstString = strings[0];
+    
+    for (let i = 0; i < firstString.length; i++) {
+      for (let j = i + 1; j <= firstString.length; j++) {
+        const substring = firstString.substring(i, j);
+        if (substring.length > 1 && // Ignore single characters
+            strings.every(str => str.includes(substring))) {
+          if (substring.length > commonStr.length) {
+            commonStr = substring;
+          }
+        }
+      }
+    }
+    
+    // Nettoyer les parenthèses de la chaîne commune trouvée
+    return commonStr.replace(/[()]/g, '').trim();
+  }
+
+  extractCardNumber(cardFullTitle, codeSerie) {
+    // Trouve la dernière parenthèse
+    const match = cardFullTitle.match(/\(([^)]+)\)$/);
+    if (match && match[1]) {
+      // Contenu de la dernière parenthèse
+      const parenthesesContent = match[1];
+      // Retire le codeSerie du contenu de la parenthèse et nettoie les espaces
+      return parenthesesContent.replace(codeSerie, '').trim();
+    }
+    return '';
+  }
+
+  async scrapePage(url, page) {
+    await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+    await page.waitForTimeout(Math.random() * 1000 + 500);
+
+    return page.evaluate(() => {
+      return Array.from(document.querySelectorAll('[id^="productRow"]')).map(productRow => {
+        const cardNameElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
+        const cardNameText = cardNameElement?.textContent.trim();
+
+        return {
+          cardUrl: cardNameElement?.href,
+          cardName: cardNameText?.replace(/\s*\([^)]*\)\s*$/g, '').trim(),
+          cardEngname: productRow.querySelector('.d-block.small.text-muted.fst-italic')?.textContent.trim(),
+          cardNumber: '',
+          cardFullTitle: cardNameElement?.textContent.trim() || '',
+          codeSerie: '',
+          cardRarity: productRow.querySelector('.d-none.d-md-flex span[data-original-title]')?.getAttribute('data-original-title'),
+          productRowId: productRow.id
+        };
+      });
+    });
+  }
+
   async updateJsonFile(url, productInfoList) {
     const existingData = await this.readJsonFile();
     const existingEntry = existingData.find((entry) => entry.urlCards === url);
@@ -178,18 +226,34 @@ class CardScraper {
         existingEntry.cards = [];
       }
 
+      if (productInfoList.length > 0) {
+        const allSeries = productInfoList.map(card => card.cardFullTitle);
+        const commonString = this.findCommonString(allSeries);
+        
+        // Mise à jour des cartes avec le code de série et le numéro
+        productInfoList.forEach(card => {
+          card.codeSerie = commonString;
+          card.cardNumber = this.extractCardNumber(card.cardFullTitle, commonString);
+        });
+      }
+
       const uniqueProductInfoList = Array.from(
         new Map(
           [...existingEntry.cards, ...productInfoList]
             .map(card => [card.cardUrl, card])
         ).values()
-      ).sort((a, b) => parseInt(a.cardNumber) - parseInt(b.cardNumber));
+      ).sort((a, b) => {
+        const numA = parseInt(a.cardNumber) || 0;
+        const numB = parseInt(b.cardNumber) || 0;
+        return numA - numB;
+      });
 
       existingEntry.cards = uniqueProductInfoList;
     }
 
     await this.writeJsonFile(existingData);
   }
+
 
   async processUrl(entry) {
     const { urlCards, numCards, cards } = entry;
@@ -250,5 +314,5 @@ class CardScraper {
   }
 }
 
-const scraper = new CardScraper(path.join(__dirname, '../Test1.json'));
+const scraper = new CardScraper(path.join(__dirname, '../Test2.json'));
 scraper.run();

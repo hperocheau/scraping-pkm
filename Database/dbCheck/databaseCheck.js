@@ -1,8 +1,8 @@
 const fs = require('fs').promises;
 
-async function getUrlsWithInsufficientCards() {
+async function getUrlsWithInsufficientCards(jsonFilePath = '../Test2.json') {
   try {
-    const jsonData = await fs.readFile('../data.json', 'utf-8');
+    const jsonData = await fs.readFile(jsonFilePath, 'utf-8');
     const dataArray = JSON.parse(jsonData);
 
     const urlsToScrape = [];
@@ -10,14 +10,12 @@ async function getUrlsWithInsufficientCards() {
     let totalCardsCount = 0;
     let totalDifference = 0;
 
-    // Iterate over each entry in data.json
     for (const entry of dataArray) {
       const { localName, numCards, cards } = entry;
       const numCardsValue = parseInt(numCards);
       const cardsCount = cards?.length || 0;
       const difference = numCardsValue - cardsCount;
 
-      // Check if cards are missing or excess
       if (difference !== 0) {
         urlsToScrape.push({ localName, numCards: numCardsValue, cardsCount, difference });
         totalNumCards += numCardsValue;
@@ -33,9 +31,9 @@ async function getUrlsWithInsufficientCards() {
   }
 }
 
-//Affiche tableau avec cartes manquantes ou excédentaires
-async function main() {
-  const { urlsToScrape, totalNumCards, totalCardsCount, totalDifference } = await getUrlsWithInsufficientCards();
+async function checkAndDisplayCardDifferences(jsonFilePath = '../Test2.json') {
+  const { urlsToScrape, totalNumCards, totalCardsCount, totalDifference } = 
+    await getUrlsWithInsufficientCards(jsonFilePath);
 
   if (urlsToScrape.length > 0) {
     console.log('Séries avec différence de cartes:');
@@ -44,6 +42,28 @@ async function main() {
   } else {
     console.log('La base de données est à jour.');
   }
+
+  return { urlsToScrape, totalNumCards, totalCardsCount, totalDifference };
+}
+// Fonction main pour l'exécution directe
+async function main() {
+  try {
+    // Récupère le chemin du fichier depuis les arguments de la ligne de commande
+    const jsonFilePath = process.argv[2] || '../Test2.json';
+    await checkAndDisplayCardDifferences(jsonFilePath);
+  } catch (error) {
+    console.error('Error running card checker:', error);
+    process.exit(1);
+  }
 }
 
-main();
+// Exécute main() si le fichier est appelé directement
+if (require.main === module) {
+  main();
+}
+
+// Exporte les fonctions pour une utilisation comme module
+module.exports = {
+  getUrlsWithInsufficientCards,
+  checkAndDisplayCardDifferences
+};

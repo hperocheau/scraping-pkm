@@ -4,7 +4,7 @@ const browserFactory = require('../../src/BrowserFactory');
 
 const CONFIG = {
     url: 'https://www.cardmarket.com/fr/Pokemon/Expansions',
-    jsonFileName: '../Test1.json',
+    jsonFileName: './Database/Test1.json',
     timeout: 120000,
     months: new Map([
         ['janvier', 0], ['février', 1], ['mars', 2], ['avril', 3], 
@@ -52,8 +52,7 @@ class CardMarketScraper {
                     localName: subDiv.getAttribute('data-local-name'),
                     url: `${baseUrl}${urlParts}`,
                     urlCards: `${baseUrl}${urlParts.replace('Expansions', 'Products/Singles')}`,
-                    date: subDiv.querySelector('.col-3.text-center.d-none.d-md-block')?.textContent.trim() || 'Date non trouvée',
-                    lastUpdate: new Date().toISOString()
+                    date: subDiv.querySelector('.col-3.text-center.d-none.d-md-block')?.textContent.trim() || 'Date non trouvée'
                 });
             });
             
@@ -93,7 +92,6 @@ class CardMarketScraper {
                 existingDataMap.set(newItem.url, {
                     ...existingItem,
                     date: newItem.date,
-                    lastUpdate: new Date().toISOString()
                 });
                 updatedCount++;
             }
@@ -158,7 +156,12 @@ Mise à jour du fichier JSON terminée :
     }
 }
 
-module.exports = CardMarketScraper;
+//module.exports = CardMarketScraper;
+
+// Assurez-vous d'exporter à la fois CONFIG et setJsonPath
+module.exports = {
+    CardMarketScraper
+};
 
 // Exécution uniquement si appelé directement
 if (require.main === module) {
