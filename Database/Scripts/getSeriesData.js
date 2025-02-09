@@ -6,7 +6,7 @@ const { checkJsonSeries } = require('../dbCheck/testCheck');
 
 (async () => {
   try {
-    const filePath = path.join(__dirname, '../Test2.json');
+    const filePath = path.join(__dirname, '../Test1.json');
    
     // Vérification du fichier JSON et récupération des URLs à mettre à jour
     const { urlsToUpdate } = await checkJsonSeries(filePath);

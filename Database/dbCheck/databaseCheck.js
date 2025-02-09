@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 
-async function getUrlsWithInsufficientCards(jsonFilePath = '../Test2.json') {
+async function getUrlsWithInsufficientCards(jsonFilePath = '../Test1.json') {
   try {
     const jsonData = await fs.readFile(jsonFilePath, 'utf-8');
     const dataArray = JSON.parse(jsonData);
@@ -31,7 +31,7 @@ async function getUrlsWithInsufficientCards(jsonFilePath = '../Test2.json') {
   }
 }
 
-async function checkAndDisplayCardDifferences(jsonFilePath = '../Test2.json') {
+async function checkAndDisplayCardDifferences(jsonFilePath = '../Test1.json') {
   const { urlsToScrape, totalNumCards, totalCardsCount, totalDifference } = 
     await getUrlsWithInsufficientCards(jsonFilePath);
 
@@ -49,7 +49,7 @@ async function checkAndDisplayCardDifferences(jsonFilePath = '../Test2.json') {
 async function main() {
   try {
     // Récupère le chemin du fichier depuis les arguments de la ligne de commande
-    const jsonFilePath = process.argv[2] || '../Test2.json';
+    const jsonFilePath = process.argv[2] || '../Test1.json';
     await checkAndDisplayCardDifferences(jsonFilePath);
   } catch (error) {
     console.error('Error running card checker:', error);

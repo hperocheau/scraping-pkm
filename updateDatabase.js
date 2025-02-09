@@ -13,7 +13,7 @@ const SCRIPTS = {
 };
 const WAIT_TIME = 5000;
 const MAX_SAME_URLS_ATTEMPTS = 3;
-const JSON_PATH = './Database/Test2.json';
+const JSON_PATH = './Database/Test1.json';
 
 // Utility functions
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -91,7 +91,7 @@ async function processCards() {
           const result = await checkAndDisplayCardDifferences(JSON_PATH);
           totalDifference = result.totalDifference;
 
-          if (totalDifference > 5) {
+          if (totalDifference > 0) {
               console.log(`Il manque encore ${totalDifference} cartes. Exécution de getSeriesCards.js...`);
               executeScript(SCRIPTS.getSeriesCards);
               await wait(WAIT_TIME);
@@ -119,7 +119,7 @@ async function main() {
 
         do {
             try {
-                const { checkJsonSeries } = require('./Database/dbCheck/databaseCheck.js');
+                const { checkJsonSeries } = require('./Database/dbCheck/testCheck.js');
                 state.validation = await checkJsonSeries(JSON_PATH);
                 
                 const newState = await processUrls(state.validation, {

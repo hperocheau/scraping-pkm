@@ -109,7 +109,7 @@ class DataChecker {
 }
 
 // Usage
-const checker = new DataChecker('../Test2.json');
+const checker = new DataChecker('../Test3.json');
 async function runChecks() {
   await checker.displayIncorrectSeries();
   await checker.checkDuplicates();
