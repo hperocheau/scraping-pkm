@@ -2,6 +2,7 @@ const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
+const { checkAndDisplayCardDifferences } = require('./Database/dbCheck/databaseCheck.js');
 
 // Constants
 const SCRIPTS_DIR = path.join('Database', 'scripts');
@@ -12,7 +13,7 @@ const SCRIPTS = {
 };
 const WAIT_TIME = 5000;
 const MAX_SAME_URLS_ATTEMPTS = 3;
-const JSON_PATH = './Database/Test1.json';
+const JSON_PATH = './Database/Test2.json';
 
 // Utility functions
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -84,20 +85,24 @@ async function processUrls(validation, previousState) {
 }
 
 async function processCards() {
-    let totalDifference;
-    do {
-        const { checkAndDisplayCardDifferences } = require('./cardChecker');
-        const result = await checkAndDisplayCardDifferences(JSON_PATH);
-        totalDifference = result.totalDifference;
+  let totalDifference;
+  do {
+      try {
+          const result = await checkAndDisplayCardDifferences(JSON_PATH);
+          totalDifference = result.totalDifference;
 
-        if (totalDifference > 5) {
-            console.log(`Il manque encore ${totalDifference} cartes. Exécution de getSeriesCards.js...`);
-            executeScript(SCRIPTS.getSeriesCards);
-            await wait(WAIT_TIME);
-        }
-    } while (totalDifference > 5);
+          if (totalDifference > 5) {
+              console.log(`Il manque encore ${totalDifference} cartes. Exécution de getSeriesCards.js...`);
+              executeScript(SCRIPTS.getSeriesCards);
+              await wait(WAIT_TIME);
+          }
+      } catch (error) {
+          console.error('Erreur lors de la vérification des cartes:', error);
+          throw error; // ou gérez l'erreur différemment selon vos besoins
+      }
+  } while (totalDifference > 5);
 
-    console.log('Traitement des cartes terminé avec succès !');
+  console.log('Traitement des cartes terminé avec succès !');
 }
 
 async function main() {
@@ -114,7 +119,7 @@ async function main() {
 
         do {
             try {
-                const { checkJsonSeries } = require('./Database/dbCheck/testCheck.js');
+                const { checkJsonSeries } = require('./Database/dbCheck/databaseCheck.js');
                 state.validation = await checkJsonSeries(JSON_PATH);
                 
                 const newState = await processUrls(state.validation, {
