@@ -2,11 +2,11 @@ const fs = require('fs').promises;
 const path = require('path');
 const browser = require('../../src/BrowserFactory');
 const { sortSeriesByDate } = require('../../src/parseDate');
-const { checkJsonSeries } = require('../dbCheck/testCheck');
+const { checkJsonSeries } = require('../databaseControl/controlFunctions/jsonEntryControl');
 
 (async () => {
   try {
-    const filePath = path.join(__dirname, '../Test1.json');
+    const filePath = path.join(__dirname, '../Test2.json');
    
     // Vérification du fichier JSON et récupération des URLs à mettre à jour
     const { urlsToUpdate } = await checkJsonSeries(filePath);

@@ -4,7 +4,7 @@ const browserFactory = require('../../src/BrowserFactory');
 
 const CONFIG = {
     url: 'https://www.cardmarket.com/fr/Pokemon/Expansions',
-    jsonFileName: './Database/Test1.json',
+    jsonFileName: './Database/Test2.json',
     timeout: 120000,
     months: new Map([
         ['janvier', 0], ['février', 1], ['mars', 2], ['avril', 3], 

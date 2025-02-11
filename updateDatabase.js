@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
-const { checkAndDisplayCardDifferences } = require('./Database/dbCheck/databaseCheck.js');
+const { checkAndDisplayCardDifferences } = require('./Database/databaseControl/allCardsCount.js');
 
 // Constants
 const SCRIPTS_DIR = path.join('Database', 'scripts');
@@ -13,7 +13,7 @@ const SCRIPTS = {
 };
 const WAIT_TIME = 5000;
 const MAX_SAME_URLS_ATTEMPTS = 3;
-const JSON_PATH = './Database/Test1.json';
+const JSON_PATH = './Database/Test2.json';
 
 // Utility functions
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -119,7 +119,7 @@ async function main() {
 
         do {
             try {
-                const { checkJsonSeries } = require('./Database/dbCheck/testCheck.js');
+                const { checkJsonSeries } = require('./Database/databaseControl/controlFunctions/jsonEntryControl.js');
                 state.validation = await checkJsonSeries(JSON_PATH);
                 
                 const newState = await processUrls(state.validation, {
