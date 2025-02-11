@@ -2,13 +2,16 @@
   "name": "pkm",
   "version": "1.0.0",
   "dependencies": {
+    "child_process": "^1.0.2",
+    "exceljs": "^4.4.0",
     "fs-extra": "^10.0.0",
     "jsdom": "^26.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "node-fetch": "2.6.1",
+    "os": "^0.1.2",
     "path": "^0.12.7",
-    "puppeteer": "^21.7.0",
+    "puppeteer": "^21.11.0",
     "xlsx": "^0.18.5"
   },
   "description": "pkm price excel",

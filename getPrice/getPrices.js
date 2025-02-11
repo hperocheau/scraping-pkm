@@ -1,17 +1,14 @@
 const puppeteer = require('puppeteer');
 const ExcelJS = require('exceljs');
 const moment = require('moment');
-const fs = require('fs');
+const browser = require('../src/BrowserFactory');
 
 (async () => {
   console.time('script-execution'); // Start timer
 
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-
-  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+  const page = await browser.createPage();
   const workbook = new ExcelJS.Workbook();
-  const xlsxFilePath = './Commandes_poke.xlsx';
+  const xlsxFilePath = '../cartes.xlsx';
   await workbook.xlsx.readFile(xlsxFilePath); // Ajoutez cette ligne
   const today = moment().format("DD_MM_YYYY");
   const worksheet = workbook.getWorksheet(today);
@@ -25,15 +22,15 @@ const fs = require('fs');
     for (let i = 2; i <= worksheet.lastRow.number; i++) {
       try {
         rowIndex = i;
-        const urlCell = worksheet.getCell(`E${i}`);
+        const urlCell = worksheet.getCell(`F${i}`);
         const cardTypeCell = worksheet.getCell(`A${i}`);
         const url = urlCell.value;
         cardType = cardTypeCell.value && cardTypeCell.value.toString().toLowerCase();
         
-        console.log(`Reading URL from cell E${i}: ${url}`);
+        console.log(`Reading URL from cell F${i}: ${url}`);
 
         // Check if the cell F is empty
-        const priceCell = worksheet.getCell(`F${i}`);
+        const priceCell = worksheet.getCell(`G${i}`);
         const priceCellValue = priceCell.value !== null ? priceCell.value.toString().trim().toLowerCase() : '';
 
         if (priceCellValue === '') {
@@ -48,7 +45,7 @@ const fs = require('fs');
           const noResultsElement = await page.$('.noResults.text-center.h3.text-muted.py-5');
 
           if (noResultsElement) {
-            console.log(`No data available for cell E${i}`);
+            console.log(`No data available for cell F${i}`);
             priceCell.value = 'no data found';
           } else {
             // Calculate average price
@@ -56,16 +53,16 @@ const fs = require('fs');
 
             if (averagePriceResult !== null) {
               priceCell.value = averagePriceResult.toFixed(2);
-              console.log(`Updated cell F${i} with average price: ${priceCell.value}`);
+              console.log(`Updated cell G${i} with average price: ${priceCell.value}`);
             } else {
-              console.log(`Couldn't find any valid price for cell E${i}`);
+              console.log(`Couldn't find any valid price for cell F${i}`);
             }
           }
         } else {
-          console.log(`Skipping updated cell F${i}`);
+          console.log(`Skipping updated cell G${i}`);
         }
       } catch (error) {
-        console.error(`Error processing cell E${i}: ${error.message}`);
+        console.error(`Error processing cell F${i}: ${error.message}`);
       }
     }
 
@@ -76,7 +73,7 @@ const fs = require('fs');
     console.error(`Sheet "${today}" does not exist.`);
   }
 
-  await browser.close();
+  await browser.closeBrowser();
   console.timeEnd('script-execution'); // Stop timer and display elapsed time
 })();
 
@@ -107,10 +104,10 @@ async function calculateAveragePrice(page, cardType, rowIndex) {
       return sum / filteredArticles.length; // Divide by the actual number of prices
     }
 
-    console.log(`No valid prices found for cell E${rowIndex}`);
+    console.log(`No valid prices found for cell F${rowIndex}`);
     return null;
   } catch (error) {
-    console.error(`Error during evaluation for cell E${rowIndex}: ${error.message}`);
+    console.error(`Error during evaluation for cell F${rowIndex}: ${error.message}`);
     return null;
   }
 }

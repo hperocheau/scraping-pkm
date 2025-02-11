@@ -1,4 +1,4 @@
-const fs = require('fs').promises; // Utilisation directe de fs.promises au lieu de util.promisify
+const fs = require('fs').promises;
 const path = require('path');
 
 class JsonAnalyzer {

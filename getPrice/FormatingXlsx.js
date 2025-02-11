@@ -51,7 +51,7 @@ class ExcelProcessor {
     getLanguageParams(cellD) {
         const lowercaseCellD = String(cellD || '').toLowerCase();
         const { LANGUAGES } = CONFIG;
-        
+
         for (const lang of Object.values(LANGUAGES)) {
             if (lang.patterns.test(lowercaseCellD)) {
                 return lang.queryParams;
@@ -62,18 +62,18 @@ class ExcelProcessor {
 
     getConditionValue(condition) {
         if (!condition) return null;
-        
+
         // Normaliser la condition en supprimant les espaces et en mettant en majuscules
         const normalizedCondition = String(condition).trim().toUpperCase();
-        
+
         // Vérifier si la condition existe dans la configuration
         const conditionValue = CONFIG.CONDITIONS[normalizedCondition];
-        
+
         if (!conditionValue) {
             console.log(`Condition non reconnue: "${condition}" (normalisée: "${normalizedCondition}")`);
             return null;
         }
-        
+
         return conditionValue;
     }
 
@@ -83,17 +83,17 @@ class ExcelProcessor {
 
     calculateStringSimilarity(str1, str2) {
         if (!str1 || !str2) return 0;
-        
+
         const processedStr1 = String(str1).toLowerCase().split(' ');
         const processedStr2 = String(str2).toLowerCase().split(' ');
         const similarities = _.intersection(processedStr1, processedStr2);
-        
+
         return (similarities.length / Math.max(processedStr1.length, processedStr2.length)) * 100;
     }
 
-    isExactSerieMatch(cellC, cardSerie) {
-        if (!cellC || !cardSerie) return false;
-        return String(cellC).toLowerCase().trim() === String(cardSerie).toLowerCase().trim();
+    isExactSerieMatch(cellC, codeSerie) {
+        if (!cellC || !codeSerie) return false;
+        return String(cellC).toLowerCase().trim() === String(codeSerie).toLowerCase().trim();
     }
 
     isExactNumberMatch(cellB, cardNumber) {
@@ -116,7 +116,7 @@ class ExcelProcessor {
 
         for (const cardSet of this.jsonData) {
             for (const card of cardSet.cards) {
-                if (!this.isExactSerieMatch(cellC, card.cardSerie)) {
+                if (!this.isExactSerieMatch(cellC, card.codeSerie)) {
                     continue;
                 }
                 serieMatchFound = true;
@@ -187,7 +187,7 @@ class ExcelProcessor {
     process() {
         try {
             const sourceSheet = this.validateSheet();
-            
+
             if (this.workbook.SheetNames.includes(this.currentDate)) {
                 const existingSheet = this.workbook.Sheets[this.currentDate];
                 if (this.compareSheets(existingSheet, sourceSheet)) {
@@ -205,6 +205,7 @@ class ExcelProcessor {
             const range = xlsx.utils.decode_range(newSheet['!ref']);
             range.e.c = Math.max(range.e.c, 6); // Étendre jusqu'à la colonne G
             newSheet['!ref'] = xlsx.utils.encode_range(range);
+            newSheet['F1'] = { v: "Url" }; // Ajout de "url" dans la cellule E1
             newSheet['G1'] = { v: "Prix moyen" };
 
             const lastRow = Object.keys(newSheet)
@@ -212,8 +213,8 @@ class ExcelProcessor {
                 .reduce((max, key) => Math.max(max, parseInt(key.slice(1))), 0);
 
             let errorCount = 0;
-            
-            for (let row = 1; row <= lastRow; row++) {
+
+            for (let row = 2; row <= lastRow; row++) {
                 const cellValues = {
                     A: this.getCellValue(newSheet, `A${row}`),
                     B: this.getCellValue(newSheet, `B${row}`),
@@ -223,7 +224,7 @@ class ExcelProcessor {
                 };
 
                 const matchResult = this.findBestMatch(cellValues.A, cellValues.B, cellValues.C, row);
-                
+
                 if (matchResult.cardUrl === 'error') {
                     errorCount++;
                     newSheet[`F${row}`] = { v: 'error' };
