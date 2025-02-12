@@ -1,113 +1,137 @@
 const puppeteer = require('puppeteer');
-const ExcelJS = require('exceljs');
+const xlsx = require('xlsx');
 const moment = require('moment');
 const browser = require('../src/BrowserFactory');
 
-(async () => {
-  console.time('script-execution'); // Start timer
+const CONFIG = {
+  xlsxFilePath: '../cartes.xlsx',
+  selectors: {
+    articleRow: '[id^="articleRow"]',
+    priceContainer: '.price-container',
+    productComments: '.d-block.text-truncate.text-muted.fst-italic.small',
+    noResults: '.noResults.text-center.h3.text-muted.py-5'
+  },
+  maxPricesToAverage: 3
+};
 
-  const page = await browser.createPage();
-  const workbook = new ExcelJS.Workbook();
-  const xlsxFilePath = '../cartes.xlsx';
-  await workbook.xlsx.readFile(xlsxFilePath); // Ajoutez cette ligne
-  const today = moment().format("DD_MM_YYYY");
-  const worksheet = workbook.getWorksheet(today);
+function formatPrice(priceText) {
+  if (!priceText) return NaN;
+  const cleanPrice = priceText.replace(/\s/g, '').replace(',', '.');
+  const match = cleanPrice.match(/([0-9]+[.,]?[0-9]*)/);
+  if (!match) return NaN;
+  return parseFloat(match[1]);
+}
 
-  
-
-  if (worksheet) {
-    let cardType;
-    let rowIndex;
-
-    for (let i = 2; i <= worksheet.lastRow.number; i++) {
-      try {
-        rowIndex = i;
-        const urlCell = worksheet.getCell(`F${i}`);
-        const cardTypeCell = worksheet.getCell(`A${i}`);
-        const url = urlCell.value;
-        cardType = cardTypeCell.value && cardTypeCell.value.toString().toLowerCase();
-        
-        console.log(`Reading URL from cell F${i}: ${url}`);
-
-        // Check if the cell F is empty
-        const priceCell = worksheet.getCell(`G${i}`);
-        const priceCellValue = priceCell.value !== null ? priceCell.value.toString().trim().toLowerCase() : '';
-
-        if (priceCellValue === '') {
-          // Process URL
-          let finalURL = url;
-          
-          // Wait for the page to load without introducing extra delay
-          await page.goto(finalURL, { waitUntil: 'networkidle0' });
-
-          // Use async/await with selectors instead of explicit timeouts
-          //const noResultsElement = await page.waitForSelector('.noResults.text-center.h3.text-muted.py-5', { visible: true, timeout: 1500 });
-          const noResultsElement = await page.$('.noResults.text-center.h3.text-muted.py-5');
-
-          if (noResultsElement) {
-            console.log(`No data available for cell F${i}`);
-            priceCell.value = 'no data found';
-          } else {
-            // Calculate average price
-            const averagePriceResult = await calculateAveragePrice(page, cardType, rowIndex);
-
-            if (averagePriceResult !== null) {
-              priceCell.value = averagePriceResult.toFixed(2);
-              console.log(`Updated cell G${i} with average price: ${priceCell.value}`);
-            } else {
-              console.log(`Couldn't find any valid price for cell F${i}`);
-            }
-          }
-        } else {
-          console.log(`Skipping updated cell G${i}`);
-        }
-      } catch (error) {
-        console.error(`Error processing cell F${i}: ${error.message}`);
-      }
-    }
-
-    // Write back to file after all updates have been processed
-    await workbook.xlsx.writeFile(xlsxFilePath);
-    console.log(`Excel file successfully updated. Sheet used: ${today}`);
-  } else {
-    console.error(`Sheet "${today}" does not exist.`);
+class PriceProcessor {
+  constructor(filePath) {
+    this.filePath = filePath;
+    this.workbook = xlsx.readFile(filePath);
+    this.currentDate = moment().format("DD_MM_YYYY");
   }
 
-  await browser.closeBrowser();
-  console.timeEnd('script-execution'); // Stop timer and display elapsed time
-})();
+  getCellValue(sheet, cell) {
+    if (!sheet[cell]) return '';
+    const value = sheet[cell].v;
+    return value === null || value === undefined ? '' : value;
+  }
 
-/**
- * Function to encapsulate calculating the average price
- * @param {import('puppeteer').Page} page - Puppeteer Page instance
- * @param {string|null} cardType - Card type string or null
- * @param {number} rowIndex - Row index number
- */
-async function calculateAveragePrice(page, cardType, rowIndex) {
-  try {
-    const articles = await page.$$eval('[id^="articleRow"]', (elements, cardType) => {
-      const formatPriceToFloat = text => parseFloat(text.trim().replace(".", "").replace(",", ".").trim().match(/[\d,.]+/)?.[0]);
+  async processRow(page, sheet, rowIndex) {
+    const url = this.getCellValue(sheet, `F${rowIndex}`);
+    const condition = this.getCellValue(sheet, `E${rowIndex}`);
 
-      return Array.from(elements).filter(element => {
-        const price = formatPriceToFloat(element.querySelector(".price-container")?.innerText);
+    if (!url) return;
 
-        if (!isNaN(price)) {
-          const comments = element.querySelector('.product-comments')?.innerText?.toLowerCase();
-          return (cardType?.includes('holo') && comments?.includes('holo')) || (!cardType?.includes('holo') && !comments?.includes('holo'));
-        }
-      }).map(element => formatPriceToFloat(element.querySelector(".price-container")?.innerText));
-    }, cardType);
+    console.log(`Processing row ${rowIndex}: ${url}`);
+    console.log(`Expected condition: ${condition}`);
 
-    if (articles.length > 0) {
-      const filteredArticles = articles.filter(Boolean).slice(0, 3); // Take only the first 3 prices
-      const sum = filteredArticles.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-      return sum / filteredArticles.length; // Divide by the actual number of prices
+    try {
+      await page.goto(url, { waitUntil: 'networkidle0' });
+      const noResultsElement = await page.$(CONFIG.selectors.noResults);
+
+      if (noResultsElement) {
+        sheet[`G${rowIndex}`] = { v: 'no data found' };
+        console.log(`No data available for row ${rowIndex}`);
+        return;
+      }
+
+      const averagePrice = await this.calculateAveragePrice(page, condition, rowIndex);
+      if (averagePrice !== null) {
+        sheet[`G${rowIndex}`] = { v: averagePrice, t: 'n' };
+        console.log(`Updated cell G${rowIndex} with average price: ${averagePrice}`);
+      }
+    } catch (error) {
+      console.error(`Error processing row ${rowIndex}:`, error.message);
+      sheet[`G${rowIndex}`] = { v: 'error' };
     }
+  }
 
-    console.log(`No valid prices found for cell F${rowIndex}`);
-    return null;
-  } catch (error) {
-    console.error(`Error during evaluation for cell F${rowIndex}: ${error.message}`);
-    return null;
+  async calculateAveragePrice(page, cardCondition, rowIndex) {
+    try {
+      const elements = await page.$$(CONFIG.selectors.articleRow);
+
+      if (!elements.length) {
+        console.log(`No elements found for row ${rowIndex}`);
+        return null;
+      }
+
+      const prices = await Promise.all(elements.map(async element => {
+        const priceText = await element.$eval('.price-container', el => el.innerText).catch(() => null);
+        const condition = await element.$eval('.article-condition .badge', el => el.innerText.trim()).catch(() => null);
+
+        //console.log(`Found item - Price: ${priceText}, Condition: ${condition}, Expected: ${cardCondition}`);
+
+        if (!priceText || !condition) return null;
+
+        const formattedPrice = formatPrice(priceText);
+        if (isNaN(formattedPrice)) return null;
+        if (condition !== cardCondition) return null;
+
+        return formattedPrice;
+      }));
+
+      const validPrices = prices.filter(price => price !== null);
+
+      if (validPrices.length === 0) {
+        console.log(`No valid prices found for row ${rowIndex}`);
+        return null;
+      }
+
+      validPrices.sort((a, b) => a - b);
+      const pricesToAverage = validPrices.slice(0, CONFIG.maxPricesToAverage);
+      const averagePrice = pricesToAverage.reduce((a, b) => a + b, 0) / pricesToAverage.length;
+      return parseFloat(averagePrice.toFixed(2));
+    } catch (error) {
+      console.error(`Error calculating average price for row ${rowIndex}:`, error);
+      return null;
+    }
+  }
+
+  async process() {
+    console.time('script-execution');
+    const page = await browser.createPage();
+
+    try {
+      const sheet = this.workbook.Sheets[this.currentDate];
+      if (!sheet) {
+        throw new Error(`Sheet "${this.currentDate}" does not exist.`);
+      }
+
+      const range = xlsx.utils.decode_range(sheet['!ref']);
+      for (let rowIndex = 2; rowIndex <= range.e.r + 1; rowIndex++) {
+        await this.processRow(page, sheet, rowIndex);
+      }
+
+      xlsx.writeFile(this.workbook, this.filePath);
+      console.log(`Excel file successfully updated. Sheet used: ${this.currentDate}`);
+    } catch (error) {
+      console.error('Script execution failed:', error.message);
+    } finally {
+      await browser.closeBrowser();
+      console.timeEnd('script-execution');
+    }
   }
 }
+
+// Exécution
+const processor = new PriceProcessor('../cartes.xlsx');
+processor.process().catch(console.error);
