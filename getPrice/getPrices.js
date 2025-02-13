@@ -77,65 +77,67 @@ class PriceProcessor {
             return null;
         }
 
-        const prices = await Promise.all(elements.map(async (element, index) => {
-            const priceText = await element.$eval('.price-container', el => el.innerText).catch(() => null);
-            const condition = await element.$eval('.article-condition .badge', el => el.innerText.trim()).catch(() => null);
-            
-            // Récupération des commentaires
-            const comments = await element.$eval('.d-block.text-truncate.text-muted.fst-italic.small', el => el.innerText)
+        // D'abord, analyser toute la liste pour trouver les positions des prix avec l'état désiré
+        const desiredConditionIndices = [];
+        for (let i = 0; i < elements.length; i++) {
+            const condition = await elements[i].$eval('.article-condition .badge', el => el.innerText.trim()).catch(() => null);
+            const comments = await elements[i].$eval('.d-block.text-truncate.text-muted.fst-italic.small', el => el.innerText)
                 .catch(() => '');
-            
+
             const excludedTerms = ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '];
             const hasExcludedTerm = excludedTerms.some(term => comments.toUpperCase().includes(term));
-            
-            // Logs de debugging
-            console.log(`\nAnalyzing item ${index + 1}:`);
-            console.log(`Price text: ${priceText}`);
-            console.log(`Condition: ${condition}`);
-            console.log(`Comments: ${comments}`);
-            console.log(`Has excluded term: ${hasExcludedTerm}`);
 
-            if (hasExcludedTerm) {
-                console.log('Skipping this item due to excluded term');
-                return null;
+            if (!hasExcludedTerm && condition === cardCondition) {
+                desiredConditionIndices.push(i);
             }
+        }
 
-            if (!priceText || !condition) {
-                console.log('Skipping this item due to missing price or condition');
-                return null;
+        let validPrices = [];
+        // Parcourir à nouveau la liste pour collecter les prix
+        for (let i = 0; i < elements.length && validPrices.length < CONFIG.maxPricesToAverage; i++) {
+            const element = elements[i];
+            const priceText = await element.$eval('.price-container', el => el.innerText).catch(() => null);
+            const condition = await element.$eval('.article-condition .badge', el => el.innerText.trim()).catch(() => null);
+            const comments = await element.$eval('.d-block.text-truncate.text-muted.fst-italic.small', el => el.innerText)
+                .catch(() => '');
+
+            const excludedTerms = ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '];
+            const hasExcludedTerm = excludedTerms.some(term => comments.toUpperCase().includes(term));
+
+            if (hasExcludedTerm || !priceText || !condition) {
+                continue;
             }
 
             const formattedPrice = formatPrice(priceText);
-            console.log(`Formatted price: ${formattedPrice}`);
-
             if (isNaN(formattedPrice)) {
-                console.log('Skipping this item due to invalid price format');
-                return null;
+                continue;
             }
 
-            if (condition !== cardCondition) {
-                console.log('Skipping this item due to condition mismatch');
-                return null;
+            // Vérifier s'il existe un prix avec l'état désiré plus loin dans la liste
+            const hasDesiredConditionLater = desiredConditionIndices.some(index => index > i);
+
+            if (condition === cardCondition) {
+                // Si c'est l'état désiré, on le prend
+                validPrices.push(formattedPrice);
+                console.log(`Added price ${formattedPrice} with desired condition ${condition}`);
+            } else if (hasDesiredConditionLater) {
+                // Si ce n'est pas l'état désiré mais qu'il existe un prix avec l'état désiré plus loin
+                validPrices.push(formattedPrice);
+                console.log(`Added price ${formattedPrice} with condition ${condition} because desired condition exists later`);
+            } else {
+                // Si ce n'est pas l'état désiré et qu'il n'y a pas de prix avec l'état désiré plus loin
+                console.log(`Skipped price ${formattedPrice} with condition ${condition} because no desired condition exists later`);
+                continue;
             }
-
-            return formattedPrice;
-        }));
-
-        const validPrices = prices.filter(price => price !== null);
-        console.log(`\nValid prices found: ${validPrices.join(', ')}`);
+        }
 
         if (validPrices.length === 0) {
             console.log(`No valid prices found for row ${rowIndex}`);
             return null;
         }
 
-        validPrices.sort((a, b) => a - b);
-        console.log(`Sorted prices: ${validPrices.join(', ')}`);
-
-        const pricesToAverage = validPrices.slice(0, CONFIG.maxPricesToAverage);
-        console.log(`Prices used for average: ${pricesToAverage.join(', ')}`);
-
-        const averagePrice = pricesToAverage.reduce((a, b) => a + b, 0) / pricesToAverage.length;
+        console.log(`Valid prices found: ${validPrices.join(', ')}`);
+        const averagePrice = validPrices.reduce((a, b) => a + b, 0) / validPrices.length;
         console.log(`Calculated average: ${averagePrice}`);
 
         return parseFloat(averagePrice.toFixed(2));
@@ -144,6 +146,7 @@ class PriceProcessor {
         return null;
     }
 }
+
 
   async process() {
     console.time('script-execution');
