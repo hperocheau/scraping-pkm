@@ -8,14 +8,15 @@ const CONFIG = {
     LANGUAGES: {
         JAPANESE: {
             patterns: /jp|japonais|jap/i,
-            queryParams: "?language=7"
+            code: '7'
         },
         FRENCH: {
             patterns: /fr|français|francais/i,
-            queryParams: "?language=2"
+            code: '2'
         }
     },
     CONDITIONS: {
+        'MT': '1',
         'NM': '2',
         'EX': '3',
         'GD': '4'
@@ -42,22 +43,31 @@ class ExcelProcessor {
         this.currentDate = moment().format("DD_MM_YYYY");
         this.sourceSheetName = "Feuil1";
     }
+    
 
-    buildUrlWithParams(baseUrl, condition, language) {
+    buildUrlWithParams(baseUrl, condition, language, cardName) {
         const urlBase = baseUrl.split('?')[0];
-        return `${urlBase}${language}&minCondition=${condition}&isSigned=N&isPlayset=N&isAltered=N`;
+        const isReverse = this.isReverseHolo(cardName) ? 'Y' : 'N';
+        
+        return `${urlBase}?isSigned=N&isPlayset=N&isAltered=N&language=${language}&minCondition=${condition}&isReverseHolo=${isReverse}`;
     }
 
     getLanguageParams(cellD) {
         const lowercaseCellD = String(cellD || '').toLowerCase();
         const { LANGUAGES } = CONFIG;
-
-        for (const lang of Object.values(LANGUAGES)) {
+    
+        for (const [, lang] of Object.entries(LANGUAGES)) {
             if (lang.patterns.test(lowercaseCellD)) {
-                return lang.queryParams;
+                return lang.code;
             }
         }
-        return "?language=1"; // Défaut en anglais si aucune correspondance
+        
+        return '1'; // Code par défaut pour l'anglais
+    }
+
+    isReverseHolo(cardName) {
+        const reversePatterns = /(reverse|pokeball|masterball)/i;
+        return reversePatterns.test(cardName);
     }
 
     getConditionValue(condition) {
@@ -241,7 +251,13 @@ class ExcelProcessor {
                 }
 
                 const languageParams = this.getLanguageParams(cellValues.D);
-                const finalUrl = this.buildUrlWithParams(matchResult.cardUrl, condition, languageParams);
+                // Dans la boucle de process()
+                const finalUrl = this.buildUrlWithParams(
+                    matchResult.cardUrl, 
+                    condition, 
+                    languageParams, 
+                    cellValues.A 
+                );
                 newSheet[`F${row}`] = { v: finalUrl };
             }
 

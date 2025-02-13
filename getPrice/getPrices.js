@@ -16,8 +16,11 @@ const CONFIG = {
 
 function formatPrice(priceText) {
   if (!priceText) return NaN;
-  const cleanPrice = priceText.replace(/\s/g, '').replace(',', '.');
-  const match = cleanPrice.match(/([0-9]+[.,]?[0-9]*)/);
+
+  let cleanPrice = priceText.replace(/\s|€/g, '');
+  cleanPrice = cleanPrice.replace(/\./g, '').replace(',', '.');
+  const match = cleanPrice.match(/([0-9]+[.]?[0-9]*)/);
+  
   if (!match) return NaN;
   return parseFloat(match[1]);
 }
@@ -67,44 +70,80 @@ class PriceProcessor {
 
   async calculateAveragePrice(page, cardCondition, rowIndex) {
     try {
-      const elements = await page.$$(CONFIG.selectors.articleRow);
+        const elements = await page.$$(CONFIG.selectors.articleRow);
 
-      if (!elements.length) {
-        console.log(`No elements found for row ${rowIndex}`);
-        return null;
-      }
+        if (!elements.length) {
+            console.log(`No elements found for row ${rowIndex}`);
+            return null;
+        }
 
-      const prices = await Promise.all(elements.map(async element => {
-        const priceText = await element.$eval('.price-container', el => el.innerText).catch(() => null);
-        const condition = await element.$eval('.article-condition .badge', el => el.innerText.trim()).catch(() => null);
+        const prices = await Promise.all(elements.map(async (element, index) => {
+            const priceText = await element.$eval('.price-container', el => el.innerText).catch(() => null);
+            const condition = await element.$eval('.article-condition .badge', el => el.innerText.trim()).catch(() => null);
+            
+            // Récupération des commentaires
+            const comments = await element.$eval('.d-block.text-truncate.text-muted.fst-italic.small', el => el.innerText)
+                .catch(() => '');
+            
+            const excludedTerms = ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '];
+            const hasExcludedTerm = excludedTerms.some(term => comments.toUpperCase().includes(term));
+            
+            // Logs de debugging
+            console.log(`\nAnalyzing item ${index + 1}:`);
+            console.log(`Price text: ${priceText}`);
+            console.log(`Condition: ${condition}`);
+            console.log(`Comments: ${comments}`);
+            console.log(`Has excluded term: ${hasExcludedTerm}`);
 
-        //console.log(`Found item - Price: ${priceText}, Condition: ${condition}, Expected: ${cardCondition}`);
+            if (hasExcludedTerm) {
+                console.log('Skipping this item due to excluded term');
+                return null;
+            }
 
-        if (!priceText || !condition) return null;
+            if (!priceText || !condition) {
+                console.log('Skipping this item due to missing price or condition');
+                return null;
+            }
 
-        const formattedPrice = formatPrice(priceText);
-        if (isNaN(formattedPrice)) return null;
-        if (condition !== cardCondition) return null;
+            const formattedPrice = formatPrice(priceText);
+            console.log(`Formatted price: ${formattedPrice}`);
 
-        return formattedPrice;
-      }));
+            if (isNaN(formattedPrice)) {
+                console.log('Skipping this item due to invalid price format');
+                return null;
+            }
 
-      const validPrices = prices.filter(price => price !== null);
+            if (condition !== cardCondition) {
+                console.log('Skipping this item due to condition mismatch');
+                return null;
+            }
 
-      if (validPrices.length === 0) {
-        console.log(`No valid prices found for row ${rowIndex}`);
-        return null;
-      }
+            return formattedPrice;
+        }));
 
-      validPrices.sort((a, b) => a - b);
-      const pricesToAverage = validPrices.slice(0, CONFIG.maxPricesToAverage);
-      const averagePrice = pricesToAverage.reduce((a, b) => a + b, 0) / pricesToAverage.length;
-      return parseFloat(averagePrice.toFixed(2));
+        const validPrices = prices.filter(price => price !== null);
+        console.log(`\nValid prices found: ${validPrices.join(', ')}`);
+
+        if (validPrices.length === 0) {
+            console.log(`No valid prices found for row ${rowIndex}`);
+            return null;
+        }
+
+        validPrices.sort((a, b) => a - b);
+        console.log(`Sorted prices: ${validPrices.join(', ')}`);
+
+        const pricesToAverage = validPrices.slice(0, CONFIG.maxPricesToAverage);
+        console.log(`Prices used for average: ${pricesToAverage.join(', ')}`);
+
+        const averagePrice = pricesToAverage.reduce((a, b) => a + b, 0) / pricesToAverage.length;
+        console.log(`Calculated average: ${averagePrice}`);
+
+        return parseFloat(averagePrice.toFixed(2));
     } catch (error) {
-      console.error(`Error calculating average price for row ${rowIndex}:`, error);
-      return null;
+        console.error(`Error calculating average price for row ${rowIndex}:`, error);
+        return null;
     }
-  }
+}
 
   async process() {
     console.time('script-execution');
