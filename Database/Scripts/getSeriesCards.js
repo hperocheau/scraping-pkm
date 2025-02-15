@@ -1,47 +1,25 @@
-const fs = require('fs').promises;
 const puppeteer = require('puppeteer');
-const path = require('path');
 const browser = require('../../src/BrowserFactory');
+const db = require('../database.js');
 
 class CardScraper {
-    constructor(jsonFilePath) {
-        this.jsonFilePath = jsonFilePath;
+    constructor() {
         this.browser = null;
-        this.concurrentPages = 3; // Nombre de pages à traiter en parallèle
-        this.retryAttempts = 3; // Nombre de tentatives en cas d'échec
-        this.retryDelay = 2000; // Délai entre les tentatives en ms
-        this.pageGroupDelay = 750; // Délai entre les groupes de pages
-        this.requestDelay = 300; // Délai entre les requêtes individuelles
+        this.concurrentPages = 3;
+        this.retryAttempts = 3;
+        this.retryDelay = 2000;
+        this.pageGroupDelay = 750;
+        this.requestDelay = 300;
     }
 
     async initialize() {
-        // Initialiser le browserFactory au lieu de puppeteer directement
         this.browser = await browser.getBrowser();
-    }
-
-    async readJsonFile() {
-        try {
-            const rawData = await fs.readFile(this.jsonFilePath, 'utf-8');
-            return JSON.parse(rawData);
-        } catch (error) {
-            console.error(`Erreur de lecture du fichier JSON: ${error.message}`);
-            return [];
-        }
-    }
-
-    async writeJsonFile(data) {
-        try {
-            await fs.writeFile(this.jsonFilePath, JSON.stringify(data, null, 2), 'utf-8');
-        } catch (error) {
-            console.error(`Erreur d'écriture du fichier JSON: ${error.message}`);
-        }
     }
 
     async createPage() {
         const page = await browser.createPage();
         await page.setRequestInterception(true);
 
-        // Optimisation : bloquer les ressources non nécessaires
         page.on('request', (request) => {
             const resourceType = request.resourceType();
             if (['image', 'stylesheet', 'font', 'media'].includes(resourceType)) {
@@ -121,7 +99,6 @@ class CardScraper {
                 const currentPage = i + index;
                 if (currentPage > totalPages) return null;
 
-                // Ajout d'un délai entre les requêtes individuelles
                 await new Promise(resolve => setTimeout(resolve, this.requestDelay * index));
 
                 const url = `${baseUrl}${currentPage}`;
@@ -148,7 +125,6 @@ class CardScraper {
 
             if (shouldStop) break;
 
-            // Ajout d'un délai entre les groupes de pages
             if (i + this.concurrentPages <= totalPages) {
                 console.log(`Pause de ${this.pageGroupDelay/1000} secondes entre les groupes de pages...`);
                 await new Promise(resolve => setTimeout(resolve, this.pageGroupDelay));
@@ -162,28 +138,19 @@ class CardScraper {
     findCommonString(strings) {
         if (!strings.length) return '';
 
-        //console.log("Chaînes à traiter:", strings);
-
-        // Extraire le contenu de la dernière parenthèse de chaque chaîne et le découper
         const parenthesesContents = strings
             .map(str => {
                 const lastParentheses = str.split('(').pop().replace(')', '').trim();
-                //console.log("Contenu parenthèse:", lastParentheses); // Debug
                 return lastParentheses.split(' ');
             })
             .filter(parts => parts.length > 0);
 
-        //console.log("Contenus parenthèses après découpage:", parenthesesContents);
-
         if (parenthesesContents.length === 0) return '';
 
-        // Prendre le premier élément comme référence
         const firstParts = parenthesesContents[0];
 
-        // Trouver l'élément qui apparaît dans tous les contenus
         for (const part of firstParts) {
             if (parenthesesContents.every(parts => parts.includes(part))) {
-                //console.log("Élément commun trouvé:", part); // Debug
                 return part;
             }
         }
@@ -194,18 +161,23 @@ class CardScraper {
     extractCardNumber(cardFullTitle, codeSerie) {
         if (!cardFullTitle || !codeSerie) return '';
 
-        // Extraire le contenu de la dernière parenthèse
         const lastParentheses = cardFullTitle.split('(').pop().replace(')', '').trim();
-
-        // Diviser en parties et filtrer le codeSerie
         const parts = lastParentheses.split(' ');
         const remainingParts = parts.filter(part => part !== codeSerie);
 
         return remainingParts.join(' ');
     }
 
-    async updateJsonFile(url, productInfoList) {
-        const existingData = await this.readJsonFile();
+    async processData() {
+        return db.getData();
+    }
+
+    async updateData(updatedData) {
+        return db.saveData(updatedData);
+    }
+
+    async updateDataWithCards(url, productInfoList) {
+        const existingData = await this.processData();
         const existingEntry = existingData.find((entry) => entry.urlCards === url);
 
         if (existingEntry) {
@@ -244,13 +216,12 @@ class CardScraper {
             existingEntry.cards = uniqueProductInfoList;
         }
 
-        await this.writeJsonFile(existingData);
+        await this.updateData(existingData);
     }
 
     async processUrl(entry) {
         const { urlCards, numCards, cards } = entry;
 
-        // Vérification rapide pour numCards = 0
         if (numCards === "0" || numCards === 0) {
             console.log(`${urlCards}: pas de cartes à traiter (numCards = 0)`);
             return;
@@ -260,8 +231,6 @@ class CardScraper {
             console.log(`${urlCards}: nombre de cartes correspond (${numCards})`);
             return;
         }
-        //Série à traiter
-        //console.log(`Traitement de ${urlCards} (${cards?.length || 0}/${numCards})`);
 
         const baseUrlDesc = `${urlCards}?sortBy=collectorsnumber_desc&site=`;
         const { totalPages, hasPlusSymbol } = await this.getTotalPages(baseUrlDesc);
@@ -273,10 +242,10 @@ class CardScraper {
             const descProducts = await this.scrapePages(baseUrlDesc, totalPages);
             const lastCardId = descProducts[descProducts.length - 1]?.productRowId;
             const ascProducts = await this.scrapePages(baseUrlAsc, totalPages, lastCardId);
-            await this.updateJsonFile(urlCards, [...descProducts, ...ascProducts]);
+            await this.updateDataWithCards(urlCards, [...descProducts, ...ascProducts]);
         } else {
             const products = await this.scrapePages(baseUrlDesc, totalPages);
-            await this.updateJsonFile(urlCards, products);
+            await this.updateDataWithCards(urlCards, products);
         }
     }
 
@@ -284,7 +253,7 @@ class CardScraper {
         const startTime = Date.now();
         try {
             await this.initialize();
-            const dataArray = await this.readJsonFile();
+            const dataArray = await this.processData();
 
             for (const entry of dataArray) {
                 await this.processUrl(entry);
@@ -298,7 +267,7 @@ class CardScraper {
             console.error('Erreur lors de l\'exécution:', error);
         } finally {
             if (this.browser) {
-                await this.browser.close();
+                await browser.closeBrowser();
             }
             const executionTime = (Date.now() - startTime) / 1000;
             console.log(`Exécution terminée en ${executionTime.toFixed(2)} secondes`);
@@ -306,5 +275,11 @@ class CardScraper {
     }
 }
 
-const scraper = new CardScraper(path.join(__dirname, '../Test2.json'));
-scraper.run();
+// Exécution
+if (require.main === module) {
+    const scraper = new CardScraper();
+    scraper.run()
+        .catch(console.error);
+}
+
+module.exports = CardScraper;

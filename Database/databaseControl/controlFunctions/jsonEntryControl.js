@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
+const db = require('../../database'); // Ajustez le chemin selon votre structure
 
 class JsonAnalyzer {
   constructor(filePath) {
@@ -13,10 +14,9 @@ class JsonAnalyzer {
    */
   async readJson() {
     try {
-      const data = await fs.readFile(this.filePath, 'utf-8');
-      return JSON.parse(data);
+      return await db.getData();
     } catch (error) {
-      throw new Error(`Erreur de lecture du fichier JSON: ${error.message}`);
+      throw new Error(`Erreur de lecture des données: ${error.message}`);
     }
   }
 
@@ -220,7 +220,7 @@ function parseCardMarketDate(dateStr) {
 }
 
 /**
- * Vérifie la validité du format des séries dans le fichier JSON
+ * Retourne liste des séries à mettre à jour dans le fichier JSON et si le fichier est valide
  * @param {string} filePath - Chemin vers le fichier JSON
  * @returns {Promise<{urlsToUpdate: string[], isValid: boolean}>}
  */
@@ -238,52 +238,92 @@ async function checkJsonSeries(filePath) {
       isValid: true
     };
 
-    // Constantes pour la validation
     const VALIDATIONS = {
       numCards: /^[0-9]{1,3}\scartes$/,
-      date: /^\d{1,2}\s(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s\d{4}$/
+      date: /^\d{1,2}\s(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s\d{4}$/,
+      lastUpdate: /^\d{2}\/\d{2}\/\d{4}$/ // Format DD/MM/YYYY
     };
 
     const REQUIRED_FIELDS = ['localName', 'url', 'urlCards', 'date', 'langues', 'bloc', 'numCards'];
 
-    // Vérification de chaque série
+    // Date actuelle
+    const currentDate = new Date();
+    // Date il y a 1 mois
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(currentDate.getMonth() - 1);
+
+    // Date du jour au format DD/MM/YYYY
+    const today = new Date().toLocaleDateString('fr-FR');
+
+    console.log('=== Dates de référence ===');
+    console.log('Date actuelle:', currentDate.toLocaleString('fr-FR'));
+    console.log('Date il y a 1 mois:', oneMonthAgo.toLocaleString('fr-FR'));
+    console.log('Date du jour (DD/MM/YYYY):', today);
+    console.log('========================\n');
+
     series.forEach(serie => {
-      // Vérifier les champs requis
+      console.log(`\nVérification de la série: ${serie.localName}`);
+      console.log('Date brute de la série:', serie.date);
+      console.log('Dernière mise à jour:', serie.lastUpdate);
+
+      // Vérification des champs requis
       const hasAllFields = REQUIRED_FIELDS.every(field => 
         serie[field]?.toString().trim().length > 0
       );
 
-      if (!hasAllFields || !VALIDATIONS.numCards.test(serie.numCards)) {
-        validation.urlsToUpdate.push(serie.url);
+      // Vérification de la date de la série
+      const serieDate = parseCardMarketDate(serie.date);
+      const isSeriesDateValid = VALIDATIONS.date.test(serie.date) && serieDate.getTime() !== 0;
+      const isSeriesOldEnough = serieDate < oneMonthAgo;
+
+      // Vérification du format du nombre de cartes
+      const isNumCardsValid = VALIDATIONS.numCards.test(serie.numCards);
+
+      // Vérification de lastUpdate
+      let isLastUpdateValid = true;
+      const hasLastUpdate = serie.lastUpdate !== undefined && serie.lastUpdate !== null;
+      
+      if (hasLastUpdate) {
+        const lastUpdateIsValid = VALIDATIONS.lastUpdate.test(serie.lastUpdate);
+        const lastUpdateIsToday = serie.lastUpdate === today;
+        isLastUpdateValid = lastUpdateIsValid && lastUpdateIsToday;
+        
+        console.log('Format lastUpdate valide:', lastUpdateIsValid);
+        console.log('LastUpdate est aujourd\'hui:', lastUpdateIsToday);
       }
 
-      // Vérification complète
-      const isSeriesValid = hasAllFields &&
-        VALIDATIONS.date.test(serie.date) &&
-        parseCardMarketDate(serie.date).getTime() !== 0 &&
-        VALIDATIONS.numCards.test(serie.numCards);
+      // Une série est valide si :
+      // - tous les champs requis sont présents
+      // - le format de date est valide
+      // - le format du nombre de cartes est valide
+      // - SOIT la série a plus d'un mois
+      // - SOIT la série a une lastUpdate à aujourd'hui
+      const isSeriesValid = hasAllFields && 
+                           isSeriesDateValid && 
+                           isNumCardsValid && 
+                           (isSeriesOldEnough || (hasLastUpdate && isLastUpdateValid));
+
+      console.log('Champs requis valides:', hasAllFields);
+      console.log('Date de série valide:', isSeriesDateValid);
+      console.log('Série assez ancienne:', isSeriesOldEnough);
+      console.log('Format nombre de cartes valide:', isNumCardsValid);
+      console.log('A une lastUpdate:', hasLastUpdate);
+      console.log('LastUpdate valide:', isLastUpdateValid);
+      console.log('La série est-elle valide ?', isSeriesValid);
 
       if (!isSeriesValid) {
         validation.isValid = false;
+        validation.urlsToUpdate.push(serie.url);
+        console.log('→ Série ajoutée à la liste des mises à jour');
       }
+
+      console.log('------------------------');
     });
 
     return validation;
   } catch (error) {
     console.error('Erreur lors de la vérification du fichier JSON:', error);
     throw error;
-  }
-}
-
-// Point d'entrée principal
-async function main() {
-  try {
-    const filePath = path.join(__dirname, '../Test2.json');
-    const analyzer = new JsonAnalyzer(filePath);
-    await ConsoleReporter.report(analyzer);
-  } catch (error) {
-    console.error('Erreur fatale:', error);
-    process.exit(1);
   }
 }
 

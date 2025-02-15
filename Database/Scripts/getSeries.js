@@ -1,10 +1,10 @@
 const fs = require('fs').promises;
 const path = require('path');
 const browserFactory = require('../../src/BrowserFactory');
+const db = require('../database.js'); // Nouveau module de base de données
 
 const CONFIG = {
     url: 'https://www.cardmarket.com/fr/Pokemon/Expansions',
-    jsonFileName: './Database/Test2.json',
     timeout: 120000,
     months: new Map([
         ['janvier', 0], ['février', 1], ['mars', 2], ['avril', 3], 
@@ -60,19 +60,8 @@ class CardMarketScraper {
         });
     }
 
-    async loadExistingData() {
-        try {
-            const jsonPath = path.join(this.config.jsonFileName);
-            const data = await fs.readFile(jsonPath, 'utf8');
-            return JSON.parse(data);
-        } catch (error) {
-            if (error.code === 'ENOENT') return [];
-            throw error;
-        }
-    }
-
-    async updateJsonFile(newData) {
-        const existingData = await this.loadExistingData();
+    async updateData(newData) {
+        const existingData = db.getData();
         let addedCount = 0;
         let updatedCount = 0;
 
@@ -84,11 +73,9 @@ class CardMarketScraper {
             const existingItem = existingDataMap.get(newItem.url);
             
             if (!existingItem) {
-                // Nouvelle série
                 existingDataMap.set(newItem.url, newItem);
                 addedCount++;
             } else if (existingItem.date !== newItem.date) {
-                // Mise à jour seulement si la date a changé
                 existingDataMap.set(newItem.url, {
                     ...existingItem,
                     date: newItem.date,
@@ -105,15 +92,12 @@ class CardMarketScraper {
                 return this.parseDate(b.date) - this.parseDate(a.date);
             });
 
-        // Écrire les données mises à jour
-        await fs.writeFile(
-            this.config.jsonFileName,
-            JSON.stringify(finalData, null, 2)
-        );
+        // Sauvegarder les données via le module db
+        db.saveData(finalData);
         
         // Log détaillé des modifications
         console.log(`
-Mise à jour du fichier JSON terminée :
+Mise à jour de la base de données terminée :
 - Nombre total d'entrées : ${finalData.length}
 - Nouvelles séries ajoutées : ${addedCount}
 - Séries mises à jour : ${updatedCount}
@@ -142,7 +126,7 @@ Mise à jour du fichier JSON terminée :
             });
 
             const seriesData = await this.scrapeSeriesData();
-            const result = await this.updateJsonFile(seriesData);
+            const result = await this.updateData(seriesData);
             
             console.timeEnd('Scraping duration');
             
@@ -156,14 +140,10 @@ Mise à jour du fichier JSON terminée :
     }
 }
 
-//module.exports = CardMarketScraper;
-
-// Assurez-vous d'exporter à la fois CONFIG et setJsonPath
 module.exports = {
     CardMarketScraper
 };
 
-// Exécution uniquement si appelé directement
 if (require.main === module) {
     const scraper = new CardMarketScraper(CONFIG);
     scraper.run().catch(console.error);

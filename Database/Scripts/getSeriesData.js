@@ -1,72 +1,109 @@
-const fs = require('fs').promises;
-const path = require('path');
 const browser = require('../../src/BrowserFactory');
 const { sortSeriesByDate } = require('../../src/parseDate');
 const { checkJsonSeries } = require('../databaseControl/controlFunctions/jsonEntryControl');
+const db = require('../db');
 
-(async () => {
-  try {
-    const filePath = path.join(__dirname, '../Test2.json');
-   
-    // Vérification du fichier JSON et récupération des URLs à mettre à jour
-    const { urlsToUpdate } = await checkJsonSeries(filePath);
-   
-    if (urlsToUpdate.length === 0) {
-      console.log("Toutes les données sont déjà mises à jour.");
-      return;
+class DataUpdater {
+    constructor() {
+        this.page = null;
+        this.data = null; // Ajout d'une propriété pour stocker les données
     }
-    // Lecture du fichier JSON
-    const jsonContent = await fs.readFile(filePath, 'utf8');
-    const data = JSON.parse(jsonContent);
-   
-    // Filtrer les items qui correspondent aux URLs à mettre à jour
-    const itemsToUpdate = data.filter(item => urlsToUpdate.includes(item.url));
-   
-    const page = await browser.createPage();
-    const totalUrls = itemsToUpdate.length;
-    let urlsProcessed = 0;
-    
-    for (const item of itemsToUpdate) {
-      try {
-        await page.goto(item.url, { waitUntil: 'domcontentloaded' });
-         
-        // Extraction des données en parallèle
-        const [languages, bloc, numCards] = await Promise.all([
-          page.$$eval('.languages span[data-original-title]', elements =>
-            elements.map(el => el.getAttribute('data-original-title').trim())),
-          page.$eval('.col-auto.col-md-12.pe-0', el =>
-            el.textContent.trim()).catch(() => ''),
-          page.$eval('.col-auto.col-md-12:not(.pe-0):not(.span)', el =>
-            el.textContent.replace(/●\s*/, '').trim()).catch(() => 'Nombre de cartes non trouvé')
-        ]);
-        
-        // Mettre à jour uniquement si les valeurs sont vides ou invalides
-        if (!item.langues) item.langues = languages.join(', ');
-        if (!item.bloc) item.bloc = bloc;
-        if (!item.numCards || !/^[0-9]{1,3}\scartes$/.test(item.numCards)) {
-          item.numCards = numCards;
+
+    async initialize() {
+        this.page = await browser.createPage();
+        this.data = db.getData(); // Initialisation des données
+    }
+
+    async updateSeriesData() {
+        try {
+            await this.initialize();
+
+            // Vérification des URLs à mettre à jour
+            const { urlsToUpdate } = await checkJsonSeries(this.data);
+
+            if (urlsToUpdate.length === 0) {
+                console.log("Toutes les données sont déjà mises à jour.");
+                return;
+            }
+
+            const itemsToUpdate = this.data.filter(item => urlsToUpdate.includes(item.url));
+            const totalUrls = itemsToUpdate.length;
+            let urlsProcessed = 0;
+
+            for (const item of itemsToUpdate) {
+                try {
+                    await this.page.goto(item.url, { waitUntil: 'domcontentloaded' });
+
+                    // Extraction des données en parallèle
+                    const [languages, bloc, numCards] = await Promise.all([
+                        this.page.$$eval('.languages span[data-original-title]', elements =>
+                            elements.map(el => el.getAttribute('data-original-title').trim())),
+                        this.page.$eval('.col-auto.col-md-12.pe-0', el =>
+                            el.textContent.trim()).catch(() => ''),
+                        this.page.$eval('.col-auto.col-md-12:not(.pe-0):not(.span)', el =>
+                            el.textContent.replace(/●\s*/, '').trim()).catch(() => 'Nombre de cartes non trouvé')
+                    ]);
+
+                    // Formatage de la date
+                    const now = new Date();
+                    const formattedDate = [
+                        now.getDate().toString().padStart(2, '0'),
+                        (now.getMonth() + 1).toString().padStart(2, '0'),
+                        now.getFullYear()
+                    ].join('/');
+
+                    // Mise à jour des données
+                    const updatedData = this.data.map(entry => {
+                        if (entry.url === item.url) {
+                            return {
+                                ...entry,
+                                langues: languages.join(', '),
+                                bloc,
+                                numCards,
+                                lastUpdate: formattedDate
+                            };
+                        }
+                        return entry;
+                    });
+
+                    // Tri et sauvegarde des données
+                    try {
+                        this.data = sortSeriesByDate(updatedData);
+                        db.saveData(this.data);
+                    } catch (sortError) {
+                        console.error(`Erreur lors du tri des données: ${sortError}`);
+                        this.data = updatedData;
+                        db.saveData(this.data);
+                    }
+
+                    urlsProcessed++;
+                    console.log(`Progression : ${(urlsProcessed / totalUrls * 100).toFixed(2)}% - URL: ${item.url}`);
+                    await this.page.waitForTimeout(1000);
+                } catch (error) {
+                    console.error(`Erreur lors de la récupération des données pour l'URL ${item.url}: ${error}`);
+                    continue;
+                }
+            }
+
+            console.log("Mise à jour terminée.");
+        } catch (error) {
+            console.error("Une erreur s'est produite : ", error);
+            throw error;
+        } finally {
+            await this.cleanup();
         }
-        
-        // Écriture immédiate dans le fichier JSON après chaque traitement
-        const updatedData = data.map(d => 
-          d.url === item.url ? { ...d, ...item } : d
-        );
-        const sortedData = sortSeriesByDate(updatedData);
-        await fs.writeFile(filePath, JSON.stringify(sortedData, null, 2));
-        
-        urlsProcessed++;
-        console.log(`Progression : ${(urlsProcessed / totalUrls * 100).toFixed(2)}% - URL: ${item.url}`);
-        await page.waitForTimeout(1000);
-      } catch (error) {
-        console.error(`Erreur lors de la récupération des données pour l'URL ${item.url}: ${error}`);
-        continue;
-      }
     }
-   
-    await browser.closeBrowser();
-    console.log("Mise à jour terminée.");
-  } catch (error) {
-    console.error("Une erreur s'est produite : ", error);
-    await browser.closeBrowser();
-  }
-})();
+
+    async cleanup() {
+        await browser.closeBrowser();
+    }
+}
+
+// Exécution
+if (require.main === module) {
+    const updater = new DataUpdater();
+    updater.updateSeriesData()
+        .catch(console.error);
+}
+
+module.exports = DataUpdater;

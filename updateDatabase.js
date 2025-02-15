@@ -1,7 +1,7 @@
 const { execSync } = require('child_process');
 const path = require('path');
-const fs = require('fs');
-const os = require('os');
+//const os = require('os');
+const db = require('./Database/database.js');
 const { checkAndDisplayCardDifferences } = require('./Database/databaseControl/allCardsCount.js');
 
 // Constants
@@ -13,7 +13,6 @@ const SCRIPTS = {
 };
 const WAIT_TIME = 5000;
 const MAX_SAME_URLS_ATTEMPTS = 3;
-const JSON_PATH = './Database/Test2.json';
 
 // Utility functions
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -26,22 +25,18 @@ const executeScript = (scriptPath, params = '', options = {}) => {
     });
 };
 
-const executeScriptWithUrls = (scriptPath, urls) => {
-    const tempFile = path.join(os.tmpdir(), 'urls-temp.json');
-    fs.writeFileSync(tempFile, JSON.stringify(urls));
-    
+const executeScriptWithUrls = async (scriptPath, urls) => {
     try {
         console.log(`Exécution de ${path.basename(scriptPath)}...`);
-        execSync(`node "${scriptPath}" "${tempFile}"`, {
+        await db.saveUrlsToProcess(urls);
+        execSync(`node "${scriptPath}"`, {
             stdio: 'inherit',
             env: { ...process.env }
         });
+    } catch (error) {
+        console.error('Erreur lors de l\'exécution du script:', error);
     } finally {
-        try {
-            fs.unlinkSync(tempFile);
-        } catch (err) {
-            console.warn('Impossible de supprimer le fichier temporaire:', err);
-        }
+        await db.clearUrlsToProcess();
     }
 };
 
@@ -85,24 +80,24 @@ async function processUrls(validation, previousState) {
 }
 
 async function processCards() {
-  let totalDifference;
-  do {
-      try {
-          const result = await checkAndDisplayCardDifferences(JSON_PATH);
-          totalDifference = result.totalDifference;
+    let totalDifference;
+    do {
+        try {
+            const result = await checkAndDisplayCardDifferences();
+            totalDifference = result.totalDifference;
 
-          if (totalDifference > 0) {
-              console.log(`Il manque encore ${totalDifference} cartes. Exécution de getSeriesCards.js...`);
-              executeScript(SCRIPTS.getSeriesCards);
-              await wait(WAIT_TIME);
-          }
-      } catch (error) {
-          console.error('Erreur lors de la vérification des cartes:', error);
-          throw error; // ou gérez l'erreur différemment selon vos besoins
-      }
-  } while (totalDifference > 5);
+            if (totalDifference > 0) {
+                console.log(`Il manque encore ${totalDifference} cartes. Exécution de getSeriesCards.js...`);
+                executeScript(SCRIPTS.getSeriesCards);
+                await wait(WAIT_TIME);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la vérification des cartes:', error);
+            throw error;
+        }
+    } while (totalDifference > 5);
 
-  console.log('Traitement des cartes terminé avec succès !');
+    console.log('Traitement des cartes terminé avec succès !');
 }
 
 async function main() {
@@ -120,7 +115,7 @@ async function main() {
         do {
             try {
                 const { checkJsonSeries } = require('./Database/databaseControl/controlFunctions/jsonEntryControl.js');
-                state.validation = await checkJsonSeries(JSON_PATH);
+                state.validation = await checkJsonSeries();
                 
                 const newState = await processUrls(state.validation, {
                     previousUrls: state.previousUrls,
@@ -129,8 +124,8 @@ async function main() {
 
                 state = { ...state, ...newState };
             } catch (error) {
-                if (error.message.includes('Le contenu JSON doit être un tableau')) {
-                    console.error('Le fichier JSON n\'a pas le bon format. Arrêt du traitement.');
+                if (error.message.includes('Les données ne sont pas valides')) {
+                    console.error('Les données ne sont pas dans le bon format. Arrêt du traitement.');
                     process.exit(1);
                 }
                 console.error('Erreur lors de la vérification ou de l\'exécution :', error);
