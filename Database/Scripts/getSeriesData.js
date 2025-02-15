@@ -1,7 +1,7 @@
 const browser = require('../../src/BrowserFactory');
 const { sortSeriesByDate } = require('../../src/parseDate');
 const { checkJsonSeries } = require('../databaseControl/controlFunctions/jsonEntryControl');
-const db = require('../db');
+const db = require('../database');
 
 class DataUpdater {
     constructor() {

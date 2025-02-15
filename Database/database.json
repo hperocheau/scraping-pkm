@@ -3,19 +3,31 @@
     "localName": "Aventures Ensemble",
     "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Journey-Together",
     "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Journey-Together",
-    "date": "28 mars 2025"
+    "date": "28 mars 2025",
+    "langues": "Anglais, Français, Allemand, Espagnol, Italien, Portugais",
+    "bloc": "Écarlate et Violet",
+    "numCards": "0 cartes",
+    "lastUpdate": "15/02/2025"
   },
   {
     "localName": "Hot Wind Arena",
     "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/Hot-Wind-Arena",
     "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/Hot-Wind-Arena",
-    "date": "14 mars 2025"
+    "date": "14 mars 2025",
+    "langues": "Chinois-S, Japonais, Coréen, Chinois-T",
+    "bloc": "Écarlate et Violet JP",
+    "numCards": "0 cartes",
+    "lastUpdate": "15/02/2025"
   },
   {
     "localName": "WCD 2024",
     "url": "https://www.cardmarket.com/fr/Pokemon/Expansions/WCD-2024",
     "urlCards": "https://www.cardmarket.com/fr/Pokemon/Products/Singles/WCD-2024",
-    "date": "7 mars 2025"
+    "date": "7 mars 2025",
+    "langues": "Anglais, Français, Allemand, Espagnol, Italien, Portugais",
+    "bloc": "Écarlate et Violet",
+    "numCards": "0 cartes",
+    "lastUpdate": "15/02/2025"
   },
   {
     "localName": "Starter Set ex Marnie's Morpeko & Grimmsnarl ex",

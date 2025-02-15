@@ -224,10 +224,10 @@ function parseCardMarketDate(dateStr) {
  * @param {string} filePath - Chemin vers le fichier JSON
  * @returns {Promise<{urlsToUpdate: string[], isValid: boolean}>}
  */
-async function checkJsonSeries(filePath) {
+async function checkJsonSeries(data) {
   try {
-    const jsonContent = await fs.readFile(filePath, 'utf8');
-    const series = JSON.parse(jsonContent);
+    const series = data;
+    //const series = JSON.parse(jsonContent);
 
     if (!Array.isArray(series)) {
       throw new Error('Le contenu JSON doit être un tableau');
