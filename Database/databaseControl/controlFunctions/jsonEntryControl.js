@@ -83,47 +83,6 @@ class JsonAnalyzer {
   }
 
   /**
-   * Vérifie les doublons d'URLs et d'IDs
-   * @returns {Promise<{
-   *   duplicateUrls: Array<{url: string, count: number, entries: Array}>,
-   *   duplicateIds: Array<{id: string, count: number, entries: Array}>
-   * }>}
-   */
-  async checkDuplicates() {
-    try {
-      const dataArray = await this.readJson();
-      const urlMap = new Map();
-      const idMap = new Map();
-
-      dataArray.forEach(({ localName, cards }) => {
-        if (!Array.isArray(cards)) return;
-        
-        cards.forEach(card => {
-          if (card?.cardUrl) {
-            const urlEntries = urlMap.get(card.cardUrl) || [];
-            urlEntries.push({ localName, cardUrl: card.cardUrl });
-            urlMap.set(card.cardUrl, urlEntries);
-          }
-          
-          if (card?.productRowId) {
-            const idEntries = idMap.get(card.productRowId) || [];
-            idEntries.push({ localName, productRowId: card.productRowId });
-            idMap.set(card.productRowId, idEntries);
-          }
-        });
-      });
-
-      return {
-        duplicateUrls: this.getDuplicates(urlMap, 'url'),
-        duplicateIds: this.getDuplicates(idMap, 'id')
-      };
-    } catch (error) {
-      console.error('Erreur lors de la vérification des doublons:', error);
-      throw error;
-    }
-  }
-
-  /**
    * Vérifie les anomalies dans les séries de cartes
    * @returns {Promise<Array<{
    *   localName: string,
@@ -182,19 +141,6 @@ class JsonAnalyzer {
     }
   }
 
-  /**
-   * Utilitaire pour extraire les doublons d'une Map
-   * @private
-   */
-  getDuplicates(map, keyName) {
-    return Array.from(map.entries())
-      .filter(([_, entries]) => entries.length > 1)
-      .map(([key, entries]) => ({
-        [keyName]: key,
-        count: entries.length,
-        entries
-      }));
-  }
 }
 
 /**
