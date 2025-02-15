@@ -1,7 +1,12 @@
 const browser = require('../../src/BrowserFactory');
+const path = require('path');
 const { sortSeriesByDate } = require('../../src/parseDate');
-const { checkJsonSeries } = require('../databaseControl/controlFunctions/jsonEntryControl');
-const db = require('../database');
+const config = require(path.resolve(__dirname, '../../src/config.js'));
+
+const { checkJsonSeries } = require(config.jsonControl);
+const db = require(config.databasePath);
+
+//const db = require('../database');
 
 class DataUpdater {
     constructor() {

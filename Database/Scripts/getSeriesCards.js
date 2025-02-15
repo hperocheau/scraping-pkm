@@ -1,6 +1,10 @@
 const puppeteer = require('puppeteer');
+const path = require('path');
 const browser = require('../../src/BrowserFactory');
-const db = require('../database.js');
+const config = require(path.resolve(__dirname, '../../src/config.js'));
+const db = require(config.databasePath);
+
+//const db = require('.Database/database.js');
 
 class CardScraper {
     constructor() {

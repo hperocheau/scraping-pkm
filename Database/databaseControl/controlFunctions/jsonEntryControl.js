@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
-const db = require('../../database'); // Ajustez le chemin selon votre structure
+const config = require(path.resolve(__dirname, '../../../src/config.js'));
+const db = require(config.databasePath);
 
 class JsonAnalyzer {
   constructor(filePath) {
@@ -254,18 +255,19 @@ async function checkJsonSeries(data) {
 
     // Date du jour au format DD/MM/YYYY
     const today = new Date().toLocaleDateString('fr-FR');
-
+/*
     console.log('=== Dates de référence ===');
     console.log('Date actuelle:', currentDate.toLocaleString('fr-FR'));
     console.log('Date il y a 1 mois:', oneMonthAgo.toLocaleString('fr-FR'));
     console.log('Date du jour (DD/MM/YYYY):', today);
     console.log('========================\n');
-
+*/
     series.forEach(serie => {
+      /*
       console.log(`\nVérification de la série: ${serie.localName}`);
       console.log('Date brute de la série:', serie.date);
       console.log('Dernière mise à jour:', serie.lastUpdate);
-
+*/
       // Vérification des champs requis
       const hasAllFields = REQUIRED_FIELDS.every(field => 
         serie[field]?.toString().trim().length > 0
@@ -288,8 +290,8 @@ async function checkJsonSeries(data) {
         const lastUpdateIsToday = serie.lastUpdate === today;
         isLastUpdateValid = lastUpdateIsValid && lastUpdateIsToday;
         
-        console.log('Format lastUpdate valide:', lastUpdateIsValid);
-        console.log('LastUpdate est aujourd\'hui:', lastUpdateIsToday);
+        //console.log('Format lastUpdate valide:', lastUpdateIsValid);
+        //console.log('LastUpdate est aujourd\'hui:', lastUpdateIsToday);
       }
 
       // Une série est valide si :
@@ -302,7 +304,7 @@ async function checkJsonSeries(data) {
                            isSeriesDateValid && 
                            isNumCardsValid && 
                            (isSeriesOldEnough || (hasLastUpdate && isLastUpdateValid));
-
+/*
       console.log('Champs requis valides:', hasAllFields);
       console.log('Date de série valide:', isSeriesDateValid);
       console.log('Série assez ancienne:', isSeriesOldEnough);
@@ -310,14 +312,15 @@ async function checkJsonSeries(data) {
       console.log('A une lastUpdate:', hasLastUpdate);
       console.log('LastUpdate valide:', isLastUpdateValid);
       console.log('La série est-elle valide ?', isSeriesValid);
+*/
 
       if (!isSeriesValid) {
         validation.isValid = false;
         validation.urlsToUpdate.push(serie.url);
-        console.log('→ Série ajoutée à la liste des mises à jour');
+        //console.log('→ Série ajoutée à la liste des mises à jour');
       }
 
-      console.log('------------------------');
+      //console.log('------------------------');
     });
 
     return validation;

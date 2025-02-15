@@ -1,7 +1,10 @@
 const fs = require('fs').promises;
 const path = require('path');
 const browserFactory = require('../../src/BrowserFactory');
-const db = require('../database.js'); // Nouveau module de base de données
+const config = require(path.resolve(__dirname, '../../src/config.js'));
+const db = require(config.databasePath);
+
+//const db = require('./Database/database.js'); // Nouveau module de base de données
 
 const CONFIG = {
     url: 'https://www.cardmarket.com/fr/Pokemon/Expansions',
