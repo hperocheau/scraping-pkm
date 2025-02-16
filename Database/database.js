@@ -2,7 +2,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const dbPath = path.join(__dirname, 'Test.json');
+const dbPath = path.join(__dirname, 'data.json');
 
 class Database {
     constructor() {

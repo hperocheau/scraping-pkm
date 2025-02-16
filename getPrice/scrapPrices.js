@@ -2,9 +2,12 @@ const puppeteer = require('puppeteer');
 const xlsx = require('xlsx');
 const moment = require('moment');
 const browser = require('../src/BrowserFactory');
+const path = require('path');
+const config = require(path.resolve(__dirname, '../src/config.js'));
+const xlsxPath = config.xlsxFile;
 
 const CONFIG = {
-  xlsxFilePath: '../cartes.xlsx',
+  //xlsxFilePath: xlsxPath,
   selectors: {
     articleRow: '[id^="articleRow"]',
     priceContainer: '.price-container',
@@ -28,7 +31,7 @@ function formatPrice(priceText) {
 class PriceProcessor {
   constructor(filePath) {
     this.filePath = filePath;
-    this.workbook = xlsx.readFile(filePath);
+    this.workbook = xlsx.readFile(xlsxPath);
     this.currentDate = moment().format("DD_MM_YYYY");
   }
 
@@ -39,31 +42,39 @@ class PriceProcessor {
   }
 
   async processRow(page, sheet, rowIndex) {
+    // Vérifier si la cellule G est déjà remplie
+    const existingValue = this.getCellValue(sheet, `G${rowIndex}`);
+    if (existingValue) {
+        console.log(`Skipping row ${rowIndex} - Cell G already contains: ${existingValue}`);
+        return;
+    }
+
     const url = this.getCellValue(sheet, `F${rowIndex}`);
     const condition = this.getCellValue(sheet, `E${rowIndex}`);
 
     if (!url) return;
 
     try {
-      await page.goto(url, { waitUntil: 'networkidle0' });
-      const noResultsElement = await page.$(CONFIG.selectors.noResults);
+        await page.goto(url, { waitUntil: 'networkidle0' });
+        const noResultsElement = await page.$(CONFIG.selectors.noResults);
 
-      if (noResultsElement) {
-        sheet[`G${rowIndex}`] = { v: 'no data found' };
-        console.log(`No data available for row ${rowIndex}`);
-        return;
-      }
+        if (noResultsElement) {
+            sheet[`G${rowIndex}`] = { v: 'no data found' };
+            console.log(`No data available for row ${rowIndex}`);
+            return;
+        }
 
-      const averagePrice = await this.calculateAveragePrice(page, condition, rowIndex);
-      if (averagePrice !== null) {
-        sheet[`G${rowIndex}`] = { v: averagePrice, t: 'n' };
-        console.log(`Updated cell G${rowIndex} with average price: ${averagePrice}`);
-      }
+        const averagePrice = await this.calculateAveragePrice(page, condition, rowIndex);
+        if (averagePrice !== null) {
+            sheet[`G${rowIndex}`] = { v: averagePrice, t: 'n' };
+            console.log(`Updated cell G${rowIndex} with average price: ${averagePrice}`);
+        }
     } catch (error) {
-      console.error(`Error processing row ${rowIndex}:`, error.message);
-      sheet[`G${rowIndex}`] = { v: 'error' };
+        console.error(`Error processing row ${rowIndex}:`, error.message);
+        sheet[`G${rowIndex}`] = { v: 'error' };
     }
-  }
+}
+
 
   async calculateAveragePrice(page, cardCondition, rowIndex) {
     try {
@@ -178,5 +189,5 @@ class PriceProcessor {
 }
 
 // Exécution
-const processor = new PriceProcessor('../cartes.xlsx');
+const processor = new PriceProcessor(xlsxPath);
 processor.process().catch(console.error);

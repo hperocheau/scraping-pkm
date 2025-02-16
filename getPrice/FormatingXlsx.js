@@ -2,6 +2,7 @@ const fs = require('fs');
 const xlsx = require('xlsx');
 const _ = require('lodash');
 const moment = require('moment');
+const path = require('path');
 
 // Configuration constantes
 const CONFIG = {
@@ -24,7 +25,7 @@ const CONFIG = {
     MATCH_THRESHOLDS: {
         SERIE: 100,
         NUMBER: 100,
-        NAME: 70
+        NAME: 60
     },
     ERROR_MESSAGES: {
         NO_SERIE_MATCH: "Aucune correspondance trouvée pour la série",
@@ -41,7 +42,7 @@ class ExcelProcessor {
         this.jsonData = jsonData;
         this.workbook = xlsx.readFile(filePath);
         this.currentDate = moment().format("DD_MM_YYYY");
-        this.sourceSheetName = "Feuil1";
+        this.sourceSheetName = "cartes";
     }
     
 
@@ -270,7 +271,10 @@ class ExcelProcessor {
     }
 }
 
-// Utilisation
-const jsonData = require('../Database/data.json');
-const processor = new ExcelProcessor('../cartes.xlsx', jsonData);
+const config = require(path.resolve(__dirname, '../src/config.js'));
+const database = require(config.databasePath);
+const jsonData = database.getData(); // Utilisez getData() pour obtenir les données
+const xlsxPath = config.xlsxFile;
+
+const processor = new ExcelProcessor(xlsxPath, jsonData);
 processor.process();
