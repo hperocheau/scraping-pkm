@@ -1,20 +1,8 @@
 Cardmarket scraping project
 
-getAllSeries :
-Récup : nom Série (mélange anglais/fr) + url Série + url liste cartes + date série + nbr cartes
--Si fichier Json déjà créé, le modifier
--Mettre à jour les infos des 2 dernier mois
+IF really recent series -> node updateDatabase.js
 
-getAllSeriesData :
-Récup : langues, bloc
--Si clés "langues" et/ou "bloc" vides ou inexistantes -> retry 3 fois max l'url
--Si toutes les clés langues ok, mettre à jour 2 derniers mois
+Put the xlsx file at the root, name it "cartes" and name the the xlsx page "cartes" too
+A column for the card Name, B for the card Number, C for the serie code (s12a, BtD...), D for language, C for the card condition (NM, EX, GD)
 
-getCardsinfo :
-Récup infos cartes : url, nom, eng nom, numéro, rareté, nom série, productRow (id cardmarket de la carte)
-Si nombre de pages inférieur ou égal à 15 -> récup normal des infos
-Si nbr de pages = 15+ (supérieur à 15) -> récup data sur première url + url inverse (tri décroissant / croissant, alphabétique, etc) et stop lorsque la dernière carte de la première url est trouvé avec la 2ème url
-Si pas de nbr de page + pas de div "productRow" -> passer à l'url suivante
-Si productRow non récup alors qu'il reste des pages, recharger la page
-
-SIUUUU
+node getPrices.js

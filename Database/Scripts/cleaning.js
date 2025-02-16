@@ -153,8 +153,8 @@ class CardCleaner {
   findMostCommonSerie(cards) {
     const serieCount = {};
     cards.forEach(card => {
-      if (card.cardSerie) {
-        serieCount[card.cardSerie] = (serieCount[card.cardSerie] || 0) + 1;
+      if (card.cardFullTitle) {
+        serieCount[card.cardFullTitle] = (serieCount[card.cardFullTitle] || 0) + 1;
       }
     });
     
@@ -184,7 +184,7 @@ class CardCleaner {
               deletedCards.push({
                 localName: element.localName,
                 cardUrl: card.cardUrl,
-                incorrectSerie: card.cardSerie,
+                incorrectSerie: card.codeSerie,
                 expectedSerie: mostCommonSerie
               });
             }
@@ -203,10 +203,10 @@ class CardCleaner {
       if (deletedCards.length > 0) {
         console.log('\nDétail des cartes supprimées :');
         deletedCards.forEach(card => {
-          console.log(`\nDans ${card.localName}:`);
-          console.log(`- URL: ${card.cardUrl}`);
-          console.log(`  Série trouvée: ${card.incorrectSerie}`);
-          console.log(`  Série attendue: ${card.expectedSerie}`);
+          //console.log(`\nDans ${card.localName}:`);
+          //console.log(`- URL: ${card.cardUrl}`);
+          //console.log(`  Série trouvée: ${card.incorrectSerie}`);
+          //console.log(`  Série attendue: ${card.expectedSerie}`);
         });
       }
 
@@ -233,7 +233,7 @@ async function main() {
     
     // Suppression des cartes avec séries incorrectes
     console.log('\nDébut de la suppression des cartes avec séries incorrectes...');
-    await cleaner.deleteIncorrectSeries();
+    //await cleaner.deleteIncorrectSeries();
     
     // Suppression des cartes en surplus
     console.log('\nDébut de la suppression des cartes en surplus...');

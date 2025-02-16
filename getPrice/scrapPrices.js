@@ -10,7 +10,7 @@ const CONFIG = {
   //xlsxFilePath: xlsxPath,
   selectors: {
     articleRow: '[id^="articleRow"]',
-    priceContainer: '.price-container',
+    priceContainer: '.color-primary.small;text-end.text-nowrap.fw-bold',
     productComments: '.d-block.text-truncate.text-muted.fst-italic.small',
     noResults: '.noResults.text-center.h3.text-muted.py-5'
   },
@@ -42,6 +42,8 @@ class PriceProcessor {
   }
 
   async processRow(page, sheet, rowIndex) {
+    await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 1000));
+
     // Vérifier si la cellule G est déjà remplie
     const existingValue = this.getCellValue(sheet, `G${rowIndex}`);
     if (existingValue) {
@@ -55,7 +57,7 @@ class PriceProcessor {
     if (!url) return;
 
     try {
-        await page.goto(url, { waitUntil: 'networkidle0' });
+        await page.goto(url, { waitUntil: 'networkidle0', timeout: 500000  });
         const noResultsElement = await page.$(CONFIG.selectors.noResults);
 
         if (noResultsElement) {
@@ -76,90 +78,98 @@ class PriceProcessor {
 }
 
 
-  async calculateAveragePrice(page, cardCondition, rowIndex) {
-    try {
-        const elements = await page.$$(CONFIG.selectors.articleRow);
-        const sheet = this.workbook.Sheets[this.currentDate];
-        
-        // Extraire le mot entre parenthèses de la cellule A
-        const cellAddress = `A${rowIndex}`;
-        const cellA = sheet[cellAddress] ? sheet[cellAddress].v : '';
+async calculateAveragePrice(page, cardCondition, rowIndex) {
+  try {
+      const elements = await page.$$(CONFIG.selectors.articleRow);
+      const sheet = this.workbook.Sheets[this.currentDate];
+      
+      // Extraction du searchTerm (partie inchangée)
+      const cellAddress = `A${rowIndex}`;
+      const cellA = sheet[cellAddress] ? sheet[cellAddress].v : '';
+      let searchTerm = null;
+      if (cellA && typeof cellA === 'string') {
+          const startIndex = cellA.indexOf('(');
+          const endIndex = cellA.indexOf(')');
+          if (startIndex !== -1 && endIndex !== -1 && startIndex < endIndex) {
+              searchTerm = cellA.substring(startIndex + 1, endIndex).toLowerCase().trim();
+          }
+      }
 
-        // Nouvelle approche pour l'extraction du mot entre parenthèses
-        let searchTerm = null;
-        if (cellA && typeof cellA === 'string') {
-            const startIndex = cellA.indexOf('(');
-            const endIndex = cellA.indexOf(')');
-            if (startIndex !== -1 && endIndex !== -1 && startIndex < endIndex) {
-                searchTerm = cellA.substring(startIndex + 1, endIndex).toLowerCase().trim();
-            }
-        }
+      if (!elements.length) {
+          console.log(`No elements found for row ${rowIndex}`);
+          return null;
+      }
 
-        if (!elements.length) {
-            console.log(`No elements found for row ${rowIndex}`);
-            return null;
-        }
+      // D'abord, vérifier s'il existe un prix avec l'état désiré
+      let hasDesiredCondition = false;
+      for (let i = 0; i < elements.length; i++) {
+          const condition = await elements[i].$eval('.article-condition .badge', el => el.innerText.trim()).catch(() => null);
+          const comments = await elements[i].$eval('.d-block.text-truncate.text-muted.fst-italic.small', el => el.innerText.toLowerCase())
+              .catch(() => '');
 
-        // D'abord, analyser toute la liste pour trouver les positions des prix valides
-        const validIndices = [];
-        for (let i = 0; i < elements.length; i++) {
-            const condition = await elements[i].$eval('.article-condition .badge', el => el.innerText.trim()).catch(() => null);
-            const comments = await elements[i].$eval('.d-block.text-truncate.text-muted.fst-italic.small', el => el.innerText.toLowerCase())
-                .catch(() => '');
-            const priceText = await elements[i].$eval('.price-container', el => el.innerText).catch(() => null);
-/*
-            console.log(`\nAnalyzing item ${i + 1}:`);
-            console.log(`- Price: ${priceText}`);
-            console.log(`- Condition: ${condition}`);
-            console.log(`- Comments: "${comments}"`);
-*/
-            const excludedTerms = ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '];
-            const hasExcludedTerm = excludedTerms.some(term => comments.toUpperCase().includes(term));
+          const excludedTerms = ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '];
+          const hasExcludedTerm = excludedTerms.some(term => comments.toUpperCase().includes(term));
+          const hasSearchTerm = searchTerm ? comments.includes(searchTerm) : true;
 
-            // Vérification explicite du terme recherché
-            const hasSearchTerm = searchTerm ? comments.includes(searchTerm) : true;
-/*
-            console.log(`- Has excluded term: ${hasExcludedTerm}`);
-            console.log(`- Has search term: ${hasSearchTerm}`);
-            console.log(`- Matches condition: ${condition === cardCondition}`);
-*/
-            if (!hasExcludedTerm && condition === cardCondition && hasSearchTerm) {
-                validIndices.push(i);
-                //console.log(`=> Item ${i + 1} is valid and will be considered for average`);
-            } else {
-                //console.log(`=> Item ${i + 1} is not valid and will be ignored`);
-            }
-        }
-        
-        let validPrices = [];
-        // Collecter les prix des indices valides
-        for (let i = 0; i < validIndices.length && validPrices.length < CONFIG.maxPricesToAverage; i++) {
-            const element = elements[validIndices[i]];
-            const priceText = await element.$eval('.price-container', el => el.innerText).catch(() => null);
+          if (!hasExcludedTerm && condition === cardCondition && hasSearchTerm) {
+              hasDesiredCondition = true;
+              break;
+          }
+      }
 
-            if (!priceText) continue;
+      let validPrices = [];
+      // Collecter les prix
+      for (let i = 0; i < elements.length && validPrices.length < CONFIG.maxPricesToAverage; i++) {
+          const element = elements[i];
+          const condition = await element.$eval('.article-condition .badge', el => el.innerText.trim()).catch(() => null);
+          const comments = await element.$eval('.d-block.text-truncate.text-muted.fst-italic.small', el => el.innerText.toLowerCase())
+              .catch(() => '');
+          const priceText = await element.$eval('.price-container', el => el.innerText).catch(() => null);
 
-            const formattedPrice = formatPrice(priceText);
-            if (!isNaN(formattedPrice)) {
-                validPrices.push(formattedPrice);
-                //console.log(`Added price ${formattedPrice} to valid prices list`);
-            }
-        }
+          console.log(`\nAnalyzing item ${i + 1}:`);
+          console.log(`- Price: ${priceText}`);
+          console.log(`- Condition: ${condition}`);
+          console.log(`- Comments: "${comments}"`);
 
-        if (validPrices.length === 0) {
-            console.log(`No valid prices found for row ${rowIndex}`);
-            return null;
-        }
+          const excludedTerms = ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '];
+          const hasExcludedTerm = excludedTerms.some(term => comments.toUpperCase().includes(term));
+          const hasSearchTerm = searchTerm ? comments.includes(searchTerm) : true;
 
-        //console.log(`\nFinal valid prices: ${validPrices.join(', ')}`);
-        const averagePrice = validPrices.reduce((a, b) => a + b, 0) / validPrices.length;
+          if (hasExcludedTerm || !hasSearchTerm) {
+              console.log(`=> Item ${i + 1} is not valid (excluded term or search term)`);
+              continue;
+          }
 
-        return parseFloat(averagePrice.toFixed(2));
-    } catch (error) {
-        console.error(`Error calculating average price for row ${rowIndex}:`, error);
-        return null;
-    }
+          const formattedPrice = formatPrice(priceText);
+          if (isNaN(formattedPrice)) {
+              console.log(`=> Item ${i + 1} has invalid price format`);
+              continue;
+          }
+
+          if (condition === cardCondition || (hasDesiredCondition && condition !== cardCondition)) {
+              validPrices.push(formattedPrice);
+              console.log(`=> Added price ${formattedPrice} to valid prices list`);
+          } else if (!hasDesiredCondition) {
+              console.log(`=> No desired condition found later, stopping price collection`);
+              break;
+          }
+      }
+
+      if (validPrices.length === 0) {
+          console.log(`No valid prices found for row ${rowIndex}`);
+          return null;
+      }
+
+      console.log(`\nFinal valid prices: ${validPrices.join(', ')}`);
+      const averagePrice = validPrices.reduce((a, b) => a + b, 0) / validPrices.length;
+
+      return parseFloat(averagePrice.toFixed(2));
+  } catch (error) {
+      console.error(`Error calculating average price for row ${rowIndex}:`, error);
+      return null;
+  }
 }
+
 
 
   async process() {

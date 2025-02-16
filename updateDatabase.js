@@ -103,7 +103,7 @@ async function processCards() {
 
             console.log(`Vérification des cartes: différence totale = ${totalDifference}`);
 
-            if (totalDifference > 0) {
+            if (totalDifference !== 0) {
                 console.log(`Il manque encore ${totalDifference} cartes. Exécution de getSeriesCards.js...`);
                 await executeScript(SCRIPTS.getSeriesCards);
                 
@@ -200,7 +200,7 @@ async function processUrlsLoop() {
 async function main() {
     try {
         // Initial series fetch
-        executeScript(SCRIPTS.getSeries, '', { DEBUG: 'true' });
+        //executeScript(SCRIPTS.getSeries, '', { DEBUG: 'true' });
 
         // URL processing loop
         let state = {

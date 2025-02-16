@@ -71,18 +71,21 @@ class CardScraper {
     async scrapePage(url, page) {
         await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
         await page.waitForTimeout(Math.random() * 1000 + 500);
-
+    
         return page.evaluate(() => {
             return Array.from(document.querySelectorAll('[id^="productRow"]')).map(productRow => {
                 const cardNameElement = productRow.querySelector('.col-10.col-md-8.px-2.flex-column.align-items-start.justify-content-center a');
-                const cardNameText = cardNameElement?.textContent.trim();
-
+                const cardFullTitle = cardNameElement?.textContent.trim() || '';
+                
+                // Extraction du nom de la carte (tout ce qui est avant la première parenthèse)
+                const cardName = cardFullTitle.split('(')[0].trim();
+    
                 return {
                     cardUrl: cardNameElement?.href,
-                    cardName: cardNameText?.replace(/\s* $[^)]*$ \s*$/g, '').trim(),
+                    cardName: cardName,
                     cardEngname: productRow.querySelector('.d-block.small.text-muted.fst-italic')?.textContent.trim(),
                     cardNumber: '',
-                    cardFullTitle: cardNameElement?.textContent.trim() || '',
+                    cardFullTitle: cardFullTitle,
                     codeSerie: '',
                     cardRarity: productRow.querySelector('.d-none.d-md-flex span[data-original-title]')?.getAttribute('data-original-title'),
                     productRowId: productRow.id
@@ -90,6 +93,9 @@ class CardScraper {
             });
         });
     }
+    
+    
+    
 
     async scrapePages(baseUrl, totalPages, lastCardProductRowId = null) {
         const pages = new Array(Math.min(totalPages, this.concurrentPages))
