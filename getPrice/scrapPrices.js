@@ -13,38 +13,20 @@ const CONFIG = {
     priceContainer: '.color-primary.small;text-end.text-nowrap.fw-bold',
     productComments: '.d-block.text-truncate.text-muted.fst-italic.small',
     noResults: '.noResults.text-center.h3.text-muted.py-5'
-  },
-  maxPricesToAverage: 3
+},
+maxPricesToAverage: 3
 };
 
 function formatPrice(priceText) {
-  if (!priceText) return NaN;
-
-  let cleanPrice = priceText.replace(/\s|€/g, '');
-  cleanPrice = cleanPrice.replace(/\./g, '').replace(',', '.');
-  const match = cleanPrice.match(/([0-9]+[.]?[0-9]*)/);
-  
-  if (!match) return NaN;
-  return parseFloat(match[1]);
-}
-async function waitForSelector(page, selector, options = {}) {
-  const defaultOptions = {
-      timeout: 10000,
-      retries: 3,
-      retryDelay: 2000
-  };
-  const finalOptions = { ...defaultOptions, ...options };
-
-  for (let i = 0; i < finalOptions.retries; i++) {
-      try {
-          await page.waitForSelector(selector, { timeout: finalOptions.timeout });
-          return true;
-      } catch (error) {
-          if (i === finalOptions.retries - 1) throw error;
-          await new Promise(resolve => setTimeout(resolve, finalOptions.retryDelay));
-      }
-  }
-  return false;
+    if (!priceText) return NaN;
+    
+    // Nettoyer la chaîne de prix
+    let cleanPrice = priceText.replace(/[^\d,\.]/g, '');
+    // Gérer le format européen (virgule comme séparateur décimal)
+    cleanPrice = cleanPrice.replace(/\./g, '').replace(',', '.');
+    
+    const price = parseFloat(cleanPrice);
+    return isNaN(price) ? NaN : price;
 }
 
 
@@ -61,30 +43,20 @@ class PriceProcessor {
     return value === null || value === undefined ? '' : value;
   }
 
-  
-  
-
   async processRow(page, sheet, rowIndex) {
+    // Vérifier si la cellule G est déjà remplie
+    const existingValue = this.getCellValue(sheet, `G${rowIndex}`);
+    if (existingValue) {
+        console.log(`Skipping row ${rowIndex} - Cell G already contains: ${existingValue}`);
+        return;
+    }
+
+    const url = this.getCellValue(sheet, `F${rowIndex}`);
+    const condition = this.getCellValue(sheet, `E${rowIndex}`);
+
+    if (!url) return;
+
     try {
-        // Vérifier si la cellule G est déjà remplie
-        const existingValue = this.getCellValue(sheet, `G${rowIndex}`);
-        if (existingValue) {
-            console.log(`Skipping row ${rowIndex} - Cell G already contains: ${existingValue}`);
-            return;
-        }
-
-        // Ajouter un délai aléatoire entre les requêtes
-        await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 750));
-
-        const url = this.getCellValue(sheet, `F${rowIndex}`);
-        const condition = this.getCellValue(sheet, `E${rowIndex}`);
-
-        if (!url) return;
-
-        console.log(`Processing row ${rowIndex} - URL: ${url}`);
-
-        // Navigation avec options étendues
-        await page.setDefaultNavigationTimeout(60000);
         await page.goto(url, {
             waitUntil: ['networkidle0', 'domcontentloaded'],
             timeout: 60000
@@ -131,126 +103,62 @@ class PriceProcessor {
 }
 
 
-
-
 async calculateAveragePrice(page, cardCondition, rowIndex) {
-  try {
-      // Attendre que les éléments soient présents
-      await page.waitForSelector(CONFIG.selectors.articleRow, {
-          timeout: 10000
-      });
+    try {
+        // Attendre explicitement les éléments de prix
+        await page.waitForSelector('[id^="articleRow"]', { timeout: 10000 });
+        
+        // Récupérer directement les prix et conditions
+        const pricesData = await page.evaluate((cardCondition) => {
+            const articles = Array.from(document.querySelectorAll('[id^="articleRow"]'));
+            return articles.map(article => {
+                const priceElement = article.querySelector('.price-container');
+                const conditionElement = article.querySelector('.article-condition .badge');
+                const commentsElement = article.querySelector('.d-block.text-truncate.text-muted.fst-italic.small');
+                
+                return {
+                    price: priceElement ? priceElement.textContent.trim() : null,
+                    condition: conditionElement ? conditionElement.textContent.trim() : null,
+                    comments: commentsElement ? commentsElement.textContent.toLowerCase() : ''
+                };
+            });
+        }, cardCondition);
 
-      // Attendre un peu plus pour le contenu dynamique
-      await page.waitForTimeout(2000);
+        console.log(`Raw prices data for row ${rowIndex}:`, pricesData);
 
-      const elements = await page.$$(CONFIG.selectors.articleRow);
-      console.log(`Found ${elements.length} elements for row ${rowIndex}`);
+        if (!pricesData.length) {
+            console.log(`No price data found for row ${rowIndex}`);
+            return null;
+        }
 
-      if (!elements.length) {
-          console.log(`No elements found for row ${rowIndex}`);
-          return null;
-      }
+        // Filtrer et traiter les prix comme avant
+        const validPrices = pricesData
+            .filter(data => {
+                if (!data.price || !data.condition) return false;
+                
+                const excludedTerms = ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '];
+                const hasExcludedTerm = excludedTerms.some(term => 
+                    data.comments.toUpperCase().includes(term)
+                );
+                
+                return !hasExcludedTerm && data.condition === cardCondition;
+            })
+            .map(data => formatPrice(data.price))
+            .filter(price => !isNaN(price))
+            .slice(0, CONFIG.maxPricesToAverage);
 
-      const sheet = this.workbook.Sheets[this.currentDate];
-      const cellA = sheet[`A${rowIndex}`] ? sheet[`A${rowIndex}`].v : '';
-      
-      // Extraction du searchTerm
-      let searchTerm = null;
-      if (cellA && typeof cellA === 'string') {
-          const startIndex = cellA.indexOf('(');
-          const endIndex = cellA.indexOf(')');
-          if (startIndex !== -1 && endIndex !== -1 && startIndex < endIndex) {
-              searchTerm = cellA.substring(startIndex + 1, endIndex).toLowerCase().trim();
-          }
-      }
+        if (validPrices.length === 0) {
+            console.log(`No valid prices after filtering for row ${rowIndex}`);
+            return null;
+        }
 
-      // Vérifier d'abord s'il existe un prix avec l'état désiré
-      let hasDesiredCondition = false;
-      for (const element of elements) {
-          try {
-              const condition = await element.$eval('.article-condition .badge', 
-                  el => el.innerText.trim()
-              ).catch(() => null);
+        const averagePrice = validPrices.reduce((a, b) => a + b, 0) / validPrices.length;
+        return parseFloat(averagePrice.toFixed(2));
 
-              const comments = await element.$eval('.d-block.text-truncate.text-muted.fst-italic.small', 
-                  el => el.innerText.toLowerCase()
-              ).catch(() => '');
-
-              const excludedTerms = ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '];
-              const hasExcludedTerm = excludedTerms.some(term => comments.toUpperCase().includes(term));
-              const hasSearchTerm = searchTerm ? comments.includes(searchTerm) : true;
-
-              if (!hasExcludedTerm && condition === cardCondition && hasSearchTerm) {
-                  hasDesiredCondition = true;
-                  break;
-              }
-          } catch (error) {
-              console.error(`Error checking condition for row ${rowIndex}:`, error);
-          }
-      }
-
-      let validPrices = [];
-
-      // Collecter les prix
-      for (let i = 0; i < elements.length && validPrices.length < CONFIG.maxPricesToAverage; i++) {
-          try {
-              const element = elements[i];
-              
-              const condition = await element.$eval('.article-condition .badge', 
-                  el => el.innerText.trim()
-              ).catch(() => null);
-
-              const comments = await element.$eval('.d-block.text-truncate.text-muted.fst-italic.small', 
-                  el => el.innerText.toLowerCase()
-              ).catch(() => '');
-
-              const priceText = await element.$eval('.price-container', 
-                  el => el.innerText
-              ).catch(() => null);
-
-              console.log(`Row ${rowIndex} - Item ${i + 1}:`, {
-                  price: priceText,
-                  condition: condition,
-                  comments: comments
-              });
-
-              const excludedTerms = ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '];
-              const hasExcludedTerm = excludedTerms.some(term => comments.toUpperCase().includes(term));
-              const hasSearchTerm = searchTerm ? comments.includes(searchTerm) : true;
-
-              if (hasExcludedTerm || !hasSearchTerm) {
-                  continue;
-              }
-
-              const formattedPrice = formatPrice(priceText);
-              if (isNaN(formattedPrice)) {
-                  continue;
-              }
-
-              if (condition === cardCondition || (hasDesiredCondition && condition !== cardCondition)) {
-                  validPrices.push(formattedPrice);
-                  console.log(`Added price ${formattedPrice} for row ${rowIndex}`);
-              } else if (!hasDesiredCondition) {
-                  break;
-              }
-          } catch (error) {
-              console.error(`Error processing item ${i} for row ${rowIndex}:`, error);
-          }
-      }
-
-      if (validPrices.length === 0) {
-          console.log(`No valid prices found for row ${rowIndex}`);
-          return null;
-      }
-
-      console.log(`Row ${rowIndex} - Valid prices:`, validPrices);
-      const averagePrice = validPrices.reduce((a, b) => a + b, 0) / validPrices.length;
-      return parseFloat(averagePrice.toFixed(2));
-
-  } catch (error) {
-      console.error(`Error calculating average price for row ${rowIndex}:`, error);
-      return null;
-  }
+    } catch (error) {
+        console.error(`Error in calculateAveragePrice for row ${rowIndex}:`, error);
+        return null;
+    }
 }
 
 
@@ -258,25 +166,6 @@ async calculateAveragePrice(page, cardCondition, rowIndex) {
   async process() {
     console.time('script-execution');
     const page = await browser.createPage();
-
-        // Gérer les erreurs réseau
-        page.on('error', err => {
-          console.error('Page error:', err);
-      });
-  
-      page.on('pageerror', err => {
-          console.error('Page error:', err);
-      });
-  
-      // Activer la surveillance du réseau
-      await page.setRequestInterception(true);
-      page.on('request', request => {
-          if (['image', 'stylesheet', 'font'].includes(request.resourceType())) {
-              request.abort();
-          } else {
-              request.continue();
-          }
-      });
 
     try {
       const sheet = this.workbook.Sheets[this.currentDate];
