@@ -232,7 +232,7 @@ async function main() {
     await cleaner.deleteDoublon();
     
     // Suppression des cartes avec séries incorrectes
-    console.log('\nDébut de la suppression des cartes avec séries incorrectes...');
+    //console.log('\nDébut de la suppression des cartes avec séries incorrectes...');
     //await cleaner.deleteIncorrectSeries();
     
     // Suppression des cartes en surplus

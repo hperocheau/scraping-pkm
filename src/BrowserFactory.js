@@ -13,6 +13,7 @@ class BrowserFactory {
     if (!this.browser) {
       this.browser = await puppeteer.launch({
         headless: true,
+        waitUntil: ['networkidle0', 'domcontentloaded'],
         args: [
           '--disable-gpu',
           '--no-sandbox',
