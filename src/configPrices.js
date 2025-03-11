@@ -24,11 +24,11 @@ module.exports = {
       INVALID_CONDITION: "État de carte non valide"
     },
     COLUMN_MAPPING: {
-      'A': 'A', 
-      'B': 'B', 
-      'C': 'C', 
-      'D': 'D', 
-      'E': 'E'
+      'A': 'C', 
+      'B': 'E', 
+      'C': 'F', 
+      'D': 'G', 
+      'E': 'H'
     },
     START_ROW: 4,
     INCLUDE_HEADER: true,
@@ -36,6 +36,20 @@ module.exports = {
       'F': "Url",
       'G': "Prix moyen"
     },
+    selectors: {
+      articleRow: '[id^="articleRow"]',
+      priceContainer: '.price-container',
+      conditionBadge: '.article-condition .badge',
+      productComments: '.d-block.text-truncate.text-muted.fst-italic.small',
+      loadMoreButton: '#loadMoreButton'
+    },
+    maxPricesToAverage: 3,
+    excludedTerms: ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '],
+    pageNavigationTimeout: 20000,
+    waitTimeout: 2000,
+    loadMoreTimeout: 750,
+    maxLoadAttempts: 5,
+    saveInterval: 10,
     REVERSE_PATTERNS: /(reverse|pokeball|masterball)/i,
     DEFAULT_LANGUAGE_CODE: '1' // Anglais par défaut
   };

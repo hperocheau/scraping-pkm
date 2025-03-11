@@ -4,10 +4,11 @@ const moment = require('moment');
 const browser = require('../src/BrowserFactory');
 const path = require('path');
 const config = require(path.resolve(__dirname, '../src/config.js'));
+const conf = require('../src/configPrices');
 
 // Configuration
 const CONFIG = {
-  xlsxFilePath: config.xlsxFile,
+  //xlsxFilePath: config.xlsxFile,
   selectors: {
     articleRow: '[id^="articleRow"]',
     priceContainer: '.price-container',
@@ -68,7 +69,7 @@ const Utils = {
 
 class PriceProcessor {
   constructor() {
-    this.workbook = xlsx.readFile(CONFIG.xlsxFilePath);
+    this.workbook = xlsx.readFile(config.xlsxFile);
     this.currentDate = moment().format("DD_MM_YYYY");
     this.sheet = null;
     this.page = null;
@@ -98,7 +99,7 @@ class PriceProcessor {
    */
   async saveWorkbook() {
     try {
-      xlsx.writeFile(this.workbook, CONFIG.xlsxFilePath);
+      xlsx.writeFile(this.workbook, config.xlsxFile);
       console.log(`💾 Fichier Excel sauvegardé (${this.processedCount} lignes traitées)`);
       return true;
     } catch (error) {
@@ -282,138 +283,181 @@ class PriceProcessor {
         return null;
       }
   
-      // Vérifier si l'état recherché existe
+      // 1. Vérifier si l'état recherché existe
       const hasDesiredCondition = pricesData.some(data => data.condition === cardCondition);
+      console.log(`Ligne ${rowIndex}: État recherché (${cardCondition}) trouvé: ${hasDesiredCondition}`);
       
-      // Si état recherché non trouvé -> FIN
       if (!hasDesiredCondition) {
-        console.log(`Ligne ${rowIndex}: État "${cardCondition}" non trouvé -> FIN`);
+        console.log(`Ligne ${rowIndex}: État recherché non trouvé -> FIN`);
         return null;
       }
       
-      // Vérifier si specificFilter existe dans au moins un article ayant la condition désirée
-      const hasSpecificFilter = specificFilter ? pricesData.some(data => 
-        data.condition === cardCondition && 
-        Utils.containsWithAccentVariants(data.comments, specificFilter)
-      ) : true;
-      
-      // Si specificFilter non trouvé, essayer de charger tous les prix
-      if (!hasSpecificFilter && specificFilter) {
-        console.log(`Ligne ${rowIndex}: Filtre spécifique "${specificFilter}" non trouvé, chargement de tous les prix`);
+      // 2. Si specificFilter défini, vérifier s'il existe des articles avec ce filtre
+      if (specificFilter) {
+        const hasSpecificFilter = pricesData.some(data => 
+          Utils.containsWithAccentVariants(data.comments, specificFilter)
+        );
         
-        const validPrices = [];
+        console.log(`Ligne ${rowIndex}: Filtre spécifique (${specificFilter}) trouvé: ${hasSpecificFilter}`);
         
-        // Collecte tous les prix avec l'état désiré qui n'ont pas de terme exclu
-        for (let i = 0; i < pricesData.length && validPrices.length < 3; i++) {
-          const data = pricesData[i];
-          if (!data.price || !data.condition || data.condition !== cardCondition) continue;
+        if (!hasSpecificFilter) {
+          // Si le filtre spécifique n'est pas trouvé, charger plus d'articles
+          console.log(`Ligne ${rowIndex}: Filtre spécifique non trouvé, tentative de chargement d'articles supplémentaires`);
           
-          const hasExcludedTerm = CONFIG.excludedTerms.some(term => 
-            data.comments.toUpperCase().includes(term)
-          );
-          
-          if (hasExcludedTerm) {
-            console.log(`Article ${i+1}: Ignoré car contient un terme exclu`);
-            continue;
+          // Tenter de charger plus d'articles en cliquant sur le bouton "Charger plus"
+          try {
+            await this.clickLoadMoreButton();
+            
+            // Récupérer à nouveau les données après le chargement
+            const updatedPricesData = await this.page.evaluate(selectors => {
+              const articles = Array.from(document.querySelectorAll(selectors.articleRow));
+              return articles.map(article => ({
+                price: article.querySelector(selectors.priceContainer)?.textContent.trim() || null,
+                condition: article.querySelector(selectors.conditionBadge)?.textContent.trim() || null,
+                comments: article.querySelector(selectors.productComments)?.textContent.toLowerCase() || ''
+              }));
+            }, CONFIG.selectors);
+            
+            // Vérifier à nouveau si le filtre spécifique existe
+            const hasSpecificFilterAfterLoad = updatedPricesData.some(data => 
+              Utils.containsWithAccentVariants(data.comments, specificFilter)
+            );
+            
+            console.log(`Ligne ${rowIndex}: Après chargement, filtre spécifique trouvé: ${hasSpecificFilterAfterLoad}`);
+            
+            if (!hasSpecificFilterAfterLoad) {
+              console.log(`Ligne ${rowIndex}: Filtre spécifique toujours non trouvé après chargement -> FIN`);
+              return null;
+            }
+            
+            // Mettre à jour pricesData avec les nouvelles données
+            pricesData.length = 0; // Vider le tableau
+            updatedPricesData.forEach(item => pricesData.push(item)); // Ajouter les nouvelles données
+          } catch (error) {
+            console.error(`Erreur lors du chargement d'articles supplémentaires: ${error.message}`);
+            console.log(`Ligne ${rowIndex}: Filtre spécifique non trouvé -> FIN`);
+            return null;
           }
-          
-          const formattedPrice = Utils.formatPrice(data.price);
-          if (isNaN(formattedPrice)) {
-            console.log(`Article ${i+1}: Format de prix invalide`);
-            continue;
-          }
-          
-          validPrices.push(formattedPrice);
-          console.log(`Article ${i+1}: Prix ${formattedPrice} ajouté (état désiré sans terme exclu)`);
         }
-        
-        if (validPrices.length === 0) {
-          console.log(`Ligne ${rowIndex}: Aucun prix valide trouvé -> FIN`);
-          return null;
-        }
-        
-        // Calcul de la moyenne
-        const averagePrice = validPrices.reduce((a, b) => a + b, 0) / validPrices.length;
-        return parseFloat(averagePrice.toFixed(2));
       }
       
-      // Traitement avec specificFilter
-      // Supprimer tous les prix ne comportant pas les filtres
-      const filteredPrices = pricesData.filter(data => {
+      // 3. Filtrer les prix selon les critères
+      // Créer une version filtrée de pricesData qui ne contient que les articles valides
+      const filteredPricesData = pricesData.filter(data => {
         if (!data.price || !data.condition) return false;
         
         const hasExcludedTerm = CONFIG.excludedTerms.some(term => 
           data.comments.toUpperCase().includes(term)
         );
         
-        const hasFilter = !specificFilter || Utils.containsWithAccentVariants(data.comments, specificFilter);
+        const hasSearchTerm = specificFilter ? 
+          Utils.containsWithAccentVariants(data.comments, specificFilter) : 
+          true;
         
-        return !hasExcludedTerm && hasFilter;
+        return !hasExcludedTerm && hasSearchTerm;
       });
       
-      // Trouver la position du dernier prix voulu
-      let lastDesiredPriceIndex = -1;
-      for (let i = filteredPrices.length - 1; i >= 0; i--) {
-        if (filteredPrices[i].condition === cardCondition) {
-          lastDesiredPriceIndex = i;
+      console.log(`Ligne ${rowIndex}: ${filteredPricesData.length} articles après filtrage des termes exclus/recherchés`);
+      
+      // 4. Trouver la position du dernier prix avec l'état recherché
+      let lastDesiredConditionIndex = -1;
+      for (let i = filteredPricesData.length - 1; i >= 0; i--) {
+        if (filteredPricesData[i].condition === cardCondition) {
+          lastDesiredConditionIndex = i;
           break;
         }
       }
       
-      // Si état recherché non trouvé dans les filteredPrices -> FIN
-      if (lastDesiredPriceIndex === -1) {
-        console.log(`Ligne ${rowIndex}: État "${cardCondition}" non trouvé après filtrage -> FIN`);
+      console.log(`Ligne ${rowIndex}: Position du dernier prix avec état recherché: ${lastDesiredConditionIndex}`);
+      
+      if (lastDesiredConditionIndex === -1) {
+        console.log(`Ligne ${rowIndex}: Aucun prix avec état recherché après filtrage -> FIN`);
         return null;
       }
       
+      // 5. Collecter les prix selon la nouvelle logique
       const validPrices = [];
       
-      // Si premier état cherché est à 3ème position ou plus ET pas de terme exclu
-      const firstDesiredPriceIndex = filteredPrices.findIndex(data => data.condition === cardCondition);
+      // Vérifier la position du premier prix avec l'état recherché
+      let firstDesiredConditionIndex = -1;
+      for (let i = 0; i < filteredPricesData.length; i++) {
+        if (filteredPricesData[i].condition === cardCondition) {
+          firstDesiredConditionIndex = i;
+          break;
+        }
+      }
       
-      if (firstDesiredPriceIndex >= 2) {
-        console.log(`Ligne ${rowIndex}: Premier état désiré à la position ${firstDesiredPriceIndex+1} (>=3), ajout des 3 premiers prix`);
+      console.log(`Ligne ${rowIndex}: Position du premier prix avec état recherché: ${firstDesiredConditionIndex}`);
+      
+      // Si le premier prix avec l'état recherché est en position 3 ou plus
+      if (firstDesiredConditionIndex >= 2) {
+        console.log(`Ligne ${rowIndex}: Premier prix avec état recherché en position ${firstDesiredConditionIndex} (>= 3), ajout des 3 premiers prix`);
         
         // Ajouter les 3 premiers prix à validPrices
-        for (let i = 0; i < 3 && i < filteredPrices.length; i++) {
-          const formattedPrice = Utils.formatPrice(filteredPrices[i].price);
+        for (let i = 0; i < Math.min(3, filteredPricesData.length); i++) {
+          const data = filteredPricesData[i];
+          const formattedPrice = Utils.formatPrice(data.price);
+          
           if (!isNaN(formattedPrice)) {
             validPrices.push(formattedPrice);
-            console.log(`Ajout du prix ${i+1}: ${formattedPrice}`);
+            console.log(`=> Prix ${formattedPrice} (${data.condition}) ajouté (position ${i+1})`);
           }
         }
       } else {
-        // Traiter selon la dernière condition
-        console.log(`Ligne ${rowIndex}: Traitement selon condition prix voulu ou supérieur`);
+        // Sinon, ajouter les prix selon la logique spécifiée
+        console.log(`Ligne ${rowIndex}: Ajout sélectif des prix selon les critères`);
         
-        for (let i = 0; i < filteredPrices.length && validPrices.length < 3; i++) {
-          const data = filteredPrices[i];
+        for (let i = 0; i < filteredPricesData.length && validPrices.length < 3; i++) {
+          const data = filteredPricesData[i];
           const formattedPrice = Utils.formatPrice(data.price);
           
           if (isNaN(formattedPrice)) continue;
           
+          // Vérifier si c'est un prix voulu (état recherché) OU 
+          // un prix supérieur ET position inférieure à la position du dernier prix voulu
           const isPriceWanted = data.condition === cardCondition;
-          const isHigherPrice = i < lastDesiredPriceIndex;
+          const isPriceBetter = i < lastDesiredConditionIndex;
           
-          if (isPriceWanted || isHigherPrice) {
+          if (isPriceWanted || isPriceBetter) {
             validPrices.push(formattedPrice);
-            console.log(`Ajout du prix ${i+1}: ${formattedPrice} (${isPriceWanted ? 'prix voulu' : 'prix supérieur'})`);
+            console.log(`=> Prix ${formattedPrice} (${data.condition}) ajouté (${isPriceWanted ? 'état recherché' : 'meilleur prix'}, position ${i+1})`);
           }
         }
       }
       
       if (validPrices.length === 0) {
-        console.log(`Ligne ${rowIndex}: Aucun prix valide trouvé -> FIN`);
+        console.log(`Ligne ${rowIndex}: Aucun prix valide collecté -> FIN`);
         return null;
       }
       
-      // Calcul de la moyenne
+      console.log(`\nPrix valides finaux: ${validPrices.join(', ')}`);
       const averagePrice = validPrices.reduce((a, b) => a + b, 0) / validPrices.length;
-      return parseFloat(averagePrice.toFixed(2));
       
+      return parseFloat(averagePrice.toFixed(2));
     } catch (error) {
       console.error(`Erreur calcul prix moyen ligne ${rowIndex}:`, error.message);
       return null;
+    }
+  }
+  
+  // Fonction hypothétique pour cliquer sur le bouton "Charger plus"
+  async clickLoadMoreButton() {
+    try {
+      // Attendre que le bouton soit visible
+      await this.page.waitForSelector(CONFIG.selectors.loadMoreButton, {
+        timeout: CONFIG.waitTimeout
+      });
+      
+      // Cliquer sur le bouton
+      await this.page.click(CONFIG.selectors.loadMoreButton);
+      
+      // Attendre que le chargement soit terminé
+      await this.page.waitForTimeout(2000); // Attente arbitraire, ajuster selon le comportement du site
+      
+      return true;
+    } catch (error) {
+      console.error("Erreur lors du clic sur le bouton 'Charger plus':", error.message);
+      return false;
     }
   }
 
