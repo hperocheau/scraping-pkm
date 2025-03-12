@@ -25,11 +25,11 @@ module.exports = {
     INVALID_CONDITION: "État de carte non valide"
   },
   COLUMN_MAPPING: {
-    'A': 'C', 
-    'B': 'E', 
-    'C': 'F', 
-    'D': 'G', 
-    'E': 'H'
+    'A': 'A', 
+    'B': 'B', 
+    'C': 'C', 
+    'D': 'D', 
+    'E': 'E'
   },
   START_ROW: 4,
   INCLUDE_HEADER: true,

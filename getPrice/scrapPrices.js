@@ -6,17 +6,6 @@ const path = require('path');
 const config = require(path.resolve(__dirname, '../src/config.js'));
 const conf = require('../src/configPrices');
 
-// Configuration
-const CONFIG = {
-  selectors: {
-    articleRow: '[id^="articleRow"]',
-    priceContainer: '.price-container',
-    conditionBadge: '.article-condition .badge',
-    productComments: '.d-block.text-truncate.text-muted.fst-italic.small',
-    loadMoreButton: '#loadMoreButton'
-  }
-};
-
 /**
  * Utilitaires pour le traitement des données
  */
@@ -206,7 +195,7 @@ class PriceProcessor {
       // Vérification du nombre d'articles
       const articlesCount = await this.page.evaluate(selector => 
         document.querySelectorAll(selector).length, 
-        CONFIG.selectors.articleRow
+        conf.PRICE_CONFIG.selectors.articleRow
       );
 
       console.log(`Ligne ${rowIndex}: ${articlesCount} articles trouvés`);
@@ -250,7 +239,7 @@ class PriceProcessor {
     try {
       // Attendre les éléments de prix avec gestion du timeout
       try {
-        await this.page.waitForSelector(CONFIG.selectors.articleRow, {
+        await this.page.waitForSelector(conf.PRICE_CONFIG.selectors.articleRow, {
           timeout: conf.PRICE_CONFIG.waitTimeout
         });
       } catch (e) {
@@ -265,7 +254,7 @@ class PriceProcessor {
           condition: article.querySelector(selectors.conditionBadge)?.textContent.trim() || null,
           comments: article.querySelector(selectors.productComments)?.textContent.toLowerCase() || ''
         }));
-      }, CONFIG.selectors);
+      }, conf.PRICE_CONFIG.selectors);
       
       const attemptLabel = isSecondAttempt ? 'seconde tentative' : 'première tentative';
       console.log(`Ligne ${rowIndex} (${attemptLabel}): ${pricesData.length} articles trouvés`);
@@ -308,7 +297,7 @@ class PriceProcessor {
                 condition: article.querySelector(selectors.conditionBadge)?.textContent.trim() || null,
                 comments: article.querySelector(selectors.productComments)?.textContent.toLowerCase() || ''
               }));
-            }, CONFIG.selectors);
+            }, conf.PRICE_CONFIG.selectors);
             
             // Vérifier à nouveau si le filtre spécifique existe
             const hasSpecificFilterAfterLoad = updatedPricesData.some(data => 
@@ -436,12 +425,12 @@ class PriceProcessor {
   async clickLoadMoreButton() {
     try {
       // Attendre que le bouton soit visible
-      await this.page.waitForSelector(CONFIG.selectors.loadMoreButton, {
+      await this.page.waitForSelector(conf.PRICE_CONFIG.selectors.loadMoreButton, {
         timeout: conf.PRICE_CONFIG.waitTimeout
       });
       
       // Cliquer sur le bouton
-      await this.page.click(CONFIG.selectors.loadMoreButton);
+      await this.page.click(conf.PRICE_CONFIG.selectors.loadMoreButton);
       
       // Attendre que le chargement soit terminé
       await this.page.waitForTimeout(2000); // Attente arbitraire, ajuster selon le comportement du site
