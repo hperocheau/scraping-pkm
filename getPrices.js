@@ -4,6 +4,7 @@ const moment = require('moment');
 const fs = require('fs');
 const path = require('path');
 const config = require(path.resolve(__dirname, './src/config.js'));
+
 const xlsxPath = config.xlsxFile;
 
 const updateXlsxScriptPath = './getPrice/formatingXlsx.js';
@@ -53,7 +54,7 @@ function checkEmptyCells(worksheet) {
     
     // Recharger la feuille après l'exécution du script getPrices.js
     workbook = new ExcelJS.Workbook();  // Fermer et réinitialiser le workbook
-    await workbook.xlsx.readFile('./cartes.xlsx');
+    await workbook.xlsx.readFile(xlsxPath);
     
     // Mettre à jour la référence à la feuille après le rechargement
     worksheet = workbook.getWorksheet(today);
