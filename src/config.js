@@ -9,5 +9,5 @@ module.exports = {
     jsonControl: path.resolve(rootDir, 'database/databaseControl/controlFunctions/jsonEntryControl.js'),
     cardsCount: path.resolve(rootDir, 'database/databaseControl/allCardsCount.js'),
     checkDupe: path.resolve(rootDir, 'database/databaseControl/checkDupeCards.js'),
-    xlsxFile: path.resolve(rootDir, 'test.xlsx')
+    xlsxFile: path.resolve(rootDir, 'cartes.xlsx')
 };

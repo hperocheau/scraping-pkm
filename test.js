@@ -6,17 +6,6 @@ const path = require('path');
 const config = require(path.resolve(__dirname, '../src/config.js'));
 const conf = require('../src/configPrices');
 
-// Configuration
-const CONFIG = {
-  selectors: {
-    articleRow: '[id^="articleRow"]',
-    priceContainer: '.price-container',
-    conditionBadge: '.article-condition .badge',
-    productComments: '.d-block.text-truncate.text-muted.fst-italic.small',
-    loadMoreButton: '#loadMoreButton'
-  }
-};
-
 /**
  * Utilitaires pour le traitement des données
  */
@@ -38,7 +27,7 @@ const Utils = {
    */
   extractContentInParentheses(text) {
     if (!text) return null;
-    const match = text.match(/\(([^)]+)\)/);
+    const match = text.match(/ ([^)]+)$ /);
     return match ? match[1].trim() : null;
   },
 
@@ -118,13 +107,13 @@ class PriceProcessor {
     
     for (let attempt = 0; attempt < conf.PRICE_CONFIG.maxLoadAttempts; attempt++) {
       // Vérifier si le bouton existe et est visible
-      const buttonVisible = await this.page.evaluate(() => {
-        const button = document.getElementById('loadMoreButton');
+      const buttonVisible = await this.page.evaluate((loadMoreButtonSelector) => {
+        const button = document.getElementById(loadMoreButtonSelector.replace('#', ''));
         if (!button) return false;
         
         const style = window.getComputedStyle(button);
         return style.display !== 'none' && style.visibility !== 'hidden';
-      });
+      }, conf.PRICE_CONFIG.selectors.loadMoreButton);
       
       if (!buttonVisible) {
         console.log('✓ Tous les résultats sont chargés');
@@ -133,9 +122,9 @@ class PriceProcessor {
       
       // Cliquer sur le bouton et attendre le chargement
       try {
-        await this.page.evaluate(() => {
-          document.getElementById('loadMoreButton').click();
-        });
+        await this.page.evaluate((loadMoreButtonSelector) => {
+          document.querySelector(loadMoreButtonSelector).click();
+        }, conf.PRICE_CONFIG.selectors.loadMoreButton);
         console.log(`Clic sur "Load More" (tentative ${attempt + 1}/${conf.PRICE_CONFIG.maxLoadAttempts})`);
         
         // Attendre le chargement des nouveaux résultats
@@ -206,7 +195,7 @@ class PriceProcessor {
       // Vérification du nombre d'articles
       const articlesCount = await this.page.evaluate(selector => 
         document.querySelectorAll(selector).length, 
-        CONFIG.selectors.articleRow
+        conf.PRICE_CONFIG.selectors.articleRow
       );
 
       console.log(`Ligne ${rowIndex}: ${articlesCount} articles trouvés`);
@@ -250,7 +239,7 @@ class PriceProcessor {
     try {
       // Attendre les éléments de prix avec gestion du timeout
       try {
-        await this.page.waitForSelector(CONFIG.selectors.articleRow, {
+        await this.page.waitForSelector(conf.PRICE_CONFIG.selectors.articleRow, {
           timeout: conf.PRICE_CONFIG.waitTimeout
         });
       } catch (e) {
@@ -265,7 +254,7 @@ class PriceProcessor {
           condition: article.querySelector(selectors.conditionBadge)?.textContent.trim() || null,
           comments: article.querySelector(selectors.productComments)?.textContent.toLowerCase() || ''
         }));
-      }, CONFIG.selectors);
+      }, conf.PRICE_CONFIG.selectors);
       
       const attemptLabel = isSecondAttempt ? 'seconde tentative' : 'première tentative';
       console.log(`Ligne ${rowIndex} (${attemptLabel}): ${pricesData.length} articles trouvés`);
@@ -308,7 +297,7 @@ class PriceProcessor {
                 condition: article.querySelector(selectors.conditionBadge)?.textContent.trim() || null,
                 comments: article.querySelector(selectors.productComments)?.textContent.toLowerCase() || ''
               }));
-            }, CONFIG.selectors);
+            }, conf.PRICE_CONFIG.selectors);
             
             // Vérifier à nouveau si le filtre spécifique existe
             const hasSpecificFilterAfterLoad = updatedPricesData.some(data => 
@@ -382,11 +371,11 @@ class PriceProcessor {
       console.log(`Ligne ${rowIndex}: Position du premier prix avec état recherché: ${firstDesiredConditionIndex}`);
       
       // Si le premier prix avec l'état recherché est en position 3 ou plus
-      if (firstDesiredConditionIndex >= conf.PRICE_CONFIG.maxPricesToAverage-1) {
+      if (firstDesiredConditionIndex >= 2) {
         console.log(`Ligne ${rowIndex}: Premier prix avec état recherché en position ${firstDesiredConditionIndex} (>= 3), ajout des 3 premiers prix`);
         
         // Ajouter les 3 premiers prix à validPrices
-        for (let i = 0; i < Math.min(conf.PRICE_CONFIG.maxPricesToAverage, filteredPricesData.length); i++) {
+        for (let i = 0; i < Math.min(3, filteredPricesData.length); i++) {
           const data = filteredPricesData[i];
           const formattedPrice = Utils.formatPrice(data.price);
           
@@ -399,7 +388,7 @@ class PriceProcessor {
         // Sinon, ajouter les prix selon la logique spécifiée
         console.log(`Ligne ${rowIndex}: Ajout sélectif des prix selon les critères`);
         
-        for (let i = 0; i < filteredPricesData.length && validPrices.length < conf.PRICE_CONFIG.maxPricesToAverage; i++) {
+        for (let i = 0; i < filteredPricesData.length && validPrices.length < 3; i++) {
           const data = filteredPricesData[i];
           const formattedPrice = Utils.formatPrice(data.price);
           
@@ -432,19 +421,19 @@ class PriceProcessor {
     }
   }
   
-  // Fonction hypothétique pour cliquer sur le bouton "Charger plus"
+  // Fonction pour cliquer sur le bouton "Charger plus"
   async clickLoadMoreButton() {
     try {
       // Attendre que le bouton soit visible
-      await this.page.waitForSelector(CONFIG.selectors.loadMoreButton, {
+      await this.page.waitForSelector(conf.PRICE_CONFIG.selectors.loadMoreButton, {
         timeout: conf.PRICE_CONFIG.waitTimeout
       });
       
       // Cliquer sur le bouton
-      await this.page.click(CONFIG.selectors.loadMoreButton);
+      await this.page.click(conf.PRICE_CONFIG.selectors.loadMoreButton);
       
       // Attendre que le chargement soit terminé
-      await this.page.waitForTimeout(2000); // Attente arbitraire, ajuster selon le comportement du site
+      await this.page.waitForTimeout(1000); // Attente arbitraire, ajuster selon le comportement du site
       
       return true;
     } catch (error) {

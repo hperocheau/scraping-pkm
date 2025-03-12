@@ -53,7 +53,7 @@ function checkEmptyCells(worksheet) {
     
     // Recharger la feuille après l'exécution du script getPrices.js
     workbook = new ExcelJS.Workbook();  // Fermer et réinitialiser le workbook
-    await workbook.xlsx.readFile('./test.xlsx');
+    await workbook.xlsx.readFile('./cartes.xlsx');
     
     // Mettre à jour la référence à la feuille après le rechargement
     worksheet = workbook.getWorksheet(today);
