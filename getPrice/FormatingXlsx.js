@@ -13,7 +13,7 @@ class ExcelProcessor {
     this.jsonData = jsonData;
     this.workbook = xlsx.readFile(filePath);
     this.currentDate = moment().format("DD_MM_YYYY");
-    this.sourceSheetName = "Feuille";
+    this.sourceSheetName = "cartes";
     // Indexer les données pour une recherche plus rapide
     this.indexedData = this.indexCardData();
     this.logger = console; // Permet de remplacer facilement par un autre logger

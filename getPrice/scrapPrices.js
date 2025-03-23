@@ -160,10 +160,6 @@ class PriceProcessor {
     const condition = this.getCellValue(this.sheet, `E${rowIndex}`);
     const cellAValue = this.getCellValue(this.sheet, `A${rowIndex}`);
     const specificFilter = Utils.extractContentInParentheses(cellAValue);
-    
-    if (specificFilter) {
-      console.log(`Ligne ${rowIndex}: Utilisation du filtre spécifique "${specificFilter}"`);
-    }
 
     try {
       console.log(`Traitement ligne ${rowIndex}: Navigation vers ${url}`);
@@ -179,8 +175,8 @@ class PriceProcessor {
         )
       ]);
 
-      // Attente courte pour assurer le chargement
-      await this.page.waitForTimeout(1000);
+
+      await this.page.waitForTimeout(500);
       
       // Premier essai avec les résultats actuels
       let averagePrice = await this.calculateAveragePrice(condition, specificFilter, rowIndex, false);
@@ -197,8 +193,6 @@ class PriceProcessor {
         document.querySelectorAll(selector).length, 
         conf.PRICE_CONFIG.selectors.articleRow
       );
-
-      console.log(`Ligne ${rowIndex}: ${articlesCount} articles trouvés`);
 
       // Mise à jour de la cellule
       if (averagePrice !== null) {
@@ -223,7 +217,7 @@ class PriceProcessor {
       
     } catch (error) {
       console.error(`❌ Erreur traitement ligne ${rowIndex}:`, error.message);
-      this.sheet[`G${rowIndex}`] = { v: 'error' };
+      this.sheet[`G${rowIndex}`] = { v: 'ERROR' };
       this.errorCount++;
       this.stats.errors++;
       
@@ -243,7 +237,6 @@ class PriceProcessor {
           timeout: conf.PRICE_CONFIG.waitTimeout
         });
       } catch (e) {
-        console.log(`Timeout en attendant les articles pour ligne ${rowIndex}, continuation...`);
       }
       
       // Récupérer directement les prix et conditions
@@ -257,19 +250,15 @@ class PriceProcessor {
       }, conf.PRICE_CONFIG.selectors);
       
       const attemptLabel = isSecondAttempt ? 'seconde tentative' : 'première tentative';
-      console.log(`Ligne ${rowIndex} (${attemptLabel}): ${pricesData.length} articles trouvés`);
       
       if (!pricesData.length) {
-        console.log(`Aucun article trouvé pour ligne ${rowIndex}`);
         return null;
       }
   
       // 1. Vérifier si l'état recherché existe
       const hasDesiredCondition = pricesData.some(data => data.condition === cardCondition);
-      console.log(`Ligne ${rowIndex}: État recherché (${cardCondition}) trouvé: ${hasDesiredCondition}`);
       
       if (!hasDesiredCondition) {
-        console.log(`Ligne ${rowIndex}: État recherché non trouvé -> FIN`);
         return null;
       }
       
@@ -279,11 +268,7 @@ class PriceProcessor {
           Utils.containsWithAccentVariants(data.comments, specificFilter)
         );
         
-        console.log(`Ligne ${rowIndex}: Filtre spécifique (${specificFilter}) trouvé: ${hasSpecificFilter}`);
-        
         if (!hasSpecificFilter) {
-          // Si le filtre spécifique n'est pas trouvé, charger plus d'articles
-          console.log(`Ligne ${rowIndex}: Filtre spécifique non trouvé, tentative de chargement d'articles supplémentaires`);
           
           // Tenter de charger plus d'articles en cliquant sur le bouton "Charger plus"
           try {
@@ -304,10 +289,7 @@ class PriceProcessor {
               Utils.containsWithAccentVariants(data.comments, specificFilter)
             );
             
-            console.log(`Ligne ${rowIndex}: Après chargement, filtre spécifique trouvé: ${hasSpecificFilterAfterLoad}`);
-            
             if (!hasSpecificFilterAfterLoad) {
-              console.log(`Ligne ${rowIndex}: Filtre spécifique toujours non trouvé après chargement -> FIN`);
               return null;
             }
             
@@ -315,8 +297,6 @@ class PriceProcessor {
             pricesData.length = 0; // Vider le tableau
             updatedPricesData.forEach(item => pricesData.push(item)); // Ajouter les nouvelles données
           } catch (error) {
-            console.error(`Erreur lors du chargement d'articles supplémentaires: ${error.message}`);
-            console.log(`Ligne ${rowIndex}: Filtre spécifique non trouvé -> FIN`);
             return null;
           }
         }
@@ -338,8 +318,6 @@ class PriceProcessor {
         return !hasExcludedTerm && hasSearchTerm;
       });
       
-      console.log(`Ligne ${rowIndex}: ${filteredPricesData.length} articles après filtrage des termes exclus/recherchés`);
-      
       // 4. Trouver la position du dernier prix avec l'état recherché
       let lastDesiredConditionIndex = -1;
       for (let i = filteredPricesData.length - 1; i >= 0; i--) {
@@ -349,10 +327,7 @@ class PriceProcessor {
         }
       }
       
-      console.log(`Ligne ${rowIndex}: Position du dernier prix avec état recherché: ${lastDesiredConditionIndex}`);
-      
       if (lastDesiredConditionIndex === -1) {
-        console.log(`Ligne ${rowIndex}: Aucun prix avec état recherché après filtrage -> FIN`);
         return null;
       }
       
@@ -368,11 +343,9 @@ class PriceProcessor {
         }
       }
       
-      console.log(`Ligne ${rowIndex}: Position du premier prix avec état recherché: ${firstDesiredConditionIndex}`);
       
       // Si le premier prix avec l'état recherché est en position 3 ou plus
       if (firstDesiredConditionIndex >= conf.PRICE_CONFIG.maxPricesToAverage-1) {
-        console.log(`Ligne ${rowIndex}: Premier prix avec état recherché en position ${firstDesiredConditionIndex} (>= 3), ajout des 3 premiers prix`);
         
         // Ajouter les 3 premiers prix à validPrices
         for (let i = 0; i < Math.min(conf.PRICE_CONFIG.maxPricesToAverage, filteredPricesData.length); i++) {
@@ -381,12 +354,9 @@ class PriceProcessor {
           
           if (!isNaN(formattedPrice)) {
             validPrices.push(formattedPrice);
-            console.log(`=> Prix ${formattedPrice} (${data.condition}) ajouté (position ${i+1})`);
           }
         }
       } else {
-        // Sinon, ajouter les prix selon la logique spécifiée
-        console.log(`Ligne ${rowIndex}: Ajout sélectif des prix selon les critères`);
         
         for (let i = 0; i < filteredPricesData.length && validPrices.length < conf.PRICE_CONFIG.maxPricesToAverage; i++) {
           const data = filteredPricesData[i];
@@ -401,13 +371,11 @@ class PriceProcessor {
           
           if (isPriceWanted || isPriceBetter) {
             validPrices.push(formattedPrice);
-            console.log(`=> Prix ${formattedPrice} (${data.condition}) ajouté (${isPriceWanted ? 'état recherché' : 'meilleur prix'}, position ${i+1})`);
           }
         }
       }
       
       if (validPrices.length === 0) {
-        console.log(`Ligne ${rowIndex}: Aucun prix valide collecté -> FIN`);
         return null;
       }
       
@@ -491,15 +459,12 @@ class PriceProcessor {
       console.error('❌ Échec exécution script:', error.message);
       // Sauvegarde d'urgence
       if (this.processedCount > this.lastSaveCount) {
-        console.log('Tentative de sauvegarde d\'urgence avant sortie...');
         await this.saveWorkbook();
       }
     } finally {
       this.stats.endTime = Date.now();
       this.printSummary();
-      console.log("Fermeture du navigateur en cours...");
       await browser.closeBrowser();
-      console.log("Navigateur fermé avec succès");
     }
   }
   

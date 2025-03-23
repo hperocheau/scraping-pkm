@@ -25,13 +25,13 @@ module.exports = {
     INVALID_CONDITION: "État de carte non valide"
   },
   COLUMN_MAPPING: {
-    'A': 'C', 
-    'B': 'E', 
-    'C': 'F', 
-    'D': 'G', 
-    'E': 'H'
+    'A': 'A', 
+    'B': 'B', 
+    'C': 'C', 
+    'D': 'D', 
+    'E': 'E'
   },
-  START_ROW: 4,
+  START_ROW: 2,
   INCLUDE_HEADER: true,
   ADDITIONAL_HEADERS: {
     'F': "Url",
@@ -47,15 +47,15 @@ module.exports = {
       productComments: '.d-block.text-truncate.text-muted.fst-italic.small',
       loadMoreButton: '#loadMoreButton'
     },
-    maxPricesToAverage: 3,
+    maxPricesToAverage: 2, // Nombre max de prix dans la moyenne
     excludedTerms: ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '],
     pageNavigationTimeout: 20000,
     waitTimeout: 2000,
     loadMoreTimeout: 750,
     maxLoadAttempts: 5,
     saveInterval: 5,
-    loadMoreTimeout: 1500,  // Augmenté de 750ms à 1500ms
-    waitForLoadedContent: 3000,  // Attente supplémentaire pour le contenu chargé
+    loadMoreTimeout: 1500,
+    waitForLoadedContent: 3000,
     maxRetryAttempts: 3        // Nombre maximum de tentatives pour chaque action
   }
     
