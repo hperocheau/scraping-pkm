@@ -4,8 +4,6 @@ const browser = require('../../src/BrowserFactory');
 const config = require(path.resolve(__dirname, '../../src/config.js'));
 const db = require(config.databasePath);
 
-//const db = require('.Database/database.js');
-
 class CardScraper {
     constructor() {
         this.browser = null;

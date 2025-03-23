@@ -3,17 +3,11 @@ const path = require('path');
 const browserFactory = require('../../src/BrowserFactory');
 const config = require(path.resolve(__dirname, '../../src/config.js'));
 const db = require(config.databasePath);
-
-//const db = require('./Database/database.js'); // Nouveau module de base de données
+const { MONTHS_MAP, parseCardMarketDate, sortSeriesByDate } = require('../../src/parseDate.js');
 
 const CONFIG = {
     url: 'https://www.cardmarket.com/fr/Pokemon/Expansions',
-    timeout: 120000,
-    months: new Map([
-        ['janvier', 0], ['février', 1], ['mars', 2], ['avril', 3], 
-        ['mai', 4], ['juin', 5], ['juillet', 6], ['août', 7], 
-        ['septembre', 8], ['octobre', 9], ['novembre', 10], ['décembre', 11]
-    ])
+    timeout: 120000
 };
 
 class CardMarketScraper {
@@ -23,9 +17,7 @@ class CardMarketScraper {
     }
 
     parseDate(dateStr) {
-        if (dateStr === 'Date non trouvée') return new Date(0);
-        const [day, month, year] = dateStr.split(' ');
-        return new Date(year, this.config.months.get(month.toLowerCase()), parseInt(day));
+        return parseCardMarketDate(dateStr);
     }
 
     async initPage() {
@@ -88,12 +80,7 @@ class CardMarketScraper {
         }
 
         // Convertir la Map en array et trier
-        const finalData = Array.from(existingDataMap.values())
-            .sort((a, b) => {
-                if (a.date === 'Date non trouvée') return 1;
-                if (b.date === 'Date non trouvée') return -1;
-                return this.parseDate(b.date) - this.parseDate(a.date);
-            });
+        const finalData = sortSeriesByDate(Array.from(existingDataMap.values()));
 
         // Sauvegarder les données via le module db
         db.saveData(finalData);

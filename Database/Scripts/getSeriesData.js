@@ -2,21 +2,19 @@ const browser = require('../../src/BrowserFactory');
 const path = require('path');
 const { sortSeriesByDate } = require('../../src/parseDate');
 const config = require(path.resolve(__dirname, '../../src/config.js'));
-
 const { checkJsonSeries } = require(config.jsonControl);
 const db = require(config.databasePath);
 
-//const db = require('../database');
 
 class DataUpdater {
     constructor() {
         this.page = null;
-        this.data = null; // Ajout d'une propriété pour stocker les données
+        this.data = null; 
     }
 
     async initialize() {
         this.page = await browser.createPage();
-        this.data = db.getData(); // Initialisation des données
+        this.data = db.getData();
     }
 
     async updateSeriesData() {

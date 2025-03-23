@@ -7,7 +7,6 @@ const database = require(config.databasePath);
 const { checkAndDisplayCardDifferences } = require(config.cardsCount);;
 
 // Constants
-//const SCRIPTS_DIR = path.join('Database', 'scripts');
 const SCRIPTS = {
     getSeries: path.resolve(config.scriptsPath, 'getSeries.js'),
     getSeriesData: path.resolve(config.scriptsPath, 'getSeriesData.js'),
@@ -200,7 +199,7 @@ async function processUrlsLoop() {
 async function main() {
     try {
         // Initial series fetch
-        //executeScript(SCRIPTS.getSeries, '', { DEBUG: 'true' });
+        executeScript(SCRIPTS.getSeries);
 
         // URL processing loop
         let state = {
