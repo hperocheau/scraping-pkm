@@ -7,7 +7,7 @@ const config = require(path.resolve(__dirname, '../src/config.js'));
 const conf = require('../src/configPrices');
 
 /**
- * Utilitaires pour le traitement des données
+ * Utilitaires pour le traitement des données.
  */
 const Utils = {
   /**
@@ -217,7 +217,7 @@ class PriceProcessor {
       
     } catch (error) {
       console.error(`❌ Erreur traitement ligne ${rowIndex}:`, error.message);
-      this.sheet[`G${rowIndex}`] = { v: 'ERROR' };
+      this.sheet[`G${rowIndex}`] = { v: '' };
       this.errorCount++;
       this.stats.errors++;
       
