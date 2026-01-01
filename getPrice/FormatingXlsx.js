@@ -7,23 +7,28 @@ const path = require('path');
 // Importer la configuration depuis le fichier externe
 const CONFIG = require('../src/configPrices');
 
+// ✅ Fonction pour recharger la base de données
+const loadFreshDatabase = (config) => {
+  delete require.cache[require.resolve(config.databasePath)];
+  return require(config.databasePath);
+};
+
 class ExcelProcessor {
   constructor(filePath, jsonData) {
     this.filePath = filePath;
     this.jsonData = jsonData;
-    this.workbook = xlsx.readFile(filePath);
+    this.workbook = xlsx.readFile(filePath, { cellStyles: true }); // ✅ Ajout de cellStyles
     this.currentDate = moment().format("DD_MM_YYYY");
     this.sourceSheetName = "cartes";
     // Indexer les données pour une recherche plus rapide
     this.indexedData = this.indexCardData();
-    this.logger = console; // Permet de remplacer facilement par un autre logger
+    this.logger = console;
   }
 
   // Indexer les données de cartes pour une recherche plus efficace
   indexCardData() {
     const seriesIndex = new Map();
 
-    // Utiliser une approche plus fonctionnelle avec flatMap
     this.jsonData.forEach(cardSet => {
       cardSet.cards.forEach(card => {
         const normalizedSerie = String(card.codeSerie).toLowerCase().trim();
@@ -51,7 +56,6 @@ class ExcelProcessor {
 
     const lowercaseCellD = String(cellD).toLowerCase();
     
-    // Utiliser Object.entries pour un code plus concis
     for (const [name, lang] of Object.entries(CONFIG.LANGUAGES)) {
       if (lang.patterns.test(lowercaseCellD)) {
         return lang.code;
@@ -68,7 +72,6 @@ class ExcelProcessor {
   getConditionValue(condition) {
     if (!condition) return null;
 
-    // Normaliser la condition en retirant les symboles - et +
     const normalizedCondition = String(condition).trim().toUpperCase().replace(/[-+]/g, '');
     const conditionValue = CONFIG.CONDITIONS[normalizedCondition];
 
@@ -80,7 +83,6 @@ class ExcelProcessor {
     return conditionValue;
   }
 
-  // Nettoyer la valeur de condition pour l'affichage dans la feuille
   cleanConditionForDisplay(condition) {
     if (!condition) return '';
     return String(condition).trim().toUpperCase().replace(/[-+]/g, '');
@@ -93,7 +95,6 @@ class ExcelProcessor {
   calculateStringSimilarity(str1, str2) {
     if (!str1 || !str2) return 0;
 
-    // Fonction pour normaliser les chaînes
     const normalizeString = (str) => {
       return String(str)
         .toLowerCase()
@@ -130,7 +131,6 @@ class ExcelProcessor {
     const hasNumber = String(cardNumber || '').trim().length > 0;
     let bestMatch = { cardUrl: '', similarity: 0 };
 
-    // Utiliser les données indexées pour une recherche plus rapide
     const normalizedSerie = String(serie).toLowerCase().trim();
     const cardsInSerie = this.indexedData.get(normalizedSerie);
 
@@ -139,7 +139,6 @@ class ExcelProcessor {
       return { cardUrl: 'error', error: CONFIG.ERROR_MESSAGES.NO_SERIE_MATCH };
     }
 
-    // Optimisation avec find pour arrêter dès qu'une correspondance parfaite est trouvée
     if (hasNumber) {
       const exactMatch = cardsInSerie.find(card => this.isExactNumberMatch(cardNumber, card.cardNumber));
       if (exactMatch) {
@@ -147,7 +146,6 @@ class ExcelProcessor {
       }
     }
 
-    // Sinon, recherche par similarité de nom
     for (const card of cardsInSerie) {
       if (!hasNumber) {
         const nameSimilarity = this.calculateStringSimilarity(cardName, card.cardName);
@@ -176,7 +174,6 @@ class ExcelProcessor {
   normalizeStringValue(value) {
     if (typeof value !== 'string') return value;
 
-    // Remplacer les entités HTML
     return value
       .replace(/&apos;/g, "'")
       .replace(/&quot;/g, '"')
@@ -193,7 +190,6 @@ class ExcelProcessor {
     return sheet;
   }
 
-  // Extrait les données source qui seront copiées
   extractSourceData(sourceSheet, sourceRange) {
     const data = [];
     const startRow = CONFIG.START_ROW;
@@ -208,7 +204,6 @@ class ExcelProcessor {
         if (sourceSheet[sourceCell]) {
           const cellValue = this.normalizeStringValue(sourceSheet[sourceCell].v);
 
-          // Stocker à la fois la valeur originale et la valeur normalisée pour la colonne E (état)
           if (destCol === 'E') {
             rowData[destCol] = cellValue;
             rowData[destCol + '_normalized'] = this.cleanConditionForDisplay(cellValue);
@@ -234,30 +229,31 @@ class ExcelProcessor {
     return data;
   }
 
-  // Extrait les données de la feuille actuelle pour comparaison
-  extractCurrentSheetData(currentSheet) {
+  // ✅ Extraire les prix existants de la colonne G
+  // ✅ Fonction fusionnée pour extraire données ET prix
+  extractCurrentSheetData(currentSheet, extractPrices = false) {
     if (!currentSheet || !currentSheet['!ref']) {
-      return [];
+      return extractPrices ? { data: [], prices: new Map() } : [];
     }
 
     const data = [];
+    const prices = new Map();
     const range = xlsx.utils.decode_range(currentSheet['!ref']);
-    const startRow = 2; // Après l'en-tête
+    const startRow = 2;
     const endRow = range.e.r + 1;
 
     for (let row = startRow; row <= endRow; row++) {
       const rowData = {};
       let hasData = false;
 
-      // Parcourir les colonnes A-G (optimisé)
-      for (let colIndex = 0; colIndex <= 6; colIndex++) {
-        const destCol = String.fromCharCode(65 + colIndex); // A-G
+      // Parcourir les colonnes A-F
+      for (let colIndex = 0; colIndex < 6; colIndex++) {
+        const destCol = String.fromCharCode(65 + colIndex);
         const cellAddress = destCol + row;
 
         if (currentSheet[cellAddress]) {
           const cellValue = this.normalizeStringValue(currentSheet[cellAddress].v);
           rowData[destCol] = cellValue;
-          // Pour la colonne E (état), stocker également la valeur normalisée
           if (destCol === 'E') {
             rowData[destCol + '_normalized'] = this.cleanConditionForDisplay(cellValue);
           }
@@ -272,31 +268,35 @@ class ExcelProcessor {
 
       if (hasData) {
         data.push(rowData);
+        
+        // Si on extrait aussi les prix
+        if (extractPrices) {
+          const rowKey = this.createRowKey(rowData);
+          const priceCell = 'G' + row;
+          if (currentSheet[priceCell] && currentSheet[priceCell].v) {
+            prices.set(rowKey, currentSheet[priceCell].v);
+          }
+        }
       } else {
         break;
       }
     }
 
-    return data;
+    return extractPrices ? { data, prices } : data;
   }
 
-  // Compare les données entre les feuilles source et destination
   compareSheetData(sourceData, currentData) {
     if (sourceData.length !== currentData.length) {
       this.logger.log(`Différence détectée: nombre de lignes différent (source: ${sourceData.length}, actuel: ${currentData.length})`);
       return false;
     }
 
-    // Comparer chaque ligne (optimisé avec some)
     return !sourceData.some((sourceRow, i) => {
-      // Vérifie chaque colonne individuellement
       const currentRow = currentData[i];
       
-      // Vérifier si une colonne diffère
       return Object.keys(CONFIG.COLUMN_MAPPING).some(destCol => {
         let sourceValue, currentValue;
         
-        // Pour la colonne E (condition), utiliser les valeurs normalisées
         if (destCol === 'E') {
           sourceValue = sourceRow[destCol + '_normalized'];
           currentValue = currentRow[destCol + '_normalized'];
@@ -305,10 +305,9 @@ class ExcelProcessor {
           currentValue = currentRow[destCol];
         }
         
-        // Si les valeurs sont différentes
         if (sourceValue !== currentValue) {
           this.logger.log(`Différence détectée à la ligne ${i+2}, colonne ${destCol}`);
-          return true; // Arrête la recherche si une différence est trouvée
+          return true;
         }
         
         return false;
@@ -316,7 +315,24 @@ class ExcelProcessor {
     });
   }
 
-  // Crée l'en-tête dans la nouvelle feuille
+  // ✅ Nouvelle méthode pour copier le style d'une cellule
+  copyCellStyle(sourceCell) {
+    if (!sourceCell) return {};
+    
+    const style = {};
+    
+    // Copier le format de cellule
+    if (sourceCell.z) style.z = sourceCell.z;
+    if (sourceCell.t) style.t = sourceCell.t;
+    
+    // Copier l'alignement
+    if (sourceCell.s) {
+      style.s = JSON.parse(JSON.stringify(sourceCell.s));
+    }
+    
+    return style;
+  }
+
   createHeader(newSheet, sourceSheet) {
     if (!CONFIG.INCLUDE_HEADER) return;
 
@@ -325,13 +341,45 @@ class ExcelProcessor {
       const sourceCell = sourceCol + (CONFIG.START_ROW - 1);
       if (sourceSheet[sourceCell]) {
         const headerValue = this.normalizeStringValue(sourceSheet[sourceCell].v);
-        newSheet[destCol + '1'] = { v: headerValue, t: sourceSheet[sourceCell].t || 's' };
+        newSheet[destCol + '1'] = this.createStyledCell(headerValue, sourceSheet[sourceCell].t || 's', sourceSheet[sourceCell]);
       }
     }
 
-    // Ajouter les en-têtes supplémentaires
+    // Style de référence pour colonnes additionnelles
+    const referenceCol = Object.keys(CONFIG.COLUMN_MAPPING)[0];
+    const referenceCell = sourceSheet[CONFIG.COLUMN_MAPPING[referenceCol] + (CONFIG.START_ROW - 1)];
+    
     for (const [col, headerText] of Object.entries(CONFIG.ADDITIONAL_HEADERS)) {
-      newSheet[col + '1'] = { v: headerText, t: 's' };
+      newSheet[col + '1'] = this.createStyledCell(headerText, 's', referenceCell);
+    }
+  }
+
+  // ✅ Créer une clé unique pour identifier une ligne
+  createRowKey(rowData) {
+    const keyParts = [];
+    for (const col of ['A', 'B', 'C', 'D', 'E', 'F']) {
+      const value = col === 'E' ? rowData[col + '_normalized'] : rowData[col];
+      keyParts.push(String(value || '').trim());
+    }
+    return keyParts.join('|');
+  }
+
+  // ✅ Fonction pour créer une cellule avec valeur et style
+  createStyledCell(value, type, sourceCell) {
+    return {
+      v: value,
+      t: type,
+      ...this.copyCellStyle(sourceCell)
+    };
+  }
+
+  // ✅ Fonction fusionnée pour copier largeurs ET hauteurs
+  copySheetDimensions(sourceSheet, newSheet) {
+    if (sourceSheet['!cols']) {
+      newSheet['!cols'] = JSON.parse(JSON.stringify(sourceSheet['!cols']));
+    }
+    if (sourceSheet['!rows']) {
+      newSheet['!rows'] = JSON.parse(JSON.stringify(sourceSheet['!rows']));
     }
   }
 
@@ -340,15 +388,20 @@ class ExcelProcessor {
       const sourceSheet = this.validateSheet();
       const sourceRange = xlsx.utils.decode_range(sourceSheet['!ref']);
 
-      // Extraire les données source
       const sourceData = this.extractSourceData(sourceSheet, sourceRange);
 
-      // Vérifier si la feuille existe déjà
+      // ✅ Extraire les prix existants AVANT de vérifier les différences
+      let existingPrices = new Map();
+      
       if (this.workbook.SheetNames.includes(this.currentDate)) {
         this.logger.log(`La feuille "${this.currentDate}" existe déjà. Vérification des données...`);
 
         const existingSheet = this.workbook.Sheets[this.currentDate];
-        const existingData = this.extractCurrentSheetData(existingSheet);
+        
+        // ✅ Récupérer données et prix en un seul appel
+        const { data: existingData, prices } = this.extractCurrentSheetData(existingSheet, true);
+        existingPrices = prices;
+        this.logger.log(`📊 ${existingPrices.size} prix récupérés de la feuille existante`);
 
         if (this.compareSheetData(sourceData, existingData)) {
           this.logger.log(`Aucune modification détectée. La feuille "${this.currentDate}" n'a pas été mise à jour.`);
@@ -357,62 +410,58 @@ class ExcelProcessor {
 
         this.logger.log(`Des modifications ont été détectées. La feuille "${this.currentDate}" sera mise à jour.`);
 
-        // Supprimer la feuille existante
         const index = this.workbook.SheetNames.indexOf(this.currentDate);
         this.workbook.SheetNames.splice(index, 1);
         delete this.workbook.Sheets[this.currentDate];
       }
 
-      // Créer une nouvelle feuille
       const newSheet = {};
       this.workbook.Sheets[this.currentDate] = newSheet;
       xlsx.utils.book_append_sheet(this.workbook, newSheet, this.currentDate);
 
-      // Créer l'en-tête
       this.createHeader(newSheet, sourceSheet);
 
-      // Préparer le traitement des données en lot
       const processedRows = sourceData.reduce((acc, rowData, index) => {
-        const destRow = index + 2; // Après l'en-tête
+        const destRow = index + 2;
+        const srcRow = index + CONFIG.START_ROW;
         let hasData = false;
 
-        // Copier les colonnes mappées
+        // Copier les colonnes mappées avec leur style
         for (const [destCol, sourceCol] of Object.entries(CONFIG.COLUMN_MAPPING)) {
           const destCell = destCol + destRow;
+          const sourceCell = sourceCol + srcRow;
           let cellValue = rowData[destCol];
 
-          // Si c'est la colonne E (qui correspond à H dans le fichier source, qui contient l'état/condition de la carte)
-          // alors nettoyer les symboles - et + avant de copier
           if (destCol === 'E' && cellValue !== undefined) {
             cellValue = this.cleanConditionForDisplay(cellValue);
           }
 
-          if (cellValue !== undefined) {
-            acc[destCell] = { v: cellValue, t: 's' };
-            hasData = true;
-          } else {
-            acc[destCell] = { v: "", t: 's' };
-          }
+          acc[destCell] = cellValue !== undefined 
+            ? this.createStyledCell(cellValue, 's', sourceSheet[sourceCell])
+            : this.createStyledCell('', 's', sourceSheet[sourceCell]);
+          
+          if (cellValue !== undefined) hasData = true;
         }
 
         if (!hasData) return acc;
 
-        // Trouver la meilleure correspondance
         const matchResult = this.findBestMatch(
-          rowData['A'], // Nom de la carte
-          rowData['B'], // Numéro de la carte
-          rowData['C'], // Série
+          rowData['A'],
+          rowData['B'],
+          rowData['C'],
           destRow
         );
 
+        // ✅ Pour la colonne F, copier le style d'une colonne de référence
+        const referenceCellF = sourceSheet[CONFIG.COLUMN_MAPPING['A'] + srcRow];
+        
         if (matchResult.cardUrl === 'error') {
-          acc[`F${destRow}`] = { v: 'error', t: 's' };
+          acc[`F${destRow}`] = this.createStyledCell('error', 's', referenceCellF);
         } else {
-          // Gestion de l'état de la carte
           const condition = this.getConditionValue(rowData['E']);
           if (!condition) {
             this.logger.log(`Ligne ${destRow}: ${CONFIG.ERROR_MESSAGES.INVALID_CONDITION} (${rowData['E'] || 'vide'})`);
-            acc[`F${destRow}`] = { v: 'error', t: 's' };
+            acc[`F${destRow}`] = this.createStyledCell('error', 's', referenceCellF);
           } else {
             const languageParams = this.getLanguageParams(rowData['D']);
             const finalUrl = this.buildUrlWithParams(
@@ -421,25 +470,33 @@ class ExcelProcessor {
               languageParams,
               rowData['A']
             );
-            acc[`F${destRow}`] = { v: finalUrl, t: 's' };
+            acc[`F${destRow}`] = this.createStyledCell(finalUrl, 's', referenceCellF);
           }
+        }
+
+        // ✅ Restaurer le prix de la colonne G si disponible avec style
+        const rowKey = this.createRowKey(rowData);
+        if (existingPrices.has(rowKey)) {
+          const existingPrice = existingPrices.get(rowKey);
+          const priceType = typeof existingPrice === 'number' ? 'n' : 's';
+          acc[`G${destRow}`] = this.createStyledCell(existingPrice, priceType, referenceCellF);
+          this.logger.log(`💰 Prix restauré pour ligne ${destRow}: ${existingPrice}`);
         }
 
         return acc;
       }, {});
 
-      // Appliquer toutes les cellules à la feuille en une seule fois
       Object.assign(newSheet, processedRows);
 
-      // Définir la plage de la nouvelle feuille
       const lastRow = 1 + sourceData.length;
       newSheet['!ref'] = `A1:G${lastRow}`;
 
-      // Écrire le fichier Excel modifié
-      xlsx.writeFile(this.workbook, this.filePath);
-      this.logger.log(`Modification terminée avec succès.`);
+      // ✅ Copier dimensions et sauvegarder avec styles
+      this.copySheetDimensions(sourceSheet, newSheet);
+      xlsx.writeFile(this.workbook, this.filePath, { cellStyles: true });
+      this.logger.log(`✅ Modification terminée avec succès (styles et alignements copiés).`);
     } catch (error) {
-      this.logger.error('Erreur lors du traitement:', error.message);
+      this.logger.error('❌ Erreur lors du traitement:', error.message);
       process.exit(1);
     }
   }
@@ -449,14 +506,16 @@ class ExcelProcessor {
 (async function main() {
   try {
     const config = require(path.resolve(__dirname, '../src/config.js'));
-    const database = require(config.databasePath);
+    
+    // ✅ Recharger la base de données pour avoir les données fraîches
+    const database = loadFreshDatabase(config);
     const jsonData = database.getData();
     const xlsxPath = config.xlsxFile;
 
     const processor = new ExcelProcessor(xlsxPath, jsonData);
     processor.process();
   } catch (error) {
-    console.error('Erreur fatale:', error);
+    console.error('❌ Erreur fatale:', error);
     process.exit(1);
   }
 })();

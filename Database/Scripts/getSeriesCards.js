@@ -68,7 +68,7 @@ class CardScraper {
 
     async scrapePage(url, page) {
         await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
-        await page.waitForTimeout(Math.random() * 1000 + 500);
+        await new Promise(resolve => setTimeout(resolve, Math.random() * 1000 + 500));
     
         return page.evaluate(() => {
             return Array.from(document.querySelectorAll('[id^="productRow"]')).map(productRow => {

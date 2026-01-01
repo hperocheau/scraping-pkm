@@ -3,8 +3,6 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs');
 const config = require(path.resolve(__dirname, './src/config.js'));
-const database = require(config.databasePath);
-const { checkAndDisplayCardDifferences } = require(config.cardsCount);;
 
 // Constants
 const SCRIPTS = {
@@ -17,6 +15,18 @@ const MAX_SAME_URLS_ATTEMPTS = 3;
 
 // Utility functions
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// ✅ Fonction pour recharger la base de données
+const loadFreshDatabase = () => {
+    delete require.cache[require.resolve(config.databasePath)];
+    return require(config.databasePath);
+};
+
+// ✅ Fonction pour recharger le module de vérification
+const loadFreshCardCheck = () => {
+    delete require.cache[require.resolve(config.cardsCount)];
+    return require(config.cardsCount);
+};
 
 const executeScript = async (scriptPath, params = '', options = {}) => {
     console.log(`Exécution de ${path.basename(scriptPath)}...`);
@@ -63,38 +73,12 @@ const handleUrlValidation = (validation, previousUrls, sameUrlsCount) => {
     };
 };
 
-async function processUrls(validation, previousState) {
-    if (!validation.isValid) {
-        const { sameUrlsCount, previousUrls } = handleUrlValidation(
-            validation,
-            previousState.previousUrls,
-            previousState.sameUrlsCount
-        );
-
-        console.log(`${validation.urlsToUpdate.length} séries à mettre à jour.`);
-        console.log('URLs à traiter :', validation.urlsToUpdate);
-
-        executeScriptWithUrls(SCRIPTS.getSeriesData, validation.urlsToUpdate);
-        
-        console.log(`Attente de ${WAIT_TIME/1000} secondes avant la prochaine vérification...`);
-        await wait(WAIT_TIME);
-
-        return { sameUrlsCount, previousUrls };
-    }
-    return previousState;
-}
-
 async function processCards() {
     let totalDifference;
     do {
         try {
-            // Nettoyer le cache avant chaque vérification
-            delete require.cache[require.resolve(config.databasePath)];
-            delete require.cache[require.resolve(config.cardsCount)];
-            
-            // Recharger les modules
-            const database = require(config.databasePath);
-            const { checkAndDisplayCardDifferences } = require(config.cardsCount);
+            // ✅ Recharger les modules à chaque itération
+            const { checkAndDisplayCardDifferences } = loadFreshCardCheck();
             
             // Vérifier les différences
             const result = await checkAndDisplayCardDifferences();
@@ -128,12 +112,14 @@ async function processUrlsLoop() {
     for (let i = 0; i < 10; i++) {
         console.log(`\n=== Itération ${i + 1} ===`);
         
-        // Nettoyage du cache et vérification initiale
+        // ✅ Recharger les modules à chaque itération
         delete require.cache[require.resolve(config.jsonControl)];
         const { checkJsonSeries } = require(config.jsonControl);
         
-        // Récupération des données actualisées
+        // ✅ Recharger la base de données fraîche
+        const database = loadFreshDatabase();
         const databaseData = database.getData();
+        
         state.validation = await checkJsonSeries(databaseData);
         
         console.log('État de validation:', state.validation);
@@ -171,21 +157,21 @@ async function processUrlsLoop() {
                 console.log(`Attente de ${WAIT_TIME/1000} secondes pour la mise à jour...`);
                 await wait(WAIT_TIME);
                 
-                // Forcer une relecture complète de la base de données
-                delete require.cache[require.resolve(config.databasePath)];
-                const database = require(config.databasePath);
+                // ✅ Forcer une relecture complète de la base de données
+                const freshDatabase = loadFreshDatabase();
                 
                 // Revérification après la mise à jour
                 delete require.cache[require.resolve(config.jsonControl)];
-                const freshCheck = await checkJsonSeries(database.getData());
+                const { checkJsonSeries: freshCheck } = require(config.jsonControl);
+                const freshValidation = await freshCheck(freshDatabase.getData());
                 
-                if (freshCheck.isValid) {
+                if (freshValidation.isValid) {
                     console.log('Validation réussie après mise à jour !');
                     return true;
                 }
                 
                 // Mise à jour de l'état pour la prochaine itération
-                state.validation = freshCheck;
+                state.validation = freshValidation;
             } catch (error) {
                 console.error('Erreur lors de la mise à jour:', error);
                 throw error;
@@ -199,26 +185,26 @@ async function processUrlsLoop() {
 async function main() {
     try {
         // Initial series fetch
+        console.log('📥 Récupération initiale des séries...');
         executeScript(SCRIPTS.getSeries);
 
-        // URL processing loop
-        let state = {
-            validation: { isValid: false, urlsToUpdate: [] },
-            previousUrls: [],
-            sameUrlsCount: 0
-        };
+        // ✅ Attendre un peu après getSeries pour que le fichier soit bien écrit
+        console.log('⏳ Attente de la finalisation de l\'écriture...');
+        await wait(2000);
 
-
+        console.log('\n🔍 Début de la validation des séries...');
         await processUrlsLoop();
 
-        console.log('Toutes les séries ont été validées avec succès !');
+        console.log('\n✅ Toutes les séries ont été validées avec succès !');
 
         // Process missing cards
-        console.log('Début du traitement des cartes manquantes...');
+        console.log('\n🃏 Début du traitement des cartes manquantes...');
         await processCards();
 
+        console.log('\n🎉 Processus terminé avec succès !');
+
     } catch (error) {
-        console.error('Erreur dans le script principal :', error);
+        console.error('❌ Erreur dans le script principal :', error);
         process.exit(1);
     }
 }

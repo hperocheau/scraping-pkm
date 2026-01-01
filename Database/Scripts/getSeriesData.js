@@ -81,7 +81,7 @@ class DataUpdater {
 
                     urlsProcessed++;
                     console.log(`Progression : ${(urlsProcessed / totalUrls * 100).toFixed(2)}% - URL: ${item.url}`);
-                    await this.page.waitForTimeout(1000);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
                 } catch (error) {
                     console.error(`Erreur lors de la récupération des données pour l'URL ${item.url}: ${error}`);
                     continue;

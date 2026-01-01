@@ -78,7 +78,7 @@ class JsonAnalyzer {
       return stats;
     } catch (error) {
       console.error("Erreur lors de l'analyse des différences:", error);
-      throw error; // Propager l'erreur au lieu de retourner un objet vide
+      throw error;
     }
   }
 
@@ -157,12 +157,12 @@ function parseCardMarketDate(dateStr) {
   try {
     const [day, month, year] = dateStr.split(' ');
     if (!monthsMap.hasOwnProperty(month.toLowerCase())) {
-      return new Date(0); // Date invalide
+      return new Date(0);
     }
     return new Date(parseInt(year), monthsMap[month.toLowerCase()], parseInt(day));
   } catch (error) {
     console.error(`Erreur lors du parsing de la date: ${dateStr}`, error);
-    return new Date(0); // Date invalide
+    return new Date(0);
   }
 }
 
@@ -174,7 +174,6 @@ function parseCardMarketDate(dateStr) {
 async function checkJsonSeries(data) {
   try {
     const series = data;
-    //const series = JSON.parse(jsonContent);
 
     if (!Array.isArray(series)) {
       throw new Error('Le contenu JSON doit être un tableau');
@@ -188,46 +187,28 @@ async function checkJsonSeries(data) {
     const VALIDATIONS = {
       numCards: /^[0-9]{1,3}\scartes$/,
       date: /^\d{1,2}\s(?:janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)\s\d{4}$/,
-      lastUpdate: /^\d{2}\/\d{2}\/\d{4}$/ // Format DD/MM/YYYY
+      lastUpdate: /^\d{2}\/\d{2}\/\d{4}$/
     };
 
     const REQUIRED_FIELDS = ['localName', 'url', 'urlCards', 'date', 'langues', 'bloc', 'numCards'];
 
-    // Date actuelle
     const currentDate = new Date();
-    // Date il y a 1 mois
     const oneMonthAgo = new Date();
     oneMonthAgo.setMonth(currentDate.getMonth() - 1);
 
-    // Date du jour au format DD/MM/YYYY
     const today = new Date().toLocaleDateString('fr-FR');
-/*
-    console.log('=== Dates de référence ===');
-    console.log('Date actuelle:', currentDate.toLocaleString('fr-FR'));
-    console.log('Date il y a 1 mois:', oneMonthAgo.toLocaleString('fr-FR'));
-    console.log('Date du jour (DD/MM/YYYY):', today);
-    console.log('========================\n');
-*/
+
     series.forEach(serie => {
-      /*
-      console.log(`\nVérification de la série: ${serie.localName}`);
-      console.log('Date brute de la série:', serie.date);
-      console.log('Dernière mise à jour:', serie.lastUpdate);
-*/
-      // Vérification des champs requis
       const hasAllFields = REQUIRED_FIELDS.every(field => 
         serie[field]?.toString().trim().length > 0
       );
 
-      // Vérification de la date de la série
       const serieDate = parseCardMarketDate(serie.date);
       const isSeriesDateValid = VALIDATIONS.date.test(serie.date) && serieDate.getTime() !== 0;
       const isSeriesOldEnough = serieDate < oneMonthAgo;
 
-      // Vérification du format du nombre de cartes
       const isNumCardsValid = VALIDATIONS.numCards.test(serie.numCards);
 
-      // Vérification de lastUpdate
       let isLastUpdateValid = true;
       const hasLastUpdate = serie.lastUpdate !== undefined && serie.lastUpdate !== null;
       
@@ -235,44 +216,86 @@ async function checkJsonSeries(data) {
         const lastUpdateIsValid = VALIDATIONS.lastUpdate.test(serie.lastUpdate);
         const lastUpdateIsToday = serie.lastUpdate === today;
         isLastUpdateValid = lastUpdateIsValid && lastUpdateIsToday;
-        
-        //console.log('Format lastUpdate valide:', lastUpdateIsValid);
-        //console.log('LastUpdate est aujourd\'hui:', lastUpdateIsToday);
       }
 
-      // Une série est valide si :
-      // - tous les champs requis sont présents
-      // - le format de date est valide
-      // - le format du nombre de cartes est valide
-      // - SOIT la série a plus d'un mois
-      // - SOIT la série a une lastUpdate à aujourd'hui
       const isSeriesValid = hasAllFields && 
                            isSeriesDateValid && 
                            isNumCardsValid && 
                            (isSeriesOldEnough || (hasLastUpdate && isLastUpdateValid));
-/*
-      console.log('Champs requis valides:', hasAllFields);
-      console.log('Date de série valide:', isSeriesDateValid);
-      console.log('Série assez ancienne:', isSeriesOldEnough);
-      console.log('Format nombre de cartes valide:', isNumCardsValid);
-      console.log('A une lastUpdate:', hasLastUpdate);
-      console.log('LastUpdate valide:', isLastUpdateValid);
-      console.log('La série est-elle valide ?', isSeriesValid);
-*/
 
       if (!isSeriesValid) {
         validation.isValid = false;
         validation.urlsToUpdate.push(serie.url);
-        //console.log('→ Série ajoutée à la liste des mises à jour');
       }
-
-      //console.log('------------------------');
     });
 
     return validation;
   } catch (error) {
     console.error('Erreur lors de la vérification du fichier JSON:', error);
     throw error;
+  }
+}
+
+/**
+ * Fonction principale qui exécute toutes les analyses
+ */
+async function main() {
+  console.log('=== Démarrage des analyses ===\n');
+
+  try {
+    const analyzer = new JsonAnalyzer();
+
+    // 1. Exécution de cardsDiff
+    console.log('🃏 Analyse des différences de cartes (cardsDiff)...');
+    const diffResults = await analyzer.cardsDiff();
+    
+    if (diffResults.urlsToScrape.length > 0) {
+      console.log('Séries avec différence de cartes:');
+      console.table(diffResults.urlsToScrape);
+      console.log(`Total numCards: ${diffResults.totalNumCards}, Total cardsCount: ${diffResults.totalCardsCount}, Total difference: ${diffResults.totalDifference}`);
+    } else {
+      console.log('✅ Aucune différence de cartes détectée !');
+    }
+    console.log('');
+
+    // 2. Exécution de checkCardSeries
+    console.log('🔍 Vérification des anomalies de séries (checkCardSeries)...');
+    const seriesAnomalies = await analyzer.checkCardSeries();
+    
+    if (seriesAnomalies.length > 0) {
+      console.log(`⚠️  ${seriesAnomalies.length} séries avec anomalies détectées:`);
+      seriesAnomalies.forEach(anomaly => {
+        console.log(`\n  📋 ${anomaly.localName} (série attendue: ${anomaly.expectedSerie})`);
+        console.log(`     Anomalies: ${anomaly.anomalies.length} cartes`);
+        anomaly.anomalies.forEach(card => {
+          console.log(`       • ${card.cardUrl} → ${card.incorrectSerie}`);
+        });
+      });
+    } else {
+      console.log('✅ Aucune anomalie de série détectée !');
+    }
+    console.log('');
+
+    // 3. Exécution de checkJsonSeries
+    console.log('📊 Vérification de la validité des séries (checkJsonSeries)...');
+    const data = await analyzer.readJson();
+    const validation = await checkJsonSeries(data);
+    
+    console.log(`Fichier valide: ${validation.isValid ? '✅ OUI' : '❌ NON'}`);
+    console.log(`Séries à mettre à jour: ${validation.urlsToUpdate.length}`);
+    
+    if (validation.urlsToUpdate.length > 0) {
+      console.log('\nURLs à mettre à jour:');
+      validation.urlsToUpdate.forEach((url, index) => {
+        console.log(`  ${index + 1}. ${url}`);
+      });
+    }
+
+    console.log('\n=== Analyses terminées ===');
+
+  } catch (error) {
+    console.error('❌ Erreur lors de l\'exécution des analyses:', error);
+    process.exit(1);
   }
 }
 
@@ -283,5 +306,5 @@ if (require.main === module) {
 module.exports = {
   JsonAnalyzer,
   checkJsonSeries,
-  parseCardMarketDate // Exporter la fonction pour utilisation externe
+  parseCardMarketDate
 };

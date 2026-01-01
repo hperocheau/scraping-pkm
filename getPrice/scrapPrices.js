@@ -5,6 +5,8 @@ const browser = require('../src/BrowserFactory');
 const path = require('path');
 const config = require(path.resolve(__dirname, '../src/config.js'));
 const conf = require('../src/configPrices');
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const urlDelay = 2500
 
 /**
  * Utilitaires pour le traitement des données.
@@ -128,7 +130,7 @@ class PriceProcessor {
         console.log(`Clic sur "Load More" (tentative ${attempt + 1}/${conf.PRICE_CONFIG.maxLoadAttempts})`);
         
         // Attendre le chargement des nouveaux résultats
-        await this.page.waitForTimeout(conf.PRICE_CONFIG.loadMoreTimeout);
+        await new Promise(resolve => setTimeout(resolve, conf.PRICE_CONFIG.loadMoreTimeout));
       } catch (error) {
         console.error(`Erreur lors du chargement des résultats (tentative ${attempt + 1}):`, error.message);
       }
@@ -176,7 +178,7 @@ class PriceProcessor {
       ]);
 
 
-      await this.page.waitForTimeout(500);
+      await new Promise(resolve => setTimeout(resolve, 500));
       
       // Premier essai avec les résultats actuels
       let averagePrice = await this.calculateAveragePrice(condition, specificFilter, rowIndex, false);
@@ -401,7 +403,7 @@ class PriceProcessor {
       await this.page.click(conf.PRICE_CONFIG.selectors.loadMoreButton);
       
       // Attendre que le chargement soit terminé
-      await this.page.waitForTimeout(2000); // Attente arbitraire, ajuster selon le comportement du site
+      await new Promise(resolve => setTimeout(resolve, 2000)); // Attente arbitraire, ajuster selon le comportement du site
       
       return true;
     } catch (error) {
@@ -444,6 +446,9 @@ class PriceProcessor {
       
       for (let rowIndex = 2; rowIndex <= range.e.r + 1; rowIndex++) {
         await this.processRow(rowIndex);
+
+        // ⏳ Délai entre chaque URL
+         await sleep(conf.PRICE_CONFIG.urlDelay);
         
         // Feedback de progression
         if (rowIndex % 5 === 0) {
