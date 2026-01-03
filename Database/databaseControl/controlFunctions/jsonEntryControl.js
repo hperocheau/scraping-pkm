@@ -9,9 +9,9 @@ class JsonAnalyzer {
   }
 
   /**
-   * Lit et parse le fichier JSON
+   * Retourne la base de données sous forme de tableau d'objets
    * @returns {Promise<Array>}
-   * @throws {Error} Si le fichier ne peut pas être lu ou parsé
+   * @throws {Error}
    */
   async readJson() {
     try {
@@ -22,7 +22,7 @@ class JsonAnalyzer {
   }
 
   /**
-   * Analyse les statistiques générales du JSON
+   * Retourne nombre total de séries, le nombre total de cartes ainsi que la moyenne de cartes par série
    * @param {Array} jsonData 
    * @returns {{totalElements: number, totalCards: number, coverage: number}}
    */
@@ -144,31 +144,11 @@ class JsonAnalyzer {
 }
 
 /**
- * Parse une date au format français de CardMarket
- * @param {string} dateStr - Date au format "DD mois YYYY"
- * @returns {Date}
- */
-function parseCardMarketDate(dateStr) {
-  const monthsMap = {
-    'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5,
-    'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11
-  };
-
-  try {
-    const [day, month, year] = dateStr.split(' ');
-    if (!monthsMap.hasOwnProperty(month.toLowerCase())) {
-      return new Date(0);
-    }
-    return new Date(parseInt(year), monthsMap[month.toLowerCase()], parseInt(day));
-  } catch (error) {
-    console.error(`Erreur lors du parsing de la date: ${dateStr}`, error);
-    return new Date(0);
-  }
-}
-
-/**
- * Retourne liste des séries à mettre à jour dans le fichier JSON et si le fichier est valide
- * @param {string} filePath - Chemin vers le fichier JSON
+ * Retourne liste des séries à mettre à jour dans le fichier JSON
+ * Vérifie la présence des champs localName, URL, URLCards, date, langues, bloc, numCards
+ * Vérifie le format de numCards, date et lastUpdate
+ * La série doit avoir été mise à jour il y a plus d'un mois ou avoir un lastUpdate égal à aujourd'hui
+ * @param {string} filePath
  * @returns {Promise<{urlsToUpdate: string[], isValid: boolean}>}
  */
 async function checkJsonSeries(data) {

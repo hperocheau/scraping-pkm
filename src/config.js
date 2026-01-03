@@ -4,11 +4,17 @@ const path = require('path');
 const rootDir = path.resolve(__dirname, '..');
 
 module.exports = {
+    // Chemins des ressources principales
     databasePath: path.resolve(rootDir, 'database/database.js'),
     scriptsPath: path.resolve(rootDir, 'database/scripts'),
-    jsonControl: path.resolve(rootDir, 'database/databaseControl/controlFunctions/jsonEntryControl.js'),
-    cardsCount: path.resolve(rootDir, 'database/databaseControl/allCardsCount.js'),
-    checkDupe: path.resolve(rootDir, 'database/databaseControl/checkDupeCards.js'),
-    //xlsxFile: path.resolve(rootDir, 'cartes.xlsx')
-    xlsxFile: 'Z:\\cartes.xlsx'
+    xlsxFile: 'Z:\\cartes.xlsx',
+    
+    // Modules du databaseControl (exportés via index.js)
+    databaseControl: path.resolve(rootDir, 'database/databaseControl'),
+    
+    // Utilitaires
+    parseDate: path.resolve(rootDir, 'src/parseDate.js'),
+    
+    // Ou si tu veux être plus spécifique :
+    // analyzers: path.resolve(rootDir, 'database/databaseControl/analyzers'),
 };

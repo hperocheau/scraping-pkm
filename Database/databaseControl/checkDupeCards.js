@@ -1,13 +1,12 @@
-const fs = require('fs').promises;
+const path = require('path');
 
 class DataChecker {
-  constructor(filePath) {
-    this.filePath = filePath;
+  constructor(database) {
+    this.database = database;
   }
 
-  async readJsonFile() {
-    const rawData = await fs.readFile(this.filePath, 'utf-8');
-    return JSON.parse(rawData);
+  getData() {
+    return this.database.getData();
   }
 
   findMostCommonSerie(cards) {
@@ -19,113 +18,109 @@ class DataChecker {
       .reduce((a, b) => (a[1] > b[1] ? a : b))[0];
   }
 
-  async displayIncorrectSeries() {
+  async checkUnmatchingCardsSeries() {
     try {
-        const data = await this.readJsonFile();
-        const incorrectCards = [];
+      const data = this.getData();
+      const incorrectSeriesCardUrls = [];
 
-        // Fonction de normalisation
-        const normalizeSerie = (serie) => {
-            return serie?.trim().toLowerCase() || '';
-        };
+      const normalizeSerie = (serie) => serie?.trim().toLowerCase() || '';
 
-        data.forEach(element => {
-            if (element.cards?.length > 0) {
-                const mostCommonSerie = this.findMostCommonSerie(element.cards);
-                
-                element.cards.forEach(card => {
-                    const normalizedCardSerie = normalizeSerie(card.codeSerie);
-                    const normalizedCommonSerie = normalizeSerie(mostCommonSerie);
-
-                    if (normalizedCardSerie !== normalizedCommonSerie) {
-                        console.log(`Différence détectée pour ${card.cardName}:`);
-                        console.log(`Série carte: "${card.codeSerie}" (${normalizedCardSerie})`);
-                        console.log(`Série commune: "${mostCommonSerie}" (${normalizedCommonSerie})`);
-
-                        incorrectCards.push({
-                            localName: element.localName,
-                            cardName: card.cardName,
-                            incorrectSerie: card.codeSerie,
-                            expectedSerie: mostCommonSerie
-                        });
-                    }
-                });
+      data.forEach(element => {
+        if (element.cards?.length > 0) {
+          const mostCommonSerie = this.findMostCommonSerie(element.cards);
+          
+          element.cards.forEach(card => {
+            const normalizedCardSerie = normalizeSerie(card.codeSerie);
+            const normalizedCommonSerie = normalizeSerie(mostCommonSerie);
+            
+            if (normalizedCardSerie !== normalizedCommonSerie && card.cardUrl) {
+              incorrectSeriesCardUrls.push(card.cardUrl);
             }
-        });
-
-        if (incorrectCards.length > 0) {
-            console.log('\nCartes avec séries incorrectes:');
-            incorrectCards.forEach(card => {
-                console.log(`\n${card.localName}:`);
-                console.log(`  - ${card.cardName}`);
-                console.log(`    Série actuelle: ${card.incorrectSerie}`);
-                console.log(`    Série attendue: ${card.expectedSerie}`);
-            });
-            console.log(`\nTotal: ${incorrectCards.length} carte(s) avec séries incorrectes`);
-        } else {
-            console.log('Aucune carte avec série incorrecte trouvée.');
+          });
         }
-    } catch (error) {
-        console.error('Erreur lors de l\'affichage des séries incorrectes:', error);
-    }
-}
-
-
-  findDuplicatesByTwoKeys(data, keys) {
-    const seen = new Map();
-    const duplicates = [];
-    data.forEach(item => {
-      const compositeKey = keys.map(key => item[key] || '').join('|');
-      if (seen.has(compositeKey)) {
-        const original = seen.get(compositeKey);
-        if (!duplicates.includes(original)) duplicates.push(original);
-        duplicates.push(item);
-      } else {
-        seen.set(compositeKey, item);
-      }
-    });
-    return duplicates;
-  }
-
-  async checkDuplicates() {
-    try {
-      const data = await this.readJsonFile();
-      let totalDuplicateCount = 0;
-
-      data.forEach((item, index) => {
-        if (!item.cards || !Array.isArray(item.cards)) {
-          console.warn(`L'élément à l'index ${index} ne contient pas de tableau "cards".`);
-          return;
-        }
-
-        const pairsToCheck = [
-          ['cardUrl', 'cardNumber'],
-          ['cardUrl', 'productRowId'],
-          ['cardNumber', 'productRowId']
-        ];
-
-        pairsToCheck.forEach(pair => {
-          const duplicates = this.findDuplicatesByTwoKeys(item.cards, pair);
-          if (duplicates.length > 0) {
-            console.log(`Doublons pour "${pair.join(' et ')}" dans l'élément à l'index ${index}:`, duplicates);
-            const uniqueDuplicates = new Set(duplicates);
-            totalDuplicateCount += uniqueDuplicates.size;
-          }
-        });
       });
 
-      console.log(`\nNombre total de cartes détectées comme doublons: ${totalDuplicateCount}`);
+
+      return incorrectSeriesCardUrls;
+
+    } catch (error) {
+      console.error('Erreur lors de l\'affichage des séries incorrectes:', error);
+      return [];
+    }
+  }
+
+  async checkDupeCards() {
+    try {
+      const data = this.getData();
+      const allCards = [];
+
+      data.forEach((item) => {
+        if (item.cards && Array.isArray(item.cards)) {
+          item.cards.forEach(card => {
+            if (card.cardUrl) {
+              allCards.push({
+                cardUrl: card.cardUrl,
+                cardName: card.cardName,
+                serieName: item.localName
+              });
+            }
+          });
+        }
+      });
+
+      const urlMap = new Map();
+      const duplicateUrls = [];
+
+      allCards.forEach(card => {
+        if (urlMap.has(card.cardUrl)) {
+          if (!duplicateUrls.includes(card.cardUrl)) {
+            duplicateUrls.push(card.cardUrl);
+          }
+        } else {
+          urlMap.set(card.cardUrl, card);
+        }
+      });
+
+      return duplicateUrls;
+
     } catch (error) {
       console.error('Erreur lors de la vérification des doublons:', error);
+      return [];
     }
   }
 }
 
-// Usage
-const checker = new DataChecker('../data.json');
-async function runChecks() {
-  await checker.displayIncorrectSeries();
-  await checker.checkDuplicates();
-}
+// Export de la classe
+module.exports = DataChecker;
 
-runChecks();
+// Exécution si lancé directement
+if (require.main === module) {
+  const config = require(path.resolve(__dirname, '../../src/config.js'));
+  const database = require(config.databasePath);
+
+  async function runChecks() {   
+    // Créer un checker avec l'instance de database
+    const checker = new DataChecker(database);
+    
+    try {
+      const incorrectSeriesUrls = await checker.checkUnmatchingCardsSeries();
+      const duplicateUrls = await checker.checkDupeCards();
+      
+      console.log(`\nCartes avec séries incorrectes: ${incorrectSeriesUrls.length}`);
+      if (incorrectSeriesUrls.length > 0) {
+        console.log('Cartes avec séries incorrectes:');
+        incorrectSeriesUrls.forEach(url => console.log(`  - ${url}`));
+      }
+      
+      console.log(`\nCartes en doublon: ${duplicateUrls.length}`);
+      if (duplicateUrls.length > 0) {
+        console.log('Cartes en doublon:');
+        duplicateUrls.forEach(url => console.log(`  - ${url}`));
+      }
+    } catch (error) {
+      console.error('\n❌ Erreur fatale lors de l\'analyse:', error.message);
+    }
+  }
+
+  runChecks();
+}
