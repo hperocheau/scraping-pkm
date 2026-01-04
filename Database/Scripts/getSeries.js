@@ -1,13 +1,16 @@
-const fs = require('fs').promises;
 const path = require('path');
-const browserFactory = require('../../src/BrowserFactory');
 const config = require(path.resolve(__dirname, '../../src/config.js'));
-const db = require(config.databasePath);
-const { MONTHS_MAP, parseCardMarketDate, sortSeriesByDate } = require('../../src/parseDate.js');
+const browser = require(config.BrowserFactory);
+const ScraperUtils = require(config.BrowserUtils);
+const database = require(config.databasePath);
+const { parseCardMarketDate, sortSeriesByDate } = require(config.parseDate);
 
 const CONFIG = {
   url: 'https://www.cardmarket.com/fr/Pokemon/Expansions',
-  timeout: 120000
+  timeout: 120000,
+  maxWaitCloudflare: 30000,
+  accordionDelay: 2000,
+  pageLoadDelay: 3000,
 };
 
 class CardMarketScraper {
@@ -16,53 +19,25 @@ class CardMarketScraper {
     this.page = null;
   }
 
+  /**
+   * Parse une date CardMarket
+   */
   parseDate(dateStr) {
     return parseCardMarketDate(dateStr);
   }
 
+  /**
+   * Initialise la page avec pool
+   */
   async initPage() {
-    this.page = await browserFactory.createPage();
-    
-    // Masquer les traces d'automatisation
-    await this.page.evaluateOnNewDocument(() => {
-      // Supprimer les propriétés webdriver
-      Object.defineProperty(navigator, 'webdriver', {
-        get: () => false,
-      });
-      
-      // Ajouter des plugins pour sembler plus humain
-      Object.defineProperty(navigator, 'plugins', {
-        get: () => [1, 2, 3, 4, 5],
-      });
-      
-      // Masquer l'automatisation
-      window.chrome = {
-        runtime: {},
-      };
-      
-      Object.defineProperty(navigator, 'languages', {
-        get: () => ['fr-FR', 'fr', 'en-US', 'en'],
-      });
-    });
-    
-    // Définir un User-Agent réaliste
-    await this.page.setUserAgent(
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
-    );
-    
-    // Définir des en-têtes HTTP supplémentaires
-    await this.page.setExtraHTTPHeaders({
-      'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7',
-      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-      'Accept-Encoding': 'gzip, deflate, br',
-      'Connection': 'keep-alive',
-      'Upgrade-Insecure-Requests': '1',
-    });
+    await browser.getBrowser();
+    this.page = await browser.getPageFromPool();
   }
 
-  async scrapeSeriesData() {
-        
-    // Vérifier si on a un challenge Cloudflare
+  /**
+   * Vérifie si la page contient un challenge CloudFlare
+   */
+  async checkCloudflareChallenge() {
     const isChallenge = await this.page.evaluate(() => {
       return document.body.innerHTML.includes('Verify you are human') || 
              document.body.innerHTML.includes('challenge-platform') ||
@@ -70,42 +45,53 @@ class CardMarketScraper {
     });
     
     if (isChallenge) {
-      console.log('🔒 Challenge Cloudflare détecté. Attente de résolution (jusqu\'à 30 secondes)...');
+      console.log('🔒 Challenge CloudFlare détecté, attente de résolution...');
       
-      // Attendre que le challenge soit résolu
       try {
         await this.page.waitForFunction(
           () => {
             return !document.body.innerHTML.includes('Verify you are human') &&
                    document.querySelectorAll('div[data-url]').length > 0;
           },
-          { timeout: 30000 }
+          { timeout: this.config.maxWaitCloudflare }
         );
-        console.log('✅ Challenge résolu, contenu chargé');
+        console.log('✅ Challenge résolu');
+        return true;
       } catch (error) {
-        console.log('❌ Le challenge n\'a pas pu être résolu automatiquement');
-        console.log('💡 Conseil: Le site peut bloquer les bots. Essayez d\'ajouter un délai ou utilisez puppeteer-extra-plugin-stealth');
+        console.log('❌ Challenge non résolu automatiquement');
+        console.log('💡 Conseil: Augmentez les délais ou utilisez puppeteer-extra-plugin-stealth');
+        return false;
       }
     }
     
-    // Attendre les éléments data-url
+    return true;
+  }
+
+  /**
+   * Attend et vérifie le chargement des éléments
+   */
+  async waitForElements() {
     try {
       await this.page.waitForSelector('div[data-url]', { timeout: 30000 });
       console.log('✅ Éléments data-url trouvés');
+      return true;
     } catch (error) {
       console.log('⚠️ Timeout en attendant les éléments data-url');
       
-      // Capturer le HTML pour débogage
+      // Debug HTML
       const bodyHTML = await this.page.evaluate(() => document.body.innerHTML);
       console.log('📄 Longueur du HTML chargé:', bodyHTML.length);
-      console.log('📄 Aperçu HTML:', bodyHTML.substring(0, 1000));
+      console.log('📄 Aperçu HTML:', bodyHTML.substring(0, 500));
+      
+      return false;
     }
+  }
 
-    // Attendre un peu plus pour s'assurer que tout est chargé
-    await new Promise(resolve => setTimeout(resolve, 3000));
-
-    // Débogage: vérifier la structure de la page
-    const debugInfo = await this.page.evaluate(() => {
+  /**
+   * Collecte des informations de debug sur la structure de la page
+   */
+  async getDebugInfo() {
+    return await this.page.evaluate(() => {
       const sections = document.querySelectorAll('section.expansion-group');
       const collapseElements = document.querySelectorAll('[id^="collapse"]');
       const dataUrlElements = document.querySelectorAll('div[data-url]');
@@ -122,15 +108,12 @@ class CardMarketScraper {
         sampleCollapse: collapseElements[0]?.outerHTML?.substring(0, 300) || 'Aucun élément collapse'
       };
     });
+  }
 
-    console.log('📊 Informations de débogage:');
-    console.log(`  - Sections expansion-group: ${debugInfo.sectionsCount}`);
-    console.log(`  - Éléments [id^="collapse"]: ${debugInfo.collapseCount}`);
-    console.log(`  - Éléments div[data-url]: ${debugInfo.dataUrlCount}`);
-    console.log(`  - Sélecteur [id^="collapse"] div[data-url]: ${debugInfo.targetCount}`);
-    console.log(`  - Sélecteur alternatif .collapse div[data-url]: ${debugInfo.alternativeCount}`);
-
-    // Tenter d'ouvrir tous les accordéons (Bootstrap 5)
+  /**
+   * Ouvre tous les accordéons Bootstrap
+   */
+  async openAllAccordions() {
     await this.page.evaluate(() => {
       const buttons = document.querySelectorAll('[data-bs-toggle="collapse"]');
       console.log(`Tentative d'ouverture de ${buttons.length} accordéons Bootstrap 5`);
@@ -145,18 +128,46 @@ class CardMarketScraper {
       });
     });
 
-    // Attendre que les accordéons s'ouvrent
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, this.config.accordionDelay));
+  }
 
-    // Scraper les données
-    return await this.page.evaluate(() => {
+  /**
+   * Scrape les données des séries
+   */
+  async scrapeSeriesData() {
+    // Vérifier CloudFlare
+    const cfPassed = await this.checkCloudflareChallenge();
+    if (!cfPassed) {
+      throw new Error('CloudFlare challenge non résolu');
+    }
+
+    // Attendre les éléments
+    await this.waitForElements();
+
+    // Délai supplémentaire pour s'assurer du chargement
+    await new Promise(resolve => setTimeout(resolve, this.config.pageLoadDelay));
+
+    // Debug info
+    const debugInfo = await this.getDebugInfo();
+    console.log('📊 Informations de débogage:');
+    console.log(`  - Sections expansion-group: ${debugInfo.sectionsCount}`);
+    console.log(`  - Éléments [id^="collapse"]: ${debugInfo.collapseCount}`);
+    console.log(`  - Éléments div[data-url]: ${debugInfo.dataUrlCount}`);
+    console.log(`  - Sélecteur ciblé: ${debugInfo.targetCount}`);
+    console.log(`  - Sélecteur alternatif: ${debugInfo.alternativeCount}`);
+
+    // Ouvrir les accordéons
+    await this.openAllAccordions();
+
+    // Extraire les données
+    const seriesData = await this.page.evaluate(() => {
       const dataInfo = [];
       
-      // Essayer le sélecteur original
+      // Essayer le sélecteur principal
       let elements = document.querySelectorAll('[id^="collapse"] div[data-url]');
       console.log(`Sélecteur [id^="collapse"] div[data-url]: ${elements.length} éléments`);
       
-      // Si pas de résultats, essayer un sélecteur alternatif
+      // Fallback sur sélecteur alternatif
       if (elements.length === 0) {
         elements = document.querySelectorAll('div[data-url]');
         console.log(`Sélecteur alternatif div[data-url]: ${elements.length} éléments`);
@@ -179,10 +190,15 @@ class CardMarketScraper {
       
       return dataInfo;
     });
+
+    return seriesData;
   }
 
+  /**
+   * Met à jour la base de données avec les nouvelles séries
+   */
   async updateData(newData) {
-    const existingData = db.getData();
+    const existingData = database.getData();
     let addedCount = 0;
     let updatedCount = 0;
 
@@ -203,12 +219,14 @@ class CardMarketScraper {
     }
 
     const finalData = sortSeriesByDate(Array.from(existingDataMap.values()));
-    db.saveData(finalData);
+    
+    // Sauvegarde avec la nouvelle API
+    await database.saveData(finalData);
 
     console.log(`
-Mise à jour de la base de données terminée :
-  - Nombre total d'entrées : ${finalData.length}
-  - Nouvelles séries ajoutées : ${addedCount}
+📊 Mise à jour de la base de données :
+  - Total d'entrées : ${finalData.length}
+  - Nouvelles séries : ${addedCount}
   - Séries mises à jour : ${updatedCount}
   - Séries inchangées : ${finalData.length - (addedCount + updatedCount)}
     `);
@@ -224,10 +242,13 @@ Mise à jour de la base de données terminée :
     };
   }
 
+  /**
+   * Valide et corrige les données
+   */
   async validateAndFixData(scrapedData) {
     console.log('\n🔍 Validation des données...');
     
-    const data = db.getData();
+    const data = database.getData();
     let fixedCount = 0;
     let duplicatesRemoved = 0;
     
@@ -236,7 +257,7 @@ Mise à jour de la base de données terminée :
     for (const item of data) {
       if (uniqueMap.has(item.url)) {
         duplicatesRemoved++;
-        console.log(`⚠️ Doublon détecté et supprimé: ${item.url}`);
+        console.log(`⚠️ Doublon supprimé: ${item.localName || item.url}`);
       } else {
         uniqueMap.set(item.url, item);
       }
@@ -252,7 +273,6 @@ Mise à jour de la base de données terminée :
         const scrapedItem = scrapedDataMap.get(url);
         
         if (scrapedItem) {
-          // Corriger avec les données scrapées
           uniqueMap.set(url, {
             ...item,
             localName: item.localName || scrapedItem.localName,
@@ -260,16 +280,16 @@ Mise à jour de la base de données terminée :
             urlCards: item.urlCards || scrapedItem.urlCards
           });
           fixedCount++;
-          console.log(`✏️ Entrée corrigée: ${url}`);
+          console.log(`✏️ Entrée corrigée: ${item.localName || url}`);
         } else {
-          console.log(`⚠️ Impossible de corriger l'entrée (non trouvée dans les données scrapées): ${url}`);
+          console.log(`⚠️ Impossible de corriger: ${url}`);
         }
       }
     }
     
     // 3. Sauvegarder les données nettoyées
     const cleanedData = sortSeriesByDate(Array.from(uniqueMap.values()));
-    db.saveData(cleanedData);
+    await database.saveData(cleanedData);
     
     console.log(`
 ✅ Validation terminée :
@@ -285,47 +305,68 @@ Mise à jour de la base de données terminée :
     };
   }
 
+  /**
+   * Exécute le scraping complet
+   */
   async run() {
+    const startTime = Date.now();
+
     try {
-      console.time('Scraping duration');
       await this.initPage();
       
+      console.log(`\n🚀 CardMarket Scraper\n`);
       console.log(`🌐 Navigation vers ${this.config.url}...`);
       
-      await this.page.goto(this.config.url, {
-        timeout: this.config.timeout,
-        waitUntil: 'networkidle2'
-      });
+      // Navigation avec retry
+      await ScraperUtils.retry(
+        async () => {
+          await this.page.goto(this.config.url, {
+            timeout: this.config.timeout,
+            waitUntil: 'domcontentloaded'
+          });
+        },
+        {
+          maxAttempts: 3,
+          baseDelay: 5000,
+          exponential: true,
+        }
+      );
+
       console.log('✅ Page chargée');
 
+      // Scraping
       const seriesData = await this.scrapeSeriesData();
-      console.log(`\n📊 Nombre d'entrées scrapées: ${seriesData.length}\n`);
+      console.log(`\n📊 ${seriesData.length} séries scrapées\n`);
       
       if (seriesData.length === 0) {
-        console.log('⚠️ ATTENTION: Aucune donnée n\'a été scrapée.');
-        console.log('💡 Le site utilise Cloudflare qui peut bloquer les scrapers.');
-        console.log('💡 Solutions possibles:');
-        console.log('   1. Installer puppeteer-extra-plugin-stealth');
-        console.log('   2. Utiliser un proxy résidentiel');
-        console.log('   3. Ajouter des cookies de session valides');
+        throw new Error('Aucune série trouvée. Possible blocage CloudFlare.');
       }
-      
+
+      // Mise à jour
       const result = await this.updateData(seriesData);
       
-      // Validation et correction des données
+      // Validation
       const validationResult = await this.validateAndFixData(seriesData);
       
-      console.timeEnd('Scraping duration');
+      const executionTime = (Date.now() - startTime) / 1000;
+      console.log(`\n${'='.repeat(60)}`);
+      console.log(`✅ Scraping terminé en ${ScraperUtils.formatTime(executionTime)}`);
+      console.log('='.repeat(60));
       
       return {
         ...result,
         validation: validationResult
       };
+
     } catch (error) {
-      console.error('Erreur lors du scraping:', error);
+      console.error('❌ Erreur lors du scraping:', error.message);
       throw error;
     } finally {
-      await browserFactory.closeBrowser();
+      if (this.page) {
+        await browser.returnPageToPool(this.page);
+        this.page = null;
+      }
+      await browser.closeBrowser();
     }
   }
 }

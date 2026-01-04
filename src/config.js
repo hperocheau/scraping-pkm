@@ -14,7 +14,9 @@ module.exports = {
     
     // Utilitaires
     parseDate: path.resolve(rootDir, 'src/parseDate.js'),
+
+    BrowserFactory: path.resolve(rootDir, 'src/BrowserFactory.js'),
+    BrowserUtils: path.resolve(rootDir, 'src/BrowserUtils.js'),
     
-    // Ou si tu veux être plus spécifique :
-    // analyzers: path.resolve(rootDir, 'database/databaseControl/analyzers'),
+
 };
