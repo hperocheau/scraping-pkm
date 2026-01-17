@@ -50,13 +50,13 @@ module.exports = {
     maxPricesToAverage: 2, // Nombre max de prix dans la moyenne
     excludedTerms: ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '],
     pageNavigationTimeout: 20000,
-    waitTimeout: 2000,
+    waitTimeout: 10000,
     loadMoreTimeout: 750,
-    maxLoadAttempts: 5,
-    saveInterval: 5,
+    maxLoadAttempts: 1,
+    saveInterval: 3,
     loadMoreTimeout: 1500,
-    waitForLoadedContent: 3000,
-    maxRetryAttempts: 3        // Nombre maximum de tentatives pour chaque action
+    waitForLoadedContent: 7000,
+    maxRetryAttempts: 2        // Nombre maximum de tentatives pour chaque action
   }
     
 };

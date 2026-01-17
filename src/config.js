@@ -18,5 +18,6 @@ module.exports = {
     BrowserFactory: path.resolve(rootDir, 'src/BrowserFactory.js'),
     BrowserUtils: path.resolve(rootDir, 'src/BrowserUtils.js'),
     
+    configPrices: path.resolve(rootDir, 'src/configPrices.js'),
 
 };
