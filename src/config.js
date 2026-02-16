@@ -1,3 +1,5 @@
+// config.js
+
 const path = require('path');
 
 // Remonter d'un niveau depuis src pour atteindre la racine du projet

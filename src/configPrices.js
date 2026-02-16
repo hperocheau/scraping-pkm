@@ -1,4 +1,5 @@
 /**
+ * configPrices.js
  * Configuration pour le traitement des cartes
  */
 module.exports = {
@@ -50,13 +51,36 @@ module.exports = {
     maxPricesToAverage: 2, // Nombre max de prix dans la moyenne
     excludedTerms: ['PSA', 'PCA', 'CGC', 'SFG', 'CCC', 'BGS', 'AOG', ' 10 ', ' 9.5 ', ' 9 '],
     pageNavigationTimeout: 20000,
-    waitTimeout: 10000,
-    loadMoreTimeout: 750,
-    maxLoadAttempts: 1,
-    saveInterval: 3,
+    waitTimeout: 60000,
+    loadMoreTimeout: 2000, // 2 secondes après clic Load More
+    maxLoadAttempts: 3,
+    saveInterval: 1,
     loadMoreTimeout: 1500,
     waitForLoadedContent: 7000,
     maxRetryAttempts: 2        // Nombre maximum de tentatives pour chaque action
-  }
+  },
+  // 🔥 NOUVEAUX PARAMÈTRES ANTI-DÉTECTION
+  urlDelay: 10000,
+  minDelayBetweenRequests: 30000,
+  maxDelayBetweenRequests: 40000,
+  
+  // Délais humains
+  humanBehavior: {
+    enableMouseMovements: true,      // Mouvements de souris aléatoires
+    enableScrolling: true,            // Scroll humain
+    enableCookiePersistence: true,    // Sauvegarder cookies entre sessions
+    randomDelayVariation: 0.2,        // Variation sur tous les délais
+  },
+  
+  // Changer de signature navigateur fréquemment
+  changeSignatureEvery: 2,  // Tous les 2 requêtes (très prudent)
+  
+  // Gestion agressive des erreurs
+  maxConsecutiveErrors: 1,        // Pause dès la PREMIÈRE erreur
+  errorCooldownTime: 180000,      // 3 minutes de pause après erreur
+
+    // Activer la gestion manuelle du captcha
+  enableCaptchaHandling: true,
+  captchaWaitTimeout: 300000,     // 5 minutes max pour résoudre le captcha
     
 };

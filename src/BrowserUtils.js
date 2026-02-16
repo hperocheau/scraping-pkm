@@ -1,5 +1,7 @@
 /**
- * Utilitaires réutilisables pour le scraping
+ * BrowserUtils_STEALTH.js
+ * 
+ * Utilitaires réutilisables pour le scraping furtif avec comportements humains
  */
 
 class ScraperUtils {
@@ -12,6 +14,137 @@ class ScraperUtils {
   static async randomDelay(min, max) {
     const delay = Math.random() * (max - min) + min;
     return new Promise(resolve => setTimeout(resolve, delay));
+  }
+
+  /**
+   * 🔥 NOUVEAU : Mouvement de souris aléatoire humain
+   * @param {Page} page - Page Puppeteer
+   */
+  static async humanMouseMove(page) {
+    try {
+      const viewport = page.viewport();
+      const startX = Math.floor(Math.random() * (viewport.width || 1920));
+      const startY = Math.floor(Math.random() * (viewport.height || 1080));
+      
+      // Déplacer la souris de manière progressive
+      for (let i = 0; i < 5; i++) {
+        const targetX = Math.floor(Math.random() * (viewport.width || 1920));
+        const targetY = Math.floor(Math.random() * (viewport.height || 1080));
+        
+        await page.mouse.move(targetX, targetY, { steps: 10 + Math.floor(Math.random() * 10) });
+        await this.randomDelay(100, 300);
+      }
+    } catch (error) {
+      // Ignore en cas d'erreur
+    }
+  }
+
+  /**
+   * 🔥 NOUVEAU : Scroll humain progressif avec variation
+   * @param {Page} page - Page Puppeteer
+   * @param {number} scrollDistance - Distance à scroller (défaut: jusqu'en bas)
+   */
+  static async humanScroll(page, scrollDistance = null) {
+    try {
+      const scrollHeight = await page.evaluate(() => document.body.scrollHeight);
+      const targetDistance = scrollDistance || scrollHeight;
+      
+      const steps = 5 + Math.floor(Math.random() * 5); // 5-10 étapes
+      const stepSize = targetDistance / steps;
+      
+      for (let i = 0; i < steps; i++) {
+        const scrollY = stepSize * i;
+        
+        // Variation aléatoire dans chaque step
+        const variation = (Math.random() - 0.5) * 50;
+        await page.evaluate((y) => window.scrollTo(0, y), scrollY + variation);
+        
+        // Délai variable (plus rapide au début, plus lent à la fin)
+        const delay = 200 + Math.random() * 400 + (i * 50);
+        await this.randomDelay(delay, delay + 200);
+      }
+      
+      // Revenir légèrement en arrière (comportement humain)
+      if (Math.random() > 0.5) {
+        await page.evaluate(() => window.scrollBy(0, -50 - Math.random() * 50));
+        await this.randomDelay(200, 500);
+      }
+    } catch (error) {
+      // Ignore
+    }
+  }
+
+  /**
+   * 🔥 NOUVEAU : Cliquer comme un humain avec délais et mouvement
+   * @param {Page} page - Page Puppeteer
+   * @param {string} selector - Sélecteur CSS
+   */
+  static async humanClick(page, selector) {
+    try {
+      // Attendre que l'élément soit visible
+      await page.waitForSelector(selector, { visible: true, timeout: 5000 });
+      
+      // Récupérer les coordonnées de l'élément
+      const element = await page.$(selector);
+      const box = await element.boundingBox();
+      
+      if (box) {
+        // Déplacer la souris vers l'élément avec un peu de variation
+        const x = box.x + box.width / 2 + (Math.random() - 0.5) * 10;
+        const y = box.y + box.height / 2 + (Math.random() - 0.5) * 10;
+        
+        await page.mouse.move(x, y, { steps: 10 + Math.floor(Math.random() * 20) });
+        await this.randomDelay(100, 300);
+        
+        // Cliquer
+        await page.mouse.click(x, y, { delay: 50 + Math.random() * 100 });
+        await this.randomDelay(200, 500);
+      } else {
+        // Fallback
+        await element.click({ delay: 50 + Math.random() * 100 });
+      }
+    } catch (error) {
+      console.error(`⚠️  Erreur clic humain sur ${selector}:`, error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * 🔥 NOUVEAU : Navigation humaine vers une URL
+   * @param {Page} page - Page Puppeteer
+   * @param {string} url - URL cible
+   * @param {Object} options - Options de navigation
+   */
+  static async humanNavigate(page, url, options = {}) {
+    const defaultOptions = {
+      waitUntil: 'domcontentloaded',
+      timeout: 30000,
+      ...options
+    };
+    
+    // Petit délai avant navigation
+    await this.randomDelay(500, 1500);
+    
+    try {
+      await page.goto(url, defaultOptions);
+      
+      // Simuler le chargement
+      await this.randomDelay(1000, 2000);
+      
+      // Mouvement de souris aléatoire
+      if (Math.random() > 0.5) {
+        await this.humanMouseMove(page);
+      }
+      
+      // Petit scroll aléatoire
+      if (Math.random() > 0.6) {
+        const scrollAmount = 100 + Math.random() * 200;
+        await page.evaluate((y) => window.scrollTo(0, y), scrollAmount);
+        await this.randomDelay(300, 700);
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 
   /**
@@ -48,9 +181,9 @@ class ScraperUtils {
             ? baseDelay * Math.pow(2, attempt)
             : baseDelay;
 
-          // Ajouter du jitter (0-1000ms aléatoire)
+          // Ajouter du jitter (0-2000ms aléatoire pour plus de variabilité)
           if (jitter) {
-            delay += Math.random() * 1000;
+            delay += Math.random() * 2000;
           }
 
           // Callback personnalisé
@@ -111,17 +244,47 @@ class ScraperUtils {
   }
 
   /**
-   * Scroll progressif pour simuler un comportement humain
+   * 🔥 NOUVEAU : Vérifie si la page est bloquée (détection générique)
    * @param {Page} page - Page Puppeteer
-   * @param {number} steps - Nombre d'étapes de scroll (défaut: 5)
+   * @returns {Promise<Object>} {blocked: boolean, reason: string}
    */
-  static async humanScroll(page, steps = 5) {
-    const scrollHeight = await page.evaluate(() => document.body.scrollHeight);
-    const stepSize = scrollHeight / steps;
-
-    for (let i = 0; i < steps; i++) {
-      await page.evaluate((y) => window.scrollTo(0, y), stepSize * i);
-      await this.randomDelay(200, 500);
+  static async isPageBlocked(page) {
+    try {
+      const title = await page.title();
+      const content = await page.content();
+      const url = page.url();
+      
+      // Cloudflare
+      if (title.includes('Just a moment') || 
+          title.includes('Attention Required') ||
+          content.includes('cf-browser-verification') ||
+          content.includes('Checking your browser')) {
+        return { blocked: true, reason: 'Cloudflare' };
+      }
+      
+      // Captcha générique
+      if (content.toLowerCase().includes('captcha') ||
+          content.toLowerCase().includes('recaptcha')) {
+        return { blocked: true, reason: 'Captcha' };
+      }
+      
+      // Access denied
+      if (title.toLowerCase().includes('access denied') ||
+          title.toLowerCase().includes('403') ||
+          content.toLowerCase().includes('access denied')) {
+        return { blocked: true, reason: 'Access Denied (403)' };
+      }
+      
+      // Rate limit
+      if (title.toLowerCase().includes('rate limit') ||
+          title.toLowerCase().includes('too many requests') ||
+          content.toLowerCase().includes('rate limit')) {
+        return { blocked: true, reason: 'Rate Limited (429)' };
+      }
+      
+      return { blocked: false, reason: null };
+    } catch (error) {
+      return { blocked: false, reason: null };
     }
   }
 
@@ -276,6 +439,24 @@ class ScraperUtils {
     } catch (error) {
       return false;
     }
+  }
+
+  /**
+   * 🔥 NOUVEAU : Attendre avec variation aléatoire exponentielle
+   * Utile entre requêtes pour éviter patterns suspects
+   * @param {number} baseDelay - Délai de base en ms
+   * @param {number} requestNumber - Numéro de la requête (pour augmenter le délai)
+   */
+  static async adaptiveDelay(baseDelay = 2000, requestNumber = 0) {
+    // Plus on avance, plus on attend (éviter les bans)
+    const scaleFactor = 1 + (requestNumber * 0.1);
+    const delay = baseDelay * scaleFactor;
+    
+    // Ajouter variation aléatoire ±30%
+    const variation = delay * 0.3;
+    const finalDelay = delay + (Math.random() - 0.5) * variation;
+    
+    await new Promise(resolve => setTimeout(resolve, finalDelay));
   }
 }
 
